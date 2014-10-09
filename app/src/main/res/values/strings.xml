@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Rio Bus</string>
+    <string name="title_activity_main">Rio Bus</string>
+    <string name="buscando_dados">Buscando linha...</string>
+    <string name="numero_linha">Número da linha</string>
+    <string name="about_title">Sobre o RioBus</string>
+
+    <string name="msg_conexao_internet">Não foi encontrada uma conexão com a internet.</string>
+    <string name="msg_conexao_prefeitura">Sistema da prefeitura fora do ar. Tente novamente mais tarde.</string>
+    <string name="msg_onibus_404">O onibus solicitado não foi encontrado.</string>
+
+    <string name="marker_mapa_descricao"></string>
+    <string name="marker_cliente">Estou aqui</string>
+    <string name="marker_codigo">Código: </string>
+    <string name="marker_hora">Hora: </string>
+    <string name="marker_velocidade">Velocidade: </string>
+    <string name="marker_velocidade_unidade">Km/h</string>
+
+    <string name="about_text">
+        <![CDATA[
+
+        <p>Digite o número de uma linha municipal da cidade do Rio de Janeiro e dê enter para que a posição de todos ônibus da linha pesquisada seja exibida.</p>
+        <p>Os dados são oferecidos publicamente pela prefeitura do Rio de Janeiro, em parceria com a FETRANSPOR e Iplanrio.</p>
+
+        <p>Cores dos ícones das posições dos ônibus:</p>
+        <p>
+            <b>Verde</b>: atualizado há menos de 5 min<br>
+            <b>Amarelo</b>: atualizado entre 5 e 10 min atrás<br>
+            <b>Vermelho</b>: atualizado há mais de 10 min
+        </p>
+        <p>Clicando no marcador aparece mais detalhes sobre o instante da coleta dos dados.</p>
+        <p>Os marcadores são atualizados a cada 15s e a posição dos ônibus a cada minuto.</p>
+        <p>Este projeto foi idealizado por <b>Marco Jardim</b>, e é incrementado colaborativamente por:</p>
+        <p><b>
+            Bruno Guberfain<br>
+            Bruno Lima<br>
+            Daniel Andrade<br>
+            Fred Souza<br>
+            Magno Ferreira<br>
+            Pedro Cortez<br>
+            Vinicius Bittencourt
+        </b></p>
+        <p>Código aberto sob licença GPLv2 disponível em:</p>
+        <p>
+            <a href="https://github.com/marco-jardim/riobus-web">riobus-web</a><br>
+            <a href="https://github.com/marco-jardim/riobus-android">riobus-android</a><br>
+            <a href="https://github.com/marco-jardim/riobus-ios">riobus-ios</a>
+        </p>
+        <p>Se gostou do projeto ou desejar colaborar, saber como funciona ou reclamar, acesse nossa página no Facebook: <a href="https://www.facebook.com/RioBusOficial">RioBusOficial</a> e entre em contato conosco.</p>
+        ]]>
+    </string>
+
+</resources>
