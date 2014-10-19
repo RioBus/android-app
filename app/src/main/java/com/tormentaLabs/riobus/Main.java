@@ -22,7 +22,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.tormentaLabs.riobus.adapter.CustomInfoWindowAdapter;
 import com.tormentaLabs.riobus.interfaces.IRecebeDadosOnibus;
 import com.tormentaLabs.riobus.model.MarkerOnibusMapa;
 import com.tormentaLabs.riobus.model.Ponto;
@@ -34,7 +36,9 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Rio Bus
@@ -94,7 +98,7 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus ,Googl
     }
 
     @AfterViews
-    public void onViewCreatedByAA() {
+    public void onViewCreatedByAA(){
         setUpMapIfNeeded();
     }
 
@@ -164,8 +168,11 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus ,Googl
 
             builder.include(new LatLng(localizacaoAtual.getLatitude(), localizacaoAtual.getLongitude()));
 
-            for (Ponto ponto : pontos)
+            for (Ponto ponto : pontos) {
                 builder.include(new LatLng(ponto.getLatitude(), ponto.getLongitude()));
+            }
+
+            mapa.setInfoWindowAdapter(new CustomInfoWindowAdapter(this));
 
             LatLng posicaoCliente = new LatLng(localizacaoAtual.getLatitude(), localizacaoAtual.getLongitude());
             marcarCliente(posicaoCliente);
@@ -188,11 +195,15 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus ,Googl
     }
 
     private void marcarCliente(LatLng posicao){
-        if(marcadorCliente==null)
+        if(marcadorCliente==null) {
             marcadorCliente = new MarkerOptions().position(posicao).title(getString(R.string.marker_cliente)).icon(BitmapDescriptorFactory
-                .fromResource(R.drawable.man_maps));
-        else marcadorCliente.position(posicao);
+                    .fromResource(R.drawable.man_maps));
+        } else {
+            marcadorCliente.position(posicao);
+        }
+        //mapa.clear();
         mapa.addMarker(marcadorCliente);
+        // depois de limpar tudo, precisa readicionar os pontos que estavam no mapa, caso houvesse
     }
 
     @Click(R.id.button_about)

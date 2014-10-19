@@ -1,12 +1,14 @@
 package com.tormentaLabs.riobus.model;
 
 import android.content.Context;
+import android.text.Html;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 import com.tormentaLabs.riobus.R;
 
 import org.joda.time.DateTime;
@@ -38,9 +40,7 @@ public class MarkerOnibusMapa {
         LatLng posicao = new LatLng(ponto.getLatitude(), ponto.getLongitude());
         marker.position(posicao);
         marker.icon(getIcon(ponto.getDataHora()));
-        marker.title(contexto.getString(R.string.marker_codigo) + " " + String.valueOf(ponto.getOrdem()));
-        marker.snippet(contexto.getString(R.string.marker_hora) + " " + String.valueOf(ponto.getDataHora()));
-        marker.snippet(contexto.getString(R.string.marker_velocidade) + " " + String.valueOf(ponto.getVelocidade()) + " " + contexto.getString(R.string.marker_velocidade_unidade));
+        marker.snippet(new Gson().toJson(ponto));
         return marker;
     }
 

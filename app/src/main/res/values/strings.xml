@@ -13,10 +13,10 @@
 
     <string name="marker_mapa_descricao"></string>
     <string name="marker_cliente">Estou aqui</string>
-    <string name="marker_codigo">Código: </string>
-    <string name="marker_hora">Hora: </string>
-    <string name="marker_velocidade">Velocidade: </string>
-    <string name="marker_velocidade_unidade">Km/h</string>
+    <string name="marker_linha">Linha: %1$s</string>
+    <string name="marker_codigo">Código: %1$s</string>
+    <string name="marker_hora">Hora: %1$s</string>
+    <string name="marker_velocidade">Velocidade: %1$s Km/h</string>
 
     <string name="about_text">
         <![CDATA[
