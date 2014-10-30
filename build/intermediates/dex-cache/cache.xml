@@ -2,37 +2,37 @@
 <pre-dex-items>
 
     <item
-        dex="/Users/fred/workspace/personal/android/riobusandroid/app/build/intermediates/pre-dexed/debug/gson-2.3-dc897e409043d9c9d0deeac38edcf3a472be0e97.jar"
+        dex="/Users/fred/workspace/personal/android/native/RioBus/app/build/intermediates/pre-dexed/debug/classes-bda411e39c878a22f974773cfc0473bfe00ff1e5.jar"
+        jar="/Users/fred/workspace/personal/android/native/RioBus/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
+    <item
+        dex="/Users/fred/workspace/personal/android/native/RioBus/app/build/intermediates/pre-dexed/debug/gson-2.3-dc897e409043d9c9d0deeac38edcf3a472be0e97.jar"
         jar="/Users/fred/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3/5fc52c41ef0239d1093a1eb7c3697036183677ce/gson-2.3.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="5fc52c41ef0239d1093a1eb7c3697036183677ce"/>
     <item
-        dex="/Users/fred/workspace/personal/android/riobusandroid/app/build/intermediates/pre-dexed/debug/classes-507fa355e0ac222112d4b4ad8d5eb4b1f05263f2.jar"
-        jar="/Users/fred/workspace/personal/android/riobusandroid/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
-    <item
-        dex="/Users/fred/workspace/personal/android/riobusandroid/app/build/intermediates/pre-dexed/debug/classes-0e6722b2a6ebec7e7fbcf9abac6e86e545f3b56d.jar"
-        jar="/Users/fred/workspace/personal/android/riobusandroid/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.89/classes.jar"
+        dex="/Users/fred/workspace/personal/android/native/RioBus/app/build/intermediates/pre-dexed/debug/classes-d741ededa829f8dbf5b71741f1ceb2ef83a9267b.jar"
+        jar="/Users/fred/workspace/personal/android/native/RioBus/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.89/classes.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="d71573c9c5ea98a8db47ad6ff993a63d492b3bfa"/>
     <item
-        dex="/Users/fred/workspace/personal/android/riobusandroid/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-14c8e30365e3b1bfc1cb51ec4628a7030f858a81.jar"
+        dex="/Users/fred/workspace/personal/android/native/RioBus/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-14c8e30365e3b1bfc1cb51ec4628a7030f858a81.jar"
         jar="/Users/fred/android-sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
     <item
-        dex="/Users/fred/workspace/personal/android/riobusandroid/app/build/intermediates/pre-dexed/debug/androidannotations-api-3.0.1-e53289afc8e204cc0e48f86071b65dcae5ed1f8b.jar"
+        dex="/Users/fred/workspace/personal/android/native/RioBus/app/build/intermediates/pre-dexed/debug/androidannotations-api-3.0.1-e53289afc8e204cc0e48f86071b65dcae5ed1f8b.jar"
         jar="/Users/fred/.gradle/caches/modules-2/files-2.1/org.androidannotations/androidannotations-api/3.0.1/beb7e0a75c753383e7ef68c0e1639999db301c33/androidannotations-api-3.0.1.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="beb7e0a75c753383e7ef68c0e1639999db301c33"/>
     <item
-        dex="/Users/fred/workspace/personal/android/riobusandroid/app/build/intermediates/pre-dexed/debug/joda-time-2.3-88ccdf9a34654822dff4bcd4aec6ba886c1e9045.jar"
+        dex="/Users/fred/workspace/personal/android/native/RioBus/app/build/intermediates/pre-dexed/debug/joda-time-2.3-88ccdf9a34654822dff4bcd4aec6ba886c1e9045.jar"
         jar="/Users/fred/.gradle/caches/modules-2/files-2.1/joda-time/joda-time/2.3/56498efd17752898cfcc3868c1b6211a07b12b8f/joda-time-2.3.jar"
         jumboMode="false"
         revision="19.1.0"
