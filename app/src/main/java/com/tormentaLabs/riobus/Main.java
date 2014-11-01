@@ -8,6 +8,8 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +54,7 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus ,Googl
     public GoogleMap mapa; // Might be null if Google Play services APK is not available.
 
     @ViewById
-    public EditText search;
+    public AutoCompleteTextView search;
 
     LocationClient clienteLocalizacao;
     Location localizacaoAtual;
@@ -100,6 +102,17 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus ,Googl
     @AfterViews
     public void onViewCreatedByAA(){
         setUpMapIfNeeded();
+        setSuggestions(); // Shows the previous searched lines
+    }
+
+    private void setSuggestions() {
+        String[] lineHistory = Util.getHistory(this);
+        if (lineHistory!= null){
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_dropdown_item_1line,Util.getHistory(this));
+            search.setAdapter(adapter);
+            search.setThreshold(0);
+        }
     }
 
     private void setUpMapIfNeeded() {
@@ -126,6 +139,8 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus ,Googl
                     if(validaEntradaValida()) {
 
                         if(Util.verificaConexaoInternet(Main.this)) {
+                            Util.saveOnHistory(Main.this , search.getText().toString(),search);
+                            setSuggestions(); //Updating the adapter
                             new RecebeDadosOnibusTask(Main.this).execute(search.getText().toString());
                         } else {
                           Toast.makeText(Main.this, getString(R.string.msg_conexao_internet), Toast.LENGTH_SHORT).show();
