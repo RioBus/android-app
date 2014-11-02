@@ -11,7 +11,7 @@
         tools:context=".Main"
         android:name="com.google.android.gms.maps.SupportMapFragment" />
 
-    <EditText
+    <AutoCompleteTextView
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:id="@+id/search"
