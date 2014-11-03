@@ -67,10 +67,13 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-    android {
+    android{
         sourceSets {
             androidTest {
                 java.srcDirs = ['tests/src']
+            }
+            main {
+                java.srcDirs = ['src/main/java', 'build/generated/source/apt/release' ]
             }
         }
     }
