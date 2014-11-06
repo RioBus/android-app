@@ -15,7 +15,10 @@
     <string name="marker_cliente">Estou aqui</string>
     <string name="marker_linha">Linha: %1$s</string>
     <string name="marker_codigo">Código: %1$s</string>
-    <string name="marker_hora">Hora: %1$s</string>
+    <string name="marker_segundos">Atualizado há %1$s segundo(s)</string>
+    <string name="marker_minutos">Atualizado há %1$s minuto(s)</string>
+    <string name="marker_horas">Atualizado há %1$s hora(s)</string>
+    <string name="marker_dias">Atualizado há %1$s dia(s)</string>
     <string name="marker_velocidade">Velocidade: %1$s Km/h</string>
 
     <string name="about_text">

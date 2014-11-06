@@ -22,7 +22,7 @@
         android:id="@+id/hora"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/marker_hora" />
+        android:text="@string/marker_horas" />
 
     <TextView
         android:id="@+id/velocidade"
