@@ -186,7 +186,14 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus ,Googl
 
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-            builder.include(new LatLng(localizacaoAtual.getLatitude(), localizacaoAtual.getLongitude()));
+            try{
+                builder.include(new LatLng(localizacaoAtual.getLatitude(), localizacaoAtual.getLongitude()));
+                LatLng posicaoCliente = new LatLng(localizacaoAtual.getLatitude(), localizacaoAtual.getLongitude());
+                marcarCliente(posicaoCliente);
+            }catch(NullPointerException e){
+                // workaround para resolver o problema do GPS lock sem GPS ativo
+                // TODO aprimorar essa gambiarra!!!!!
+            }
 
             for (Ponto ponto : pontos) {
                 builder.include(new LatLng(ponto.getLatitude(), ponto.getLongitude()));
@@ -194,8 +201,6 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus ,Googl
 
             mapa.setInfoWindowAdapter(new CustomInfoWindowAdapter(this));
 
-            LatLng posicaoCliente = new LatLng(localizacaoAtual.getLatitude(), localizacaoAtual.getLongitude());
-            marcarCliente(posicaoCliente);
 
             LatLngBounds bounds = builder.build();
 
@@ -208,22 +213,28 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus ,Googl
     }
 
     public void atualizaMapaLocalizacao(Location localizacao) {
-        LatLng posicao = new LatLng(localizacao.getLatitude(), localizacao.getLongitude());
-        mapa.moveCamera(CameraUpdateFactory.newLatLng(posicao));
-        mapa.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
-        marcarCliente(posicao);
+        try{
+            LatLng posicao = new LatLng(localizacao.getLatitude(), localizacao.getLongitude());
+            mapa.moveCamera(CameraUpdateFactory.newLatLng(posicao));
+            mapa.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
+            marcarCliente(posicao);
+        } catch(NullPointerException e){
+            // workaround para resolver o problema do GPS lock sem GPS ativo
+            // TODO aprimorar essa gambiarra!!!!!
+            Toast.makeText(this, getString(R.string.msg_conexao_gps), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void marcarCliente(LatLng posicao){
-        if(marcadorCliente==null) {
-            marcadorCliente = new MarkerOptions().position(posicao).title(getString(R.string.marker_cliente)).icon(BitmapDescriptorFactory
-                    .fromResource(R.drawable.man_maps));
-        } else {
-            marcadorCliente.position(posicao);
-        }
-        //mapa.clear();
-        mapa.addMarker(marcadorCliente);
-        // depois de limpar tudo, precisa readicionar os pontos que estavam no mapa, caso houvesse
+            if(marcadorCliente==null) {
+                marcadorCliente = new MarkerOptions().position(posicao).title(getString(R.string.marker_cliente)).icon(BitmapDescriptorFactory
+                        .fromResource(R.drawable.man_maps));
+            } else {
+                marcadorCliente.position(posicao);
+            }
+            //mapa.clear();
+            mapa.addMarker(marcadorCliente);
+            // depois de limpar tudo, precisa readicionar os pontos que estavam no mapa, caso houvesse
     }
 
     @Click(R.id.button_about)

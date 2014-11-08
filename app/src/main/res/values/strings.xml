@@ -8,6 +8,7 @@
     <string name="about_title">Sobre o RioBus</string>
 
     <string name="msg_conexao_internet">Não foi encontrada uma conexão com a internet.</string>
+    <string name="msg_conexao_gps">Não foi possível identificar sua localização.</string>
     <string name="msg_conexao_prefeitura">Sistema da prefeitura fora do ar. Tente novamente mais tarde.</string>
     <string name="msg_onibus_404">O onibus solicitado não foi encontrado.</string>
 
