@@ -51,7 +51,14 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
             v = context.getLayoutInflater().inflate(R.layout.info_window_layout, null);
 
             TextView linha = (TextView) v.findViewById(R.id.titulo);
-            linha.setText(context.getString(R.string.marker_linha, ponto.getLinha()));
+
+            String linhaStr = ponto.getLinha();
+            try {
+                int linhaInt = (int) Double.parseDouble(linhaStr);
+                linhaStr = Integer.toString(linhaInt);
+            } catch (Exception e) {}
+
+            linha.setText(context.getString(R.string.marker_linha, linhaStr));
 
             TextView codigo = (TextView) v.findViewById(R.id.codigo);
             codigo.setText(context.getString(R.string.marker_codigo, ponto.getOrdem().toString()));

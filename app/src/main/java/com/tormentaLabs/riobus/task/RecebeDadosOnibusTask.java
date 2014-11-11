@@ -96,24 +96,37 @@ public class RecebeDadosOnibusTask extends AsyncTask<String,Void, List<Ponto>> {
 
     }
 
-
+    // criar classe json parser
     private List<Ponto> getPonto(BufferedReader reader) {
         Gson gson = new Gson();
         JsonParser parser = new JsonParser();
         List<Ponto> pontos = new ArrayList<Ponto>();
 
+        if(reader == null) return null;
+
         JsonElement json = parser.parse(reader);
+
+        if(!validaJson(json)) return null;
+
         JsonArray data = json.getAsJsonObject().getAsJsonArray("DATA");
+
+        //TODO: usar os columns para pegar qual o indice de cada coluna no array data
+        //retirar no futuro o hardcoded das colunas abaixo
         JsonArray collumns = json.getAsJsonObject().getAsJsonArray("COLUMNS");
+
+
+        if(!validaJson(data)) return null;
+
         for (JsonElement elem: data) {
+
             JsonArray obj = elem.getAsJsonArray();
             Ponto ponto = new Ponto();
-            ponto.setDataHora(converteStringToDate(obj.get(0).getAsString()));
-            ponto.setOrdem(obj.get(1).getAsString());
-            ponto.setLinha(obj.get(2).getAsString());
-            ponto.setLatitude(obj.get(3).getAsDouble());
-            ponto.setLongitude(obj.get(4).getAsDouble());
-            ponto.setVelocidade(obj.get(5).getAsDouble());
+            ponto.setDataHora(converteStringToDate(getJsonAsString(obj.get(0))));
+            ponto.setOrdem(getJsonAsString(obj.get(1)));
+            ponto.setLinha(getJsonAsString(obj.get(2)));
+            ponto.setLatitude(getJsonAsDouble(obj.get(3)));
+            ponto.setLongitude(getJsonAsDouble(obj.get(4)));
+            ponto.setVelocidade(getJsonAsDouble(obj.get(5)));
             pontos.add(ponto);
         }
         return pontos;
@@ -125,6 +138,26 @@ public class RecebeDadosOnibusTask extends AsyncTask<String,Void, List<Ponto>> {
             return sdf.parse(data);
         } catch (ParseException e) {
             Log.e(Util.TAG, e.getMessage());
+        }
+        return null;
+    }
+
+    private boolean validaJson(JsonElement json){
+        if(json == null || json.isJsonNull()){
+            return false;
+        }
+        return true;
+    }
+
+    private String getJsonAsString(JsonElement json){
+        if(validaJson(json)) {
+            return json.getAsString();
+        }
+        return null;
+    }
+    private Double getJsonAsDouble(JsonElement json){
+        if(validaJson(json)) {
+            return json.getAsDouble();
         }
         return null;
     }

@@ -10,7 +10,7 @@
     <string name="msg_conexao_internet">Não foi encontrada uma conexão com a internet.</string>
     <string name="msg_conexao_gps">Não foi possível identificar sua localização.</string>
     <string name="msg_conexao_prefeitura">Sistema da prefeitura fora do ar. Tente novamente mais tarde.</string>
-    <string name="msg_onibus_404">O onibus solicitado não foi encontrado.</string>
+    <string name="msg_onibus_404">O ônibus solicitado não foi encontrado. Talvez ele não exista ou os dados estão fora do ar temporariamente.</string>
 
     <string name="marker_mapa_descricao"></string>
     <string name="marker_cliente">Estou aqui</string>

@@ -46,11 +46,12 @@ import java.util.Map;
 
 /**
  * Rio Bus
+ *
  * @author Pedro Cortez
  * @version 2.0.0
  */
 @EActivity(R.layout.mapa)
-public class Main extends ActionBarActivity implements IRecebeDadosOnibus ,GooglePlayServicesClient.ConnectionCallbacks,
+public class Main extends ActionBarActivity implements IRecebeDadosOnibus, GooglePlayServicesClient.ConnectionCallbacks,
         GooglePlayServicesClient.OnConnectionFailedListener {
 
     public GoogleMap mapa; // Might be null if Google Play services APK is not available.
@@ -77,41 +78,45 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus ,Googl
     @Override
     protected void onResume() {
         super.onResume();
-        if(mapa!=null) mapa.clear();
-        conecta();
+        if (mapa != null) mapa.clear();
+    }
+
+    @Override
+    protected void onPause() {
+        desconecta();
+        super.onPause();
     }
 
     @Override
     protected void onStop() {
-        super.onStop();
-        if(mapa!=null) mapa.clear();
-        desconecta();
+        if (mapa != null) mapa.clear();
 
+        super.onStop();
     }
 
-    private void conecta(){
-        if(!clienteLocalizacao.isConnected()) {
+    private void conecta() {
+        if (!clienteLocalizacao.isConnected()) {
             clienteLocalizacao.connect();
         }
     }
 
-    private void desconecta(){
-        if(clienteLocalizacao.isConnected()) {
+    private void desconecta() {
+        if (clienteLocalizacao.isConnected()) {
             clienteLocalizacao.disconnect();
         }
     }
 
     @AfterViews
-    public void onViewCreatedByAA(){
+    public void onViewCreatedByAA() {
         setUpMapIfNeeded();
         setSuggestions(); // Shows the previous searched lines
     }
 
     private void setSuggestions() {
         String[] lineHistory = Util.getHistory(this);
-        if (lineHistory!= null){
+        if (lineHistory != null) {
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_dropdown_item_1line,Util.getHistory(this));
+                    android.R.layout.simple_dropdown_item_1line, Util.getHistory(this));
             search.setAdapter(adapter);
             search.setThreshold(0);
         }
@@ -138,17 +143,17 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus ,Googl
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    if(validaEntradaValida()) {
+                    if (validaEntradaValida()) {
 
-                        if(Util.verificaConexaoInternet(Main.this)) {
-                            Util.saveOnHistory(Main.this , search.getText().toString(),search);
+                        if (Util.verificaConexaoInternet(Main.this)) {
+                            Util.saveOnHistory(Main.this, search.getText().toString(), search);
                             setSuggestions(); //Updating the adapter
                             new RecebeDadosOnibusTask(Main.this).execute(search.getText().toString());
                         } else {
-                          Toast.makeText(Main.this, getString(R.string.msg_conexao_internet), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Main.this, getString(R.string.msg_conexao_internet), Toast.LENGTH_SHORT).show();
                         }
                     }
-                    InputMethodManager imm = (InputMethodManager)getSystemService(
+                    InputMethodManager imm = (InputMethodManager) getSystemService(
                             Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
                     return true;
@@ -161,7 +166,7 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus ,Googl
 
     private boolean validaEntradaValida() {
         String linhaDigitada = search.getText().toString();
-        return !(linhaDigitada==null
+        return !(linhaDigitada == null
                 || linhaDigitada.equals("")
                 || linhaDigitada.trim().equals(""));
     }
@@ -173,12 +178,17 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus ,Googl
 
     @Override
     public void recebeListaPontosCallback(List<Ponto> pontos, String mensagemErro) {
+
         mapa.clear();
-        if(mensagemErro != null) {
+        LatLng posicaoCliente = new LatLng(localizacaoAtual.getLatitude(), localizacaoAtual.getLongitude());
+        marcarCliente(posicaoCliente);
+
+        if (mensagemErro != null) {
             Toast.makeText(this, mensagemErro, Toast.LENGTH_LONG).show();
         } else {
-            if(pontos.isEmpty()) {
+            if (pontos == null || pontos.isEmpty()) {
                 Toast.makeText(this, getString(R.string.msg_onibus_404), Toast.LENGTH_SHORT).show();
+                return;
             }
 
             MarkerOnibusMapa mom = new MarkerOnibusMapa(this);
@@ -186,14 +196,7 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus ,Googl
 
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-            try{
-                builder.include(new LatLng(localizacaoAtual.getLatitude(), localizacaoAtual.getLongitude()));
-                LatLng posicaoCliente = new LatLng(localizacaoAtual.getLatitude(), localizacaoAtual.getLongitude());
-                marcarCliente(posicaoCliente);
-            }catch(NullPointerException e){
-                // workaround para resolver o problema do GPS lock sem GPS ativo
-                // TODO aprimorar essa gambiarra!!!!!
-            }
+            builder.include(new LatLng(localizacaoAtual.getLatitude(), localizacaoAtual.getLongitude()));
 
             for (Ponto ponto : pontos) {
                 builder.include(new LatLng(ponto.getLatitude(), ponto.getLongitude()));
@@ -213,32 +216,26 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus ,Googl
     }
 
     public void atualizaMapaLocalizacao(Location localizacao) {
-        try{
-            LatLng posicao = new LatLng(localizacao.getLatitude(), localizacao.getLongitude());
-            mapa.moveCamera(CameraUpdateFactory.newLatLng(posicao));
-            mapa.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
-            marcarCliente(posicao);
-        } catch(NullPointerException e){
-            // workaround para resolver o problema do GPS lock sem GPS ativo
-            // TODO aprimorar essa gambiarra!!!!!
-            Toast.makeText(this, getString(R.string.msg_conexao_gps), Toast.LENGTH_SHORT).show();
-        }
+        LatLng posicao = new LatLng(localizacao.getLatitude(), localizacao.getLongitude());
+        mapa.moveCamera(CameraUpdateFactory.newLatLng(posicao));
+        mapa.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
+        marcarCliente(posicao);
     }
 
-    private void marcarCliente(LatLng posicao){
-            if(marcadorCliente==null) {
-                marcadorCliente = new MarkerOptions().position(posicao).title(getString(R.string.marker_cliente)).icon(BitmapDescriptorFactory
-                        .fromResource(R.drawable.man_maps));
-            } else {
-                marcadorCliente.position(posicao);
-            }
-            //mapa.clear();
-            mapa.addMarker(marcadorCliente);
-            // depois de limpar tudo, precisa readicionar os pontos que estavam no mapa, caso houvesse
+    private void marcarCliente(LatLng posicao) {
+        if (marcadorCliente == null) {
+            marcadorCliente = new MarkerOptions().position(posicao).title(getString(R.string.marker_cliente)).icon(BitmapDescriptorFactory
+                    .fromResource(R.drawable.man_maps));
+        } else {
+            marcadorCliente.position(posicao);
+        }
+        //mapa.clear();
+        mapa.addMarker(marcadorCliente);
+        // depois de limpar tudo, precisa readicionar os pontos que estavam no mapa, caso houvesse
     }
 
     @Click(R.id.button_about)
-    public void clicaNoSobre(){
+    public void clicaNoSobre() {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.about_dialog);
         dialog.setTitle(getString(R.string.about_title));
@@ -255,8 +252,10 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus ,Googl
     }
 
     @Override
-    public void onDisconnected() {}
+    public void onDisconnected() {
+    }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {}
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+    }
 }
