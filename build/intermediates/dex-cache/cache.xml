@@ -2,46 +2,60 @@
 <items version="2" >
 
     <item
-        jar="/Users/fred/workspace/personal/android/native/RioBus/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.89/classes.jar"
+        jar="C:\Users\pedro\.gradle\caches\modules-2\files-2.1\org.androidannotations\androidannotations-api\3.2\89b33bb1e996eb2c4089f79d1b8651c71fe8e2d1\androidannotations-api-3.2.jar"
         jumboMode="false"
-        revision="21.1.0"
-        sha1="d71573c9c5ea98a8db47ad6ff993a63d492b3bfa">
-        <dex dex="/Users/fred/workspace/personal/android/native/RioBus/app/build/intermediates/pre-dexed/debug/classes-d741ededa829f8dbf5b71741f1ceb2ef83a9267b.jar" />
+        revision="21.1.2"
+        sha1="89b33bb1e996eb2c4089f79d1b8651c71fe8e2d1">
+        <dex dex="C:\Users\pedro\Documents\GitHub\riobus-android\app\build\intermediates\pre-dexed\debug\androidannotations-api-3.2-5fdabe8a3d02a5961d4a3d8a71cd9b5743249188.jar" />
     </item>
     <item
-        jar="/Users/fred/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3/5fc52c41ef0239d1093a1eb7c3697036183677ce/gson-2.3.jar"
+        jar="C:\AmbienteJava\adt-bundle-windows-x86_64-20130514\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
         jumboMode="false"
-        revision="21.1.0"
-        sha1="5fc52c41ef0239d1093a1eb7c3697036183677ce">
-        <dex dex="/Users/fred/workspace/personal/android/native/RioBus/app/build/intermediates/pre-dexed/debug/gson-2.3-dc897e409043d9c9d0deeac38edcf3a472be0e97.jar" />
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="C:\Users\pedro\Documents\GitHub\riobus-android\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-ab16635221d266175ce8ceb974e2e10999018c47.jar" />
     </item>
     <item
-        jar="/Users/fred/workspace/personal/android/native/RioBus/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
+        jar="C:\Users\pedro\Documents\GitHub\riobus-android\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
         jumboMode="false"
-        revision="21.1.0"
-        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28">
-        <dex dex="/Users/fred/workspace/personal/android/native/RioBus/app/build/intermediates/pre-dexed/debug/classes-bda411e39c878a22f974773cfc0473bfe00ff1e5.jar" />
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\Users\pedro\Documents\GitHub\riobus-android\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-a60376477c8e69221be3c57738d99f1fbd6cfb45.jar" />
     </item>
     <item
-        jar="/Users/fred/.gradle/caches/modules-2/files-2.1/joda-time/joda-time/2.3/56498efd17752898cfcc3868c1b6211a07b12b8f/joda-time-2.3.jar"
+        jar="C:\Users\pedro\Documents\GitHub\riobus-android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
         jumboMode="false"
-        revision="21.1.0"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="C:\Users\pedro\Documents\GitHub\riobus-android\app\build\intermediates\pre-dexed\debug\classes-ef94a0094066934e5aca4e4d52415e6d1945280c.jar" />
+    </item>
+    <item
+        jar="C:\Users\pedro\Documents\GitHub\riobus-android\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\Users\pedro\Documents\GitHub\riobus-android\app\build\intermediates\pre-dexed\debug\classes-e1cb02ceb4c0887294e9eae63f4b958898c56db4.jar" />
+    </item>
+    <item
+        jar="C:\Users\pedro\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.3.1\ecb6e1f8e4b0e84c4b886c2f14a1500caf309757\gson-2.3.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
+        <dex dex="C:\Users\pedro\Documents\GitHub\riobus-android\app\build\intermediates\pre-dexed\debug\gson-2.3.1-843fdcd617d1add54c65895637bbef54eab86063.jar" />
+    </item>
+    <item
+        jar="C:\Users\pedro\.gradle\caches\modules-2\files-2.1\joda-time\joda-time\2.3\56498efd17752898cfcc3868c1b6211a07b12b8f\joda-time-2.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
         sha1="56498efd17752898cfcc3868c1b6211a07b12b8f">
-        <dex dex="/Users/fred/workspace/personal/android/native/RioBus/app/build/intermediates/pre-dexed/debug/joda-time-2.3-88ccdf9a34654822dff4bcd4aec6ba886c1e9045.jar" />
+        <dex dex="C:\Users\pedro\Documents\GitHub\riobus-android\app\build\intermediates\pre-dexed\debug\joda-time-2.3-26b85e4a39fdc0fe050f11a5c75de9ded24629d5.jar" />
     </item>
     <item
-        jar="/Users/fred/android-sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jar="C:\Users\pedro\Documents\GitHub\riobus-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\6.5.87\classes.jar"
         jumboMode="false"
-        revision="21.1.0"
-        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
-        <dex dex="/Users/fred/workspace/personal/android/native/RioBus/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-14c8e30365e3b1bfc1cb51ec4628a7030f858a81.jar" />
-    </item>
-    <item
-        jar="/Users/fred/.gradle/caches/modules-2/files-2.1/org.androidannotations/androidannotations-api/3.0.1/beb7e0a75c753383e7ef68c0e1639999db301c33/androidannotations-api-3.0.1.jar"
-        jumboMode="false"
-        revision="21.1.0"
-        sha1="beb7e0a75c753383e7ef68c0e1639999db301c33">
-        <dex dex="/Users/fred/workspace/personal/android/native/RioBus/app/build/intermediates/pre-dexed/debug/androidannotations-api-3.0.1-e53289afc8e204cc0e48f86071b65dcae5ed1f8b.jar" />
+        revision="21.1.2"
+        sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
+        <dex dex="C:\Users\pedro\Documents\GitHub\riobus-android\app\build\intermediates\pre-dexed\debug\classes-ac58e116cd48c976874bb19c44e4df33b81bb87d.jar" />
     </item>
 
 </items>

@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/RioBus.iml" filepath="$PROJECT_DIR$/RioBus.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/riobus-android.iml" filepath="$PROJECT_DIR$/riobus-android.iml" />
     </modules>
   </component>
 </project>

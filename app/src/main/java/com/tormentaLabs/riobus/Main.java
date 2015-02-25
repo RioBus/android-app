@@ -12,13 +12,12 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,7 +25,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tormentaLabs.riobus.adapter.CustomInfoWindowAdapter;
 import com.tormentaLabs.riobus.interfaces.IRecebeDadosOnibus;
@@ -40,9 +38,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Rio Bus
@@ -51,28 +47,36 @@ import java.util.Map;
  * @version 2.0.0
  */
 @EActivity(R.layout.mapa)
-public class Main extends ActionBarActivity implements IRecebeDadosOnibus, GooglePlayServicesClient.ConnectionCallbacks,
-        GooglePlayServicesClient.OnConnectionFailedListener {
+public class Main extends ActionBarActivity implements IRecebeDadosOnibus, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
     public GoogleMap mapa; // Might be null if Google Play services APK is not available.
-
+    GoogleApiClient mGoogleApiClient;
     @ViewById
     public AutoCompleteTextView search;
 
-    LocationClient clienteLocalizacao;
     Location localizacaoAtual;
     MarkerOptions marcadorCliente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        clienteLocalizacao = new LocationClient(this, this, this);
+        buildGoogleApiClient();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        conecta();
+    @AfterViews
+    public void onViewCreatedByAA() {
+        setUpMapIfNeeded();
+        setSuggestions(); // Shows the previous searched lines
+        getSupportActionBar().hide();
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
     }
 
     @Override
@@ -81,36 +85,15 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus, Googl
         if (mapa != null) mapa.clear();
     }
 
-    @Override
-    protected void onPause() {
-        desconecta();
-        super.onPause();
-    }
 
     @Override
     protected void onStop() {
         if (mapa != null) mapa.clear();
-
         super.onStop();
     }
 
-    private void conecta() {
-        if (!clienteLocalizacao.isConnected()) {
-            clienteLocalizacao.connect();
-        }
-    }
 
-    private void desconecta() {
-        if (clienteLocalizacao.isConnected()) {
-            clienteLocalizacao.disconnect();
-        }
-    }
 
-    @AfterViews
-    public void onViewCreatedByAA() {
-        setUpMapIfNeeded();
-        setSuggestions(); // Shows the previous searched lines
-    }
 
     private void setSuggestions() {
         String[] lineHistory = Util.getHistory(this);
@@ -247,14 +230,14 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus, Googl
 
     @Override
     public void onConnected(Bundle bundle) {
-        localizacaoAtual = clienteLocalizacao.getLastLocation();
+        localizacaoAtual = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         atualizaMapaLocalizacao(localizacaoAtual);
     }
 
     @Override
-    public void onDisconnected() {
-    }
+    public void onConnectionSuspended(int i) {
 
+    }
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
     }
