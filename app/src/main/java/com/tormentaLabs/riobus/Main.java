@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -18,19 +19,14 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.tormentaLabs.riobus.adapter.CustomInfoWindowAdapter;
-import com.tormentaLabs.riobus.interfaces.IRecebeDadosOnibus;
-import com.tormentaLabs.riobus.model.MarkerOnibusMapa;
-import com.tormentaLabs.riobus.model.Ponto;
-import com.tormentaLabs.riobus.task.RecebeDadosOnibusTask;
+import com.tormentaLabs.riobus.http.HttpRequest;
+import com.tormentaLabs.riobus.http.HttpUrls;
 import com.tormentaLabs.riobus.util.Util;
 
 import org.androidannotations.annotations.AfterViews;
@@ -38,25 +34,17 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.List;
-
-/**
- * Rio Bus
- *
- * @author Pedro Cortez
- * @version 2.0.0
- */
 @EActivity(R.layout.mapa)
-public class Main extends ActionBarActivity implements IRecebeDadosOnibus, GoogleApiClient.ConnectionCallbacks,
+public class Main extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
-    public GoogleMap mapa; // Might be null if Google Play services APK is not available.
+    public GoogleMap map; // Might be null if Google Play services APK is not available.
     GoogleApiClient mGoogleApiClient;
     @ViewById
     public AutoCompleteTextView search;
 
-    Location localizacaoAtual;
-    MarkerOptions marcadorCliente;
+    Location currentLocation;
+    MarkerOptions userMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,18 +70,14 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus, Googl
     @Override
     protected void onResume() {
         super.onResume();
-        if (mapa != null) mapa.clear();
+        clearMap();
     }
-
 
     @Override
     protected void onStop() {
-        if (mapa != null) mapa.clear();
+        clearMap();
         super.onStop();
     }
-
-
-
 
     private void setSuggestions() {
         String[] lineHistory = Util.getHistory(this);
@@ -107,15 +91,15 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus, Googl
 
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
-        if (mapa == null) {
+        if (map == null) {
             // Try to obtain the map from the SupportMapFragment.
-            mapa = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+            map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
 
             // Hide the zoom controls in the bottom of the screen
-            mapa.getUiSettings().setZoomControlsEnabled(false);
+            map.getUiSettings().setZoomControlsEnabled(false);
             // Check if we were successful in obtaining the map.
-            if (mapa != null) {
+            if (map != null) {
                 setUpMap();
             }
         }
@@ -126,12 +110,26 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus, Googl
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    if (validaEntradaValida()) {
+                    if (isValidEntry(search.getText().toString())) {
 
-                        if (Util.verificaConexaoInternet(Main.this)) {
+                        if (Util.checkInternetConnection(Main.this)) {
                             Util.saveOnHistory(Main.this, search.getText().toString(), search);
                             setSuggestions(); //Updating the adapter
-                            new RecebeDadosOnibusTask(Main.this).execute(search.getText().toString());
+                            try {
+                                String url = HttpUrls.urlRioBusLinhas+"search/2/"+search.getText().toString();
+                                System.out.println(url);
+
+                                StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().build());
+                                StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().build());
+
+                                HttpRequest response = HttpRequest.get(url);
+                                response.acceptGzipEncoding().uncompress(true);
+                                if(response.ok()){
+                                    System.out.println(response.body());
+                                }
+                            } catch(HttpRequest.HttpRequestException e){
+                                System.out.println(e.toString());
+                            }
                         } else {
                             Toast.makeText(Main.this, getString(R.string.msg_conexao_internet), Toast.LENGTH_SHORT).show();
                         }
@@ -146,79 +144,40 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus, Googl
         });
     }
 
+    void clearMap(){
+        if(map != null)
+            map.clear();
+    }
 
-    private boolean validaEntradaValida() {
-        String linhaDigitada = search.getText().toString();
-        return !(linhaDigitada == null
-                || linhaDigitada.equals("")
-                || linhaDigitada.trim().equals(""));
+    private boolean isValidEntry(String entry) {
+        return !(entry == null || entry.equals("") || entry.trim().equals(""));
     }
 
     private void setUpMap() {
-        mapa.clear();
-        mapa.setTrafficEnabled(true);
+        clearMap();
+        map.setTrafficEnabled(true);
     }
 
-    @Override
-    public void recebeListaPontosCallback(List<Ponto> pontos, String mensagemErro) {
-
-        mapa.clear();
-        LatLng posicaoCliente = new LatLng(localizacaoAtual.getLatitude(), localizacaoAtual.getLongitude());
-        marcarCliente(posicaoCliente);
-
-        if (mensagemErro != null) {
-            Toast.makeText(this, mensagemErro, Toast.LENGTH_LONG).show();
-        } else {
-            if (pontos == null || pontos.isEmpty()) {
-                Toast.makeText(this, getString(R.string.msg_onibus_404), Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            MarkerOnibusMapa mom = new MarkerOnibusMapa(this);
-            mom.adicionaMarcadoresNoMapa(mapa, pontos);
-
-            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-
-            builder.include(new LatLng(localizacaoAtual.getLatitude(), localizacaoAtual.getLongitude()));
-
-            for (Ponto ponto : pontos) {
-                builder.include(new LatLng(ponto.getLatitude(), ponto.getLongitude()));
-            }
-
-            mapa.setInfoWindowAdapter(new CustomInfoWindowAdapter(this));
-
-
-            LatLngBounds bounds = builder.build();
-
-            int padding = 100; // offset from edges of the map in pixels
-            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-
-            mapa.moveCamera(cu);
-            mapa.animateCamera(cu);
-        }
+    public void atualizaMapaLocalizacao(Location location) {
+        LatLng position = new LatLng(location.getLatitude(), location.getLongitude());
+        map.moveCamera(CameraUpdateFactory.newLatLng(position));
+        map.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
+        markUserPosition(position);
     }
 
-    public void atualizaMapaLocalizacao(Location localizacao) {
-        LatLng posicao = new LatLng(localizacao.getLatitude(), localizacao.getLongitude());
-        mapa.moveCamera(CameraUpdateFactory.newLatLng(posicao));
-        mapa.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
-        marcarCliente(posicao);
-    }
-
-    private void marcarCliente(LatLng posicao) {
-        if (marcadorCliente == null) {
-            marcadorCliente = new MarkerOptions().position(posicao).title(getString(R.string.marker_cliente)).icon(BitmapDescriptorFactory
+    private void markUserPosition(LatLng posicao) {
+        if (userMarker == null) {
+            userMarker = new MarkerOptions().position(posicao).title(getString(R.string.marker_cliente)).icon(BitmapDescriptorFactory
                     .fromResource(R.drawable.man_maps));
         } else {
-            marcadorCliente.position(posicao);
+            userMarker.position(posicao);
         }
-        //mapa.clear();
-        mapa.addMarker(marcadorCliente);
-        // depois de limpar tudo, precisa readicionar os pontos que estavam no mapa, caso houvesse
+        map.addMarker(userMarker);
+        // depois de limpar tudo, precisa readicionar os pontos que estavam no map, caso houvesse
     }
 
     @Click(R.id.button_about)
-    public void clicaNoSobre() {
+    public void clickOnAboutButton() {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.about_dialog);
         dialog.setTitle(getString(R.string.about_title));
@@ -230,15 +189,13 @@ public class Main extends ActionBarActivity implements IRecebeDadosOnibus, Googl
 
     @Override
     public void onConnected(Bundle bundle) {
-        localizacaoAtual = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        atualizaMapaLocalizacao(localizacaoAtual);
+        currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        atualizaMapaLocalizacao(currentLocation);
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
+    public void onConnectionSuspended(int i) {}
 
-    }
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-    }
+    public void onConnectionFailed(ConnectionResult connectionResult){}
 }

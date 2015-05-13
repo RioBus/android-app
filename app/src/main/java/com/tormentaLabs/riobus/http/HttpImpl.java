@@ -21,12 +21,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
-
-/**
- * Classe que encapsula as requests HTTP utilizando a "HttpURLConnection".
- * @author Cortez
- * 
- */
 public final class HttpImpl {
 
 	private static final int HTTP_OK = 200;
@@ -90,9 +84,6 @@ public final class HttpImpl {
 	 * @throws HttpException 
 	 */
 	public BufferedReader executaChamadoGetURL(String url, final List<NameValuePair> nameValue) throws HttpException {
-		
-		if(!url.endsWith("?"))
-	        url += "?";
 		
 		String paramString = URLEncodedUtils.format(nameValue, "utf-8");
 		url += paramString;

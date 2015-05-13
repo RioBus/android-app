@@ -12,9 +12,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by pedro on 06/07/2014.
- */
 public class Util {
 
     public static final String TAG = "RioBus";
@@ -37,7 +34,7 @@ public class Util {
     }
 
 
-    public static boolean verificaConexaoInternet(Activity act) {
+    public static boolean checkInternetConnection(Activity act) {
         ConnectivityManager conectivtyManager = (ConnectivityManager) act.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (conectivtyManager.getActiveNetworkInfo() != null
                 && conectivtyManager.getActiveNetworkInfo().isAvailable()

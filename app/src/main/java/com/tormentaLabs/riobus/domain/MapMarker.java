@@ -1,7 +1,6 @@
-package com.tormentaLabs.riobus.model;
+package com.tormentaLabs.riobus.domain;
 
 import android.content.Context;
-import android.text.Html;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -18,44 +17,41 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by pedro on 20/07/2014.
- */
-public class MarkerOnibusMapa {
+public class MapMarker {
 
-    private Context contexto;
+    private Context context;
 
-    public MarkerOnibusMapa(Context contexto){
-        this.contexto = contexto;
+    public MapMarker(Context context){
+        this.context = context;
     }
 
-    public void adicionaMarcadoresNoMapa(GoogleMap mapa, List<Ponto> pontos) {
-            for (Ponto ponto : pontos) {
-                mapa.addMarker(getMarker(ponto));
+    public void addMarker(GoogleMap map, List<Bus> buses) {
+            for (Bus bus : buses) {
+                map.addMarker(getMarker(bus));
             }
     }
 
-    private MarkerOptions getMarker(Ponto ponto) {
+    private MarkerOptions getMarker(Bus bus) {
         MarkerOptions marker = new MarkerOptions();
-        LatLng posicao = new LatLng(ponto.getLatitude(), ponto.getLongitude());
-        marker.position(posicao);
-        marker.icon(getIcon(ponto.getDataHora()));
-        marker.snippet(new Gson().toJson(ponto));
+        LatLng position = new LatLng(bus.getLatitude(), bus.getLongitude());
+        marker.position(position);
+        marker.icon(getIcon(bus.getTimestamp()));
+        marker.snippet(new Gson().toJson(bus));
         return marker;
     }
 
     private BitmapDescriptor getIcon(Date data) {
         BitmapDescriptor icon;
 
-        DateTime momento = new DateTime(Calendar.getInstance());
-        DateTime ultima = new DateTime(data);
+        DateTime current = new DateTime(Calendar.getInstance());
+        DateTime last = new DateTime(data);
 
-        int diferenca =  Minutes.minutesBetween(ultima, momento).getMinutes();
+        int diff =  Minutes.minutesBetween(last, current).getMinutes();
 
-        if(diferenca <= 5) {
+        if(diff <= 5) {
            icon = BitmapDescriptorFactory
                 .fromResource(R.drawable.bus_green);
-        } else if(diferenca > 10 ) {
+        } else if(diff > 10 ) {
            icon = BitmapDescriptorFactory
                 .fromResource(R.drawable.bus_red);
         } else {

@@ -1,18 +1,14 @@
 package com.tormentaLabs.riobus.adapter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 import com.google.gson.Gson;
 import com.tormentaLabs.riobus.R;
-import com.tormentaLabs.riobus.model.Ponto;
+import com.tormentaLabs.riobus.domain.Bus;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -20,14 +16,9 @@ import org.joda.time.Hours;
 import org.joda.time.Minutes;
 import org.joda.time.Seconds;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by fred on 16/10/14.
- */
 public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
 
@@ -47,12 +38,12 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         View v;
 
         if(marker.getTitle()==null){
-            Ponto ponto = new Gson().fromJson(marker.getSnippet(), Ponto.class);
+            Bus bus = new Gson().fromJson(marker.getSnippet(), Bus.class);
             v = context.getLayoutInflater().inflate(R.layout.info_window_layout, null);
 
             TextView linha = (TextView) v.findViewById(R.id.titulo);
 
-            String linhaStr = ponto.getLinha();
+            String linhaStr = bus.getLine();
             try {
                 int linhaInt = (int) Double.parseDouble(linhaStr);
                 linhaStr = Integer.toString(linhaInt);
@@ -61,13 +52,13 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
             linha.setText(context.getString(R.string.marker_linha, linhaStr));
 
             TextView codigo = (TextView) v.findViewById(R.id.codigo);
-            codigo.setText(context.getString(R.string.marker_codigo, ponto.getOrdem().toString()));
+            codigo.setText(context.getString(R.string.marker_codigo, bus.getOrder().toString()));
 
             TextView hora = (TextView) v.findViewById(R.id.hora);
-            hora.setText(preparaData(ponto.getDataHora()));
+            hora.setText(preparaData(bus.getTimestamp()));
 
             TextView velocidade = (TextView) v.findViewById(R.id.velocidade);
-            velocidade.setText(context.getString(R.string.marker_velocidade, String.valueOf(ponto.getVelocidade())));
+            velocidade.setText(context.getString(R.string.marker_velocidade, String.valueOf(bus.getVelocity())));
         }
         else{
             v = context.getLayoutInflater().inflate(R.layout.info_window_layout_client, null);
