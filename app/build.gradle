@@ -15,6 +15,9 @@ buildscript {
 }
 
 repositories {
+    maven {
+        url "https://jitpack.io"
+    }
     mavenCentral()
     mavenLocal()
 }
@@ -31,12 +34,11 @@ dependencies {
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
     compile 'com.google.android.gms:play-services:6.5.87'
+    compile 'com.github.kevinsawicki:http-request:http-request-6.0'
 }
 
 apt {
     arguments {
-//        androidManifestFile variant.processResources.manifestFile
-//        resourcePackageName 'com.tormentaLabs.riobus'
         androidManifestFile variant.outputs[0].processResources.manifestFile
         resourcePackageName 'com.tormentaLabs.riobus'
     }

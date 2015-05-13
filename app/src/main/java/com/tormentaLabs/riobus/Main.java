@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -25,23 +24,26 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.tormentaLabs.riobus.http.HttpRequest;
-import com.tormentaLabs.riobus.http.HttpUrls;
-import com.tormentaLabs.riobus.util.Util;
+import com.tormentaLabs.riobus.domain.Bus;
+import com.tormentaLabs.riobus.service.IService;
+import com.tormentaLabs.riobus.service.ServiceFactory;
+import com.tormentaLabs.riobus.tools.Util;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.List;
+
 @EActivity(R.layout.mapa)
 public class Main extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
-    public GoogleMap map; // Might be null if Google Play services APK is not available.
-    GoogleApiClient mGoogleApiClient;
     @ViewById
     public AutoCompleteTextView search;
+    public GoogleMap map; // Might be null if Google Play services APK is not available.
+    public GoogleApiClient mGoogleApiClient;
 
     Location currentLocation;
     MarkerOptions userMarker;
@@ -108,35 +110,27 @@ public class Main extends ActionBarActivity implements GoogleApiClient.Connectio
         search.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
+                String searchContent = search.getText().toString();
+
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    if (isValidEntry(search.getText().toString())) {
+                        (keyCode == KeyEvent.KEYCODE_ENTER) &&
+                        Util.isValidEntry(searchContent)) {
 
-                        if (Util.checkInternetConnection(Main.this)) {
-                            Util.saveOnHistory(Main.this, search.getText().toString(), search);
-                            setSuggestions(); //Updating the adapter
-                            try {
-                                String url = HttpUrls.urlRioBusLinhas+"search/2/"+search.getText().toString();
-                                System.out.println(url);
-
-                                StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().build());
-                                StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().build());
-
-                                HttpRequest response = HttpRequest.get(url);
-                                response.acceptGzipEncoding().uncompress(true);
-                                if(response.ok()){
-                                    System.out.println(response.body());
-                                }
-                            } catch(HttpRequest.HttpRequestException e){
-                                System.out.println(e.toString());
-                            }
-                        } else {
-                            Toast.makeText(Main.this, getString(R.string.msg_conexao_internet), Toast.LENGTH_SHORT).show();
-                        }
-                    }
                     InputMethodManager imm = (InputMethodManager) getSystemService(
                             Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
+
+                    if (Util.checkInternetConnection(Main.this)) {
+                        Util.saveOnHistory(Main.this, searchContent, search);
+                        setSuggestions(); //Updating the adapter
+
+                        IService service = ServiceFactory.getSearchService();
+                        List<Bus> buses = (List<Bus>) service.execute(searchContent);
+                        System.out.println(buses.size());
+
+                    } else {
+                        Toast.makeText(Main.this, getString(R.string.error_connection_internet), Toast.LENGTH_SHORT).show();
+                    }
                     return true;
                 }
                 return false;
@@ -147,10 +141,6 @@ public class Main extends ActionBarActivity implements GoogleApiClient.Connectio
     void clearMap(){
         if(map != null)
             map.clear();
-    }
-
-    private boolean isValidEntry(String entry) {
-        return !(entry == null || entry.equals("") || entry.trim().equals(""));
     }
 
     private void setUpMap() {
@@ -167,7 +157,7 @@ public class Main extends ActionBarActivity implements GoogleApiClient.Connectio
 
     private void markUserPosition(LatLng posicao) {
         if (userMarker == null) {
-            userMarker = new MarkerOptions().position(posicao).title(getString(R.string.marker_cliente)).icon(BitmapDescriptorFactory
+            userMarker = new MarkerOptions().position(posicao).title(getString(R.string.marker_user)).icon(BitmapDescriptorFactory
                     .fromResource(R.drawable.man_maps));
         } else {
             userMarker.position(posicao);

@@ -8,7 +8,7 @@
         android:id="@+id/titulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/marker_linha"
+        android:text="@string/marker_line"
         android:textStyle="bold"
         android:layout_gravity="center" />
 
@@ -16,18 +16,18 @@
         android:id="@+id/codigo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/marker_codigo" />
+        android:text="@string/marker_order" />
 
     <TextView
         android:id="@+id/hora"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/marker_horas" />
+        android:text="@string/marker_hours" />
 
     <TextView
         android:id="@+id/velocity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/marker_velocidade" />
+        android:text="@string/marker_velocity" />
 
 </LinearLayout>

@@ -8,6 +8,6 @@
         android:id="@+id/titulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/marker_cliente" />
+        android:text="@string/marker_user" />
 
 </LinearLayout>

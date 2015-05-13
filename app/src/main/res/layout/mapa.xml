@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:id="@+id/search"
-        android:hint="@string/numero_linha"
+        android:hint="@string/line_number"
         style="@style/search_map" />
 
     <LinearLayout

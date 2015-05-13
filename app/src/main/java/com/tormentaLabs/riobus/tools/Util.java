@@ -1,4 +1,4 @@
-package com.tormentaLabs.riobus.util;
+package com.tormentaLabs.riobus.tools;
 
 import android.app.Activity;
 import android.content.Context;
@@ -31,6 +31,10 @@ public class Util {
 
     public static void print(String msg) {
         Log.i(TAG, msg);
+    }
+
+    public static boolean isValidEntry(String entry) {
+        return !(entry == null || entry.equals("") || entry.trim().equals(""));
     }
 
 

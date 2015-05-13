@@ -3,24 +3,23 @@
 
     <string name="app_name">Rio Bus</string>
     <string name="title_activity_main">Rio Bus</string>
-    <string name="buscando_dados">Buscando line...</string>
-    <string name="numero_linha">Número da line</string>
+    <string name="searching_data">Buscando linha…</string>
+    <string name="line_number">Número da linha</string>
     <string name="about_title">Sobre o RioBus</string>
 
-    <string name="msg_conexao_internet">Não foi encontrada uma conexão com a internet.</string>
-    <string name="msg_conexao_gps">Não foi possível identificar sua localização.</string>
-    <string name="msg_conexao_prefeitura">Sistema da prefeitura fora do ar. Tente novamente mais tarde.</string>
-    <string name="msg_onibus_404">O ônibus solicitado não foi encontrado. Talvez ele não exista ou os dados estão fora do ar temporariamente.</string>
+    <string name="error_connection_internet">Não foi encontrada uma conexão com a internet.</string>
+    <string name="error_connection_gps">Não foi possível identificar sua localização.</string>
+    <string name="error_connection_server">Serviço fora do ar. Tente novamente mais tarde.</string>
+    <string name="error_bus_404">O ônibus solicitado não foi encontrado. Talvez ele não exista ou os dados estão fora do ar temporariamente.</string>
 
-    <string name="marker_mapa_descricao"></string>
-    <string name="marker_cliente">Estou aqui</string>
-    <string name="marker_linha">Linha: %1$s</string>
-    <string name="marker_codigo">Código: %1$s</string>
-    <string name="marker_segundos">Atualizado há %1$s segundo(s)</string>
-    <string name="marker_minutos">Atualizado há %1$s minuto(s)</string>
-    <string name="marker_horas">Atualizado há %1$s hora(s)</string>
-    <string name="marker_dias">Atualizado há %1$s dia(s)</string>
-    <string name="marker_velocidade">Velocidade: %1$s Km/h</string>
+    <string name="marker_user">Você está aqui</string>
+    <string name="marker_line">Linha: %1$s</string>
+    <string name="marker_order">Código: %1$s</string>
+    <string name="marker_seconds">Atualizado há %1$s segundo(s)</string>
+    <string name="marker_minutes">Atualizado há %1$s minuto(s)</string>
+    <string name="marker_hours">Atualizado há %1$s hora(s)</string>
+    <string name="marker_days">Atualizado há %1$s dia(s)</string>
+    <string name="marker_velocity">Velocidade: %1$s Km/h</string>
 
     <string name="about_text">
         <![CDATA[

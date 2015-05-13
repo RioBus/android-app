@@ -9,32 +9,18 @@
         <dex dex="/Users/fred/Projetos/riobus/android/app/build/intermediates/pre-dexed/debug/androidannotations-api-3.2-72579a915fcbe4859f43aa50310dad851990f201.jar" />
     </item>
     <item
-        jar="/Users/fred/Projetos/riobus/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.5.87/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
-        <dex dex="/Users/fred/Projetos/riobus/android/app/build/intermediates/pre-dexed/debug/classes-92007158bfd55956727efdce4cd0ab07bbea18f6.jar" />
-    </item>
-    <item
-        jar="/Users/fred/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="/Users/fred/Projetos/riobus/android/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-ed2196d198aef42758c9b7cb81063f983a64e8e1.jar" />
-    </item>
-    <item
-        jar="/Users/fred/Projetos/riobus/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="/Users/fred/Projetos/riobus/android/app/build/intermediates/pre-dexed/debug/classes-90abb89d6c85c49064b49ef041e12ea475fbb7ef.jar" />
-    </item>
-    <item
         jar="/Users/fred/.gradle/caches/modules-2/files-2.1/joda-time/joda-time/2.3/56498efd17752898cfcc3868c1b6211a07b12b8f/joda-time-2.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="56498efd17752898cfcc3868c1b6211a07b12b8f">
         <dex dex="/Users/fred/Projetos/riobus/android/app/build/intermediates/pre-dexed/debug/joda-time-2.3-88ccdf9a34654822dff4bcd4aec6ba886c1e9045.jar" />
+    </item>
+    <item
+        jar="/Users/fred/Projetos/riobus/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.5.87/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
+        <dex dex="/Users/fred/Projetos/riobus/android/app/build/intermediates/pre-dexed/debug/classes-92007158bfd55956727efdce4cd0ab07bbea18f6.jar" />
     </item>
     <item
         jar="/Users/fred/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3.1/ecb6e1f8e4b0e84c4b886c2f14a1500caf309757/gson-2.3.1.jar"
@@ -44,11 +30,32 @@
         <dex dex="/Users/fred/Projetos/riobus/android/app/build/intermediates/pre-dexed/debug/gson-2.3.1-bf6404c1a74d5f99b63468c62e73740632f320b1.jar" />
     </item>
     <item
+        jar="/Users/fred/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/fred/Projetos/riobus/android/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-ed2196d198aef42758c9b7cb81063f983a64e8e1.jar" />
+    </item>
+    <item
+        jar="/Users/fred/.gradle/caches/modules-2/files-2.1/com.github.kevinsawicki/http-request/http-request-6.0/a48cccdd47167969aef33f03fbe1f251480c819f/http-request-http-request-6.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="a48cccdd47167969aef33f03fbe1f251480c819f">
+        <dex dex="/Users/fred/Projetos/riobus/android/app/build/intermediates/pre-dexed/debug/http-request-http-request-6.0-3fea549c01525b2b8e33668e903dd0132ed891ac.jar" />
+    </item>
+    <item
         jar="/Users/fred/Projetos/riobus/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
         <dex dex="/Users/fred/Projetos/riobus/android/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-55844c6f79ad2e8f16e877add2b6d7c66dc1745c.jar" />
+    </item>
+    <item
+        jar="/Users/fred/Projetos/riobus/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/Users/fred/Projetos/riobus/android/app/build/intermediates/pre-dexed/debug/classes-90abb89d6c85c49064b49ef041e12ea475fbb7ef.jar" />
     </item>
     <item
         jar="/Users/fred/Projetos/riobus/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"

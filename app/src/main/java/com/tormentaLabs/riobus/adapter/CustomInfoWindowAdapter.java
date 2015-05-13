@@ -49,16 +49,16 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
                 linhaStr = Integer.toString(linhaInt);
             } catch (Exception e) {}
 
-            linha.setText(context.getString(R.string.marker_linha, linhaStr));
+            linha.setText(context.getString(R.string.marker_line, linhaStr));
 
             TextView codigo = (TextView) v.findViewById(R.id.codigo);
-            codigo.setText(context.getString(R.string.marker_codigo, bus.getOrder().toString()));
+            codigo.setText(context.getString(R.string.marker_order, bus.getOrder().toString()));
 
             TextView hora = (TextView) v.findViewById(R.id.hora);
             hora.setText(preparaData(bus.getTimestamp()));
 
-            TextView velocidade = (TextView) v.findViewById(R.id.velocidade);
-            velocidade.setText(context.getString(R.string.marker_velocidade, String.valueOf(bus.getVelocity())));
+            TextView velocidade = (TextView) v.findViewById(R.id.velocity);
+            velocidade.setText(context.getString(R.string.marker_velocity, String.valueOf(bus.getVelocity())));
         }
         else{
             v = context.getLayoutInflater().inflate(R.layout.info_window_layout_client, null);
@@ -72,15 +72,15 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         DateTime agora = new DateTime(Calendar.getInstance());
 
         int tempo = Seconds.secondsBetween(tempoPonto, agora).getSeconds();
-        if(tempo < 60) return context.getString(R.string.marker_segundos, String.valueOf(tempo));
+        if(tempo < 60) return context.getString(R.string.marker_seconds, String.valueOf(tempo));
 
         tempo = Minutes.minutesBetween(tempoPonto, agora).getMinutes();
-        if(tempo < 60) return context.getString(R.string.marker_minutos, String.valueOf(tempo));
+        if(tempo < 60) return context.getString(R.string.marker_minutes, String.valueOf(tempo));
 
         tempo = Hours.hoursBetween(tempoPonto, agora).getHours();
-        if(tempo < 24) return context.getString(R.string.marker_horas, String.valueOf(tempo));
+        if(tempo < 24) return context.getString(R.string.marker_hours, String.valueOf(tempo));
 
         tempo = Days.daysBetween(tempoPonto, agora).getDays();
-        return context.getString(R.string.marker_dias, String.valueOf(tempo));
+        return context.getString(R.string.marker_days, String.valueOf(tempo));
     }
 }
