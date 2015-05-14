@@ -1,6 +1,6 @@
 .project
 .DS_Store
 build/
-build/intermediates/
+build/
 .idea/
 .gradle/
