@@ -1,11 +1,10 @@
 package com.tormentaLabs.riobus.domain;
 
-import android.content.Context;
-
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.tormentaLabs.riobus.R;
@@ -19,46 +18,51 @@ import java.util.List;
 
 public class MapMarker {
 
-    private Context context;
+    private GoogleMap map;
+    private LatLngBounds.Builder builder;
 
-    public MapMarker(Context context){
-        this.context = context;
+    public MapMarker(GoogleMap map){
+        this.map = map;
+        builder = new LatLngBounds.Builder();
     }
 
-    public void addMarker(GoogleMap map, List<Bus> buses) {
-            for (Bus bus : buses) {
-                map.addMarker(getMarker(bus));
-            }
+    public void addMarkers(List<Bus> buses) {
+        for (Bus bus : buses) {
+            map.addMarker(getMarker(bus));
+            builder.include(new LatLng(bus.getLatitude(), bus.getLongitude()));
+        }
     }
 
     private MarkerOptions getMarker(Bus bus) {
-        MarkerOptions marker = new MarkerOptions();
+        MarkerOptions options = new MarkerOptions();
         LatLng position = new LatLng(bus.getLatitude(), bus.getLongitude());
-        marker.position(position);
-        marker.icon(getIcon(bus.getTimestamp()));
-        marker.snippet(new Gson().toJson(bus));
-        return marker;
+        options.position(position);
+        options.icon(getIcon(bus.getTimestamp()));
+        options.snippet(new Gson().toJson(bus));
+        return options;
     }
 
     private BitmapDescriptor getIcon(Date data) {
-        BitmapDescriptor icon;
-
         DateTime current = new DateTime(Calendar.getInstance());
         DateTime last = new DateTime(data);
-
         int diff =  Minutes.minutesBetween(last, current).getMinutes();
 
+        BitmapDescriptor bitmap;
         if(diff <= 5) {
-           icon = BitmapDescriptorFactory
+           bitmap = BitmapDescriptorFactory
                 .fromResource(R.drawable.bus_green);
         } else if(diff > 10 ) {
-           icon = BitmapDescriptorFactory
+           bitmap = BitmapDescriptorFactory
                 .fromResource(R.drawable.bus_red);
         } else {
-           icon = BitmapDescriptorFactory
+           bitmap = BitmapDescriptorFactory
                 .fromResource(R.drawable.bus_yellow);
         }
-        return icon;
+        return bitmap;
+    }
+
+    public LatLngBounds.Builder getBoundsBuilder(){
+        return builder;
     }
 
 }

@@ -19,16 +19,20 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.tormentaLabs.riobus.adapter.CustomInfoWindowAdapter;
 import com.tormentaLabs.riobus.asyncTasks.BusSearchTask;
 import com.tormentaLabs.riobus.domain.Bus;
 import com.tormentaLabs.riobus.common.BusDataReceptor;
 import com.tormentaLabs.riobus.common.Util;
+import com.tormentaLabs.riobus.domain.MapMarker;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -147,8 +151,10 @@ public class Main extends ActionBarActivity implements GoogleApiClient.Connectio
         map.setTrafficEnabled(true);
     }
 
-    public void atualizaMapaLocalizacao(Location location) {
-        LatLng position = new LatLng(location.getLatitude(), location.getLongitude());
+    public void updateUserLocation() {
+        currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if(currentLocation == null) return;
+        LatLng position = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         map.moveCamera(CameraUpdateFactory.newLatLng(position));
         map.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
         markUserPosition(position);
@@ -178,8 +184,7 @@ public class Main extends ActionBarActivity implements GoogleApiClient.Connectio
 
     @Override
     public void onConnected(Bundle bundle) {
-        currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        atualizaMapaLocalizacao(currentLocation);
+        updateUserLocation();
     }
 
     @Override
@@ -190,6 +195,34 @@ public class Main extends ActionBarActivity implements GoogleApiClient.Connectio
 
     @Override
     public void retrieveBusData(List<Bus> buses) {
-        System.out.println(buses.size());
+        if(buses==null){
+            Toast.makeText(this, getString(R.string.error_connection_server), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(buses.isEmpty()){
+            Toast.makeText(this, getString(R.string.error_bus_404), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        clearMap();
+        map.setInfoWindowAdapter(new CustomInfoWindowAdapter(this));
+        MapMarker marker = new MapMarker(map);
+        marker.addMarkers(buses);
+        LatLngBounds.Builder builder = marker.getBoundsBuilder();
+
+        if(currentLocation!=null){
+            LatLng userPosition = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+            markUserPosition(userPosition);
+            builder.include(userPosition);
+        }
+
+        LatLngBounds bounds = builder.build();
+
+        int padding = 100; // offset from edges of the map in pixels
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
+        map.moveCamera(cu);
+        map.animateCamera(cu);
+
     }
 }

@@ -18,15 +18,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1dd55ec0-28ee-4ac6-8a1f-8ceb7570b4c3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/common/BusDataReceptor.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/tools/Util.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/common/Util.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/dataAccess/BusDataAccess.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/dataAccess/BusDataAccess.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/asyncTasks/BusSearchTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/asyncTasks/BusSearchTask.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/Main.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/domain/MapMarker.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/domain/MapMarker.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="RioBus.iws" />
@@ -71,28 +69,33 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="BusSearchTask.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/asyncTasks/BusSearchTask.java">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7511848">
-              <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.2535545">
+              <caret line="155" column="43" selection-start-line="155" selection-start-column="43" selection-end-line="155" selection-end-column="43" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#601#602#0" expanded="true" />
-                <element signature="e#639#640#0" expanded="true" />
-                <element signature="e#857#899#0" expanded="true" />
+                <element signature="e#5119#5164#0" expanded="true" />
+                <element signature="e#6114#6145#0" expanded="true" />
+                <element signature="e#6631#6662#0" expanded="true" />
+                <element signature="e#6766#6796#0" expanded="true" />
+                <element signature="e#6951#6952#0" expanded="true" />
+                <element signature="e#6987#6988#0" expanded="true" />
+                <element signature="e#7263#7306#0" expanded="true" />
+                <element signature="e#7428#7461#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BusDataAccess.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/dataAccess/BusDataAccess.java">
+      <file leaf-file-name="MapMarker.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/domain/MapMarker.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="42" column="46" selection-start-line="42" selection-start-column="46" selection-end-line="42" selection-end-column="46" />
+              <caret line="63" column="31" selection-start-line="63" selection-start-column="11" selection-end-line="63" selection-end-column="31" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#2062#2063#0" expanded="true" />
+                <element signature="e#2092#2093#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1315,10 +1318,11 @@
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/tools/BusDataReceptor.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/service/SearchService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/Main.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/business/SearchBusiness.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/dataAccess/BusDataAccess.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/asyncTasks/BusSearchTask.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/dataAccess/BusDataAccess.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/domain/MapMarker.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/Main.java" />
       </list>
     </option>
   </component>
@@ -1439,7 +1443,7 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="service" />
+              <option name="myItemId" value="domain" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1461,29 +1465,7 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="dataAccess" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RioBus" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="riobus" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="business" />
+              <option name="myItemId" value="adapter" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1887,7 +1869,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#5119#5164#0" expanded="true" />
+            <element signature="e#6114#6145#0" expanded="true" />
+            <element signature="e#6631#6662#0" expanded="true" />
+            <element signature="e#6766#6796#0" expanded="true" />
+            <element signature="e#6951#6952#0" expanded="true" />
+            <element signature="e#6987#6988#0" expanded="true" />
+            <element signature="e#7263#7306#0" expanded="true" />
+            <element signature="e#7428#7461#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1921,7 +1912,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="142" column="71" selection-start-line="142" selection-start-column="71" selection-end-line="142" selection-end-column="71" />
-          <folding />
+          <folding>
+            <element signature="e#5119#5164#0" expanded="true" />
+            <element signature="e#6114#6145#0" expanded="true" />
+            <element signature="e#6631#6662#0" expanded="true" />
+            <element signature="e#6766#6796#0" expanded="true" />
+            <element signature="e#6951#6952#0" expanded="true" />
+            <element signature="e#6987#6988#0" expanded="true" />
+            <element signature="e#7263#7306#0" expanded="true" />
+            <element signature="e#7428#7461#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1939,7 +1939,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="222" column="49" selection-start-line="222" selection-start-column="49" selection-end-line="222" selection-end-column="49" />
-          <folding />
+          <folding>
+            <element signature="e#5119#5164#0" expanded="true" />
+            <element signature="e#6114#6145#0" expanded="true" />
+            <element signature="e#6631#6662#0" expanded="true" />
+            <element signature="e#6766#6796#0" expanded="true" />
+            <element signature="e#6951#6952#0" expanded="true" />
+            <element signature="e#6987#6988#0" expanded="true" />
+            <element signature="e#7263#7306#0" expanded="true" />
+            <element signature="e#7428#7461#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1969,7 +1978,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="146" column="32" selection-start-line="146" selection-start-column="32" selection-end-line="146" selection-end-column="32" />
-          <folding />
+          <folding>
+            <element signature="e#5119#5164#0" expanded="true" />
+            <element signature="e#6114#6145#0" expanded="true" />
+            <element signature="e#6631#6662#0" expanded="true" />
+            <element signature="e#6766#6796#0" expanded="true" />
+            <element signature="e#6951#6952#0" expanded="true" />
+            <element signature="e#6987#6988#0" expanded="true" />
+            <element signature="e#7263#7306#0" expanded="true" />
+            <element signature="e#7428#7461#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1985,7 +2003,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="146" column="32" selection-start-line="146" selection-start-column="32" selection-end-line="146" selection-end-column="32" />
-          <folding />
+          <folding>
+            <element signature="e#5119#5164#0" expanded="true" />
+            <element signature="e#6114#6145#0" expanded="true" />
+            <element signature="e#6631#6662#0" expanded="true" />
+            <element signature="e#6766#6796#0" expanded="true" />
+            <element signature="e#6951#6952#0" expanded="true" />
+            <element signature="e#6987#6988#0" expanded="true" />
+            <element signature="e#7263#7306#0" expanded="true" />
+            <element signature="e#7428#7461#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2099,14 +2126,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/domain/MapMarker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.044247787">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/domain/Bus.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.17256637">
@@ -2146,14 +2165,6 @@
     <entry file="android-dummy://RioBus/app/Translations Editor">
       <provider selected="true" editor-type-id="string-resource-editor">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/adapter/CustomInfoWindowAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.029147983">
-          <caret line="59" column="73" selection-start-line="59" selection-start-column="73" selection-end-line="59" selection-end-column="73" />
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
@@ -2263,26 +2274,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.13274336">
-          <caret line="126" column="64" selection-start-line="126" selection-start-column="64" selection-end-line="126" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/business/SearchBusiness.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3761062">
           <caret line="17" column="83" selection-start-line="17" selection-start-column="83" selection-end-line="17" selection-end-column="83" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#299#300#0" expanded="false" />
+            <element signature="e#364#365#0" expanded="false" />
+            <element signature="e#745#746#0" expanded="false" />
+            <element signature="e#800#801#0" expanded="false" />
+            <element signature="e#843#844#0" expanded="false" />
+            <element signature="e#898#899#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/asyncTasks/BusSearchTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+          <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#299#300#0" expanded="true" />
-            <element signature="e#364#365#0" expanded="true" />
-            <element signature="e#745#746#0" expanded="true" />
-            <element signature="e#800#801#0" expanded="true" />
-            <element signature="e#843#844#0" expanded="true" />
-            <element signature="e#898#899#0" expanded="true" />
+            <element signature="e#601#602#0" expanded="true" />
+            <element signature="e#639#640#0" expanded="true" />
+            <element signature="e#857#899#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2290,22 +2306,45 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/dataAccess/BusDataAccess.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="46" selection-start-line="42" selection-start-column="46" selection-end-line="42" selection-end-column="46" />
+          <caret line="38" column="12" selection-start-line="38" selection-start-column="12" selection-end-line="38" selection-end-column="12" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/asyncTasks/BusSearchTask.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/domain/MapMarker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7511848">
-          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="63" column="31" selection-start-line="63" selection-start-column="11" selection-end-line="63" selection-end-column="31" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#601#602#0" expanded="true" />
-            <element signature="e#639#640#0" expanded="true" />
-            <element signature="e#857#899#0" expanded="true" />
+            <element signature="e#2062#2063#0" expanded="true" />
+            <element signature="e#2092#2093#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/adapter/CustomInfoWindowAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.84070796">
+          <caret line="59" column="73" selection-start-line="59" selection-start-column="73" selection-end-line="59" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tormentaLabs/riobus/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2535545">
+          <caret line="155" column="43" selection-start-line="155" selection-start-column="43" selection-end-line="155" selection-end-column="43" />
+          <folding>
+            <element signature="e#5119#5164#0" expanded="true" />
+            <element signature="e#6114#6145#0" expanded="true" />
+            <element signature="e#6631#6662#0" expanded="true" />
+            <element signature="e#6766#6796#0" expanded="true" />
+            <element signature="e#6951#6952#0" expanded="true" />
+            <element signature="e#6987#6988#0" expanded="true" />
+            <element signature="e#7263#7306#0" expanded="true" />
+            <element signature="e#7428#7461#0" expanded="true" />
           </folding>
         </state>
       </provider>

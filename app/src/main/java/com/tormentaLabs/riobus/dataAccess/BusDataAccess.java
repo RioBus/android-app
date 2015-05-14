@@ -1,7 +1,10 @@
 package com.tormentaLabs.riobus.dataAccess;
 
+import android.util.Log;
+
 import com.github.kevinsawicki.http.HttpRequest;
 import com.tormentaLabs.riobus.EnvironmentConfig;
+import com.tormentaLabs.riobus.common.Util;
 import com.tormentaLabs.riobus.domain.Bus;
 
 import org.json.JSONArray;
@@ -25,19 +28,19 @@ public class BusDataAccess implements IDataAccess{
 
     private List<Bus> getBuses(String data){
         String URL = EnvironmentConfig.serverBaseURL+"search/"+EnvironmentConfig.platformId+"/"+data;
-        List<Bus> buses = new ArrayList<Bus>();
         try{
             HttpRequest request = HttpRequest.get(URL);
             request.acceptJson().acceptGzipEncoding().uncompress(true);
             if(request.ok()){
                 String body = request.body();
                 request.disconnect();
-                buses = parseData(body);
+                return parseData(body);
             }
+            return null;
         } catch (HttpRequest.HttpRequestException e){
-            e.printStackTrace();
+            Log.e(Util.TAG, e.getMessage());
+            return null;
         }
-        return buses;
     }
 
     private List<Bus> parseData(String body) {
