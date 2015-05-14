@@ -1,13 +1,18 @@
 package com.tormentaLabs.riobus.dataAccess;
 
-import android.util.Log;
-
 import com.github.kevinsawicki.http.HttpRequest;
 import com.tormentaLabs.riobus.EnvironmentConfig;
 import com.tormentaLabs.riobus.domain.Bus;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class BusDataAccess implements IDataAccess{
 
@@ -20,17 +25,45 @@ public class BusDataAccess implements IDataAccess{
 
     private List<Bus> getBuses(String data){
         String URL = EnvironmentConfig.serverBaseURL+"search/"+EnvironmentConfig.platformId+"/"+data;
-        String content = "[]";
+        List<Bus> buses = new ArrayList<Bus>();
         try{
             HttpRequest request = HttpRequest.get(URL);
-            request.acceptGzipEncoding().uncompress(true);
+            request.acceptJson().acceptGzipEncoding().uncompress(true);
             if(request.ok()){
-                content = request.body();
+                String body = request.body();
+                request.disconnect();
+                buses = parseData(body);
             }
         } catch (HttpRequest.HttpRequestException e){
-            Log.i("BUSDA", e.toString());
+            e.printStackTrace();
         }
-        System.out.println(content);
-        return new ArrayList<Bus>();
+        return buses;
+    }
+
+    private List<Bus> parseData(String body) {
+        JSONArray list;
+        List<Bus> buses = new ArrayList<Bus>();
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss", Locale.US);
+        try {
+            list = new JSONArray(body);
+
+            for(int i=0; i<list.length(); i++){
+                JSONObject obj = list.getJSONObject(i);
+                Bus bus = new Bus();
+                bus.setLine(obj.getString("line"));
+                bus.setLatitude(obj.getDouble("latitude"));
+                bus.setLongitude(obj.getDouble("longitude"));
+                bus.setOrder(obj.getString("order"));
+                bus.setVelocity(obj.getDouble("speed"));
+                bus.setTimestamp(format.parse(obj.getString("timeStamp")));
+                buses.add(bus);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return buses;
     }
 }

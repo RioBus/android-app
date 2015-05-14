@@ -1,5 +1,6 @@
 package com.tormentaLabs.riobus;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.location.Location;
@@ -24,10 +25,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.tormentaLabs.riobus.asyncTasks.BusSearchTask;
 import com.tormentaLabs.riobus.domain.Bus;
-import com.tormentaLabs.riobus.service.IService;
-import com.tormentaLabs.riobus.service.ServiceFactory;
-import com.tormentaLabs.riobus.tools.Util;
+import com.tormentaLabs.riobus.common.BusDataReceptor;
+import com.tormentaLabs.riobus.common.Util;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -38,7 +39,7 @@ import java.util.List;
 
 @EActivity(R.layout.mapa)
 public class Main extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener, BusDataReceptor {
 
     @ViewById
     public AutoCompleteTextView search;
@@ -111,6 +112,7 @@ public class Main extends ActionBarActivity implements GoogleApiClient.Connectio
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 String searchContent = search.getText().toString();
+                Activity activity = Main.this;
 
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER) &&
@@ -120,16 +122,13 @@ public class Main extends ActionBarActivity implements GoogleApiClient.Connectio
                             Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
 
-                    if (Util.checkInternetConnection(Main.this)) {
-                        Util.saveOnHistory(Main.this, searchContent, search);
+                    if (Util.checkInternetConnection(activity)) {
+                        Util.saveOnHistory(activity, searchContent, search);
                         setSuggestions(); //Updating the adapter
-
-                        IService service = ServiceFactory.getSearchService();
-                        List<Bus> buses = (List<Bus>) service.execute(searchContent);
-                        System.out.println(buses.size());
+                        new BusSearchTask(activity).execute(searchContent);
 
                     } else {
-                        Toast.makeText(Main.this, getString(R.string.error_connection_internet), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, getString(R.string.error_connection_internet), Toast.LENGTH_SHORT).show();
                     }
                     return true;
                 }
@@ -188,4 +187,9 @@ public class Main extends ActionBarActivity implements GoogleApiClient.Connectio
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult){}
+
+    @Override
+    public void retrieveBusData(List<Bus> buses) {
+        System.out.println(buses.size());
+    }
 }

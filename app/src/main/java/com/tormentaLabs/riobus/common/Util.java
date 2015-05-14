@@ -1,4 +1,4 @@
-package com.tormentaLabs.riobus.tools;
+package com.tormentaLabs.riobus.common;
 
 import android.app.Activity;
 import android.content.Context;
