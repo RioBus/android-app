@@ -27,7 +27,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.tormentaLabs.riobus.adapter.CustomInfoWindowAdapter;
+import com.tormentaLabs.riobus.adapter.BusInfoWindowAdapter;
 import com.tormentaLabs.riobus.asyncTasks.BusSearchTask;
 import com.tormentaLabs.riobus.domain.Bus;
 import com.tormentaLabs.riobus.common.BusDataReceptor;
@@ -205,7 +205,7 @@ public class Main extends ActionBarActivity implements GoogleApiClient.Connectio
         }
 
         clearMap();
-        map.setInfoWindowAdapter(new CustomInfoWindowAdapter(this));
+        map.setInfoWindowAdapter(new BusInfoWindowAdapter(this));
         MapMarker marker = new MapMarker(map);
         marker.addMarkers(buses);
         LatLngBounds.Builder builder = marker.getBoundsBuilder();

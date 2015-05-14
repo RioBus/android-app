@@ -8,15 +8,9 @@
         android:id="@+id/titulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/marker_line"
+        android:text="@string/marker_title"
         android:textStyle="bold"
         android:layout_gravity="center" />
-
-    <TextView
-        android:id="@+id/codigo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/marker_order" />
 
     <TextView
         android:id="@+id/hora"
@@ -29,5 +23,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/marker_velocity" />
+
+    <TextView
+        android:id="@+id/sense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/marker_sense" />
 
 </LinearLayout>

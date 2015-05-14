@@ -59,6 +59,7 @@ public class BusDataAccess implements IDataAccess{
                 bus.setOrder(obj.getString("order"));
                 bus.setVelocity(obj.getDouble("speed"));
                 bus.setTimestamp(format.parse(obj.getString("timeStamp")));
+                bus.setSense(obj.getString("sense"));
                 buses.add(bus);
             }
 
