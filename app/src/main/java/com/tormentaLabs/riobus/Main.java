@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,19 +35,13 @@ import com.tormentaLabs.riobus.common.BusDataReceptor;
 import com.tormentaLabs.riobus.common.Util;
 import com.tormentaLabs.riobus.domain.MapMarker;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.util.List;
 
-@EActivity(R.layout.mapa)
 public class Main extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, BusDataReceptor {
 
-    @ViewById
-    public AutoCompleteTextView search;
+    private AutoCompleteTextView search;
+    private LinearLayout linearLayout;
     public GoogleMap map; // Might be null if Google Play services APK is not available.
     public GoogleApiClient mGoogleApiClient;
 
@@ -56,11 +51,19 @@ public class Main extends ActionBarActivity implements GoogleApiClient.Connectio
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        buildGoogleApiClient();
-    }
+        setContentView(R.layout.mapa);
 
-    @AfterViews
-    public void onViewCreatedByAA() {
+        search = (AutoCompleteTextView) findViewById(R.id.search);
+        linearLayout = (LinearLayout) findViewById(R.id.button_about);
+
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickOnAboutButton();
+            }
+        });
+
+        buildGoogleApiClient();
         setUpMapIfNeeded();
         setSuggestions(); // Shows the previous searched lines
         getSupportActionBar().hide();
@@ -171,7 +174,6 @@ public class Main extends ActionBarActivity implements GoogleApiClient.Connectio
         // depois de limpar tudo, precisa readicionar os pontos que estavam no map, caso houvesse
     }
 
-    @Click(R.id.button_about)
     public void clickOnAboutButton() {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.about_dialog);
