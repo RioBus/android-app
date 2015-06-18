@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -19,10 +20,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.drive.Drive;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -30,28 +33,31 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tormentaLabs.riobus.adapter.BusInfoWindowAdapter;
 import com.tormentaLabs.riobus.asyncTasks.BusSearchTask;
-import com.tormentaLabs.riobus.domain.Bus;
 import com.tormentaLabs.riobus.common.BusDataReceptor;
 import com.tormentaLabs.riobus.common.Util;
+import com.tormentaLabs.riobus.domain.Bus;
 import com.tormentaLabs.riobus.domain.MapMarker;
 
 import java.util.List;
 
-public class Main extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, BusDataReceptor {
+public class Main extends ActionBarActivity implements OnMapReadyCallback, BusDataReceptor,
+                                                       GoogleApiClient.ConnectionCallbacks,
+                                                       GoogleApiClient.OnConnectionFailedListener {
 
     private AutoCompleteTextView search;
     private LinearLayout linearLayout;
-    public GoogleMap map; // Might be null if Google Play services APK is not available.
-    public GoogleApiClient mGoogleApiClient;
 
     Location currentLocation;
     MarkerOptions userMarker;
+    private GoogleMap map;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mapa);
+
+        buildGoogleApiClient();
 
         search = (AutoCompleteTextView) findViewById(R.id.search);
         linearLayout = (LinearLayout) findViewById(R.id.button_about);
@@ -63,30 +69,40 @@ public class Main extends ActionBarActivity implements GoogleApiClient.Connectio
             }
         });
 
-        buildGoogleApiClient();
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        map = mapFragment.getMap();
+
         setUpMapIfNeeded();
         setSuggestions(); // Shows the previous searched lines
         getSupportActionBar().hide();
+
     }
 
-    protected synchronized void buildGoogleApiClient() {
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(!mGoogleApiClient.isConnecting()  && !mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.connect();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
+    protected void buildGoogleApiClient() {
+
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        clearMap();
-    }
-
-    @Override
-    protected void onStop() {
-        clearMap();
-        super.onStop();
     }
 
     private void setSuggestions() {
@@ -100,20 +116,6 @@ public class Main extends ActionBarActivity implements GoogleApiClient.Connectio
     }
 
     private void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the map.
-        if (map == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
-
-            // Hide the zoom controls in the bottom of the screen
-            map.getUiSettings().setZoomControlsEnabled(false);
-            // Check if we were successful in obtaining the map.
-            if (map != null) {
-                setUpMap();
-            }
-        }
-
         //Quando o usuario digita enter, ele faz a requisição procurando a posição daquela linha
         search.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -142,16 +144,6 @@ public class Main extends ActionBarActivity implements GoogleApiClient.Connectio
                 return false;
             }
         });
-    }
-
-    void clearMap(){
-        if(map != null)
-            map.clear();
-    }
-
-    private void setUpMap() {
-        clearMap();
-        map.setTrafficEnabled(true);
     }
 
     public void updateUserLocation() {
@@ -185,19 +177,8 @@ public class Main extends ActionBarActivity implements GoogleApiClient.Connectio
     }
 
     @Override
-    public void onConnected(Bundle bundle) {
-        updateUserLocation();
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {}
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult){}
-
-    @Override
     public void retrieveBusData(List<Bus> buses) {
-        if(buses==null){
+        if(buses == null){
             Toast.makeText(this, getString(R.string.error_connection_server), Toast.LENGTH_SHORT).show();
             return;
         }
@@ -206,7 +187,6 @@ public class Main extends ActionBarActivity implements GoogleApiClient.Connectio
             return;
         }
 
-        clearMap();
         map.setInfoWindowAdapter(new BusInfoWindowAdapter(this));
         MapMarker marker = new MapMarker(map);
         marker.addMarkers(buses);
@@ -227,4 +207,31 @@ public class Main extends ActionBarActivity implements GoogleApiClient.Connectio
         map.animateCamera(cu);
 
     }
+
+    @Override
+    public void onMapReady(GoogleMap map) {}
+
+    private void moveCameraToPosition(LatLng position) {
+        LatLng location = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        map.setMyLocationEnabled(true);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if(currentLocation != null) {
+            LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+
+            moveCameraToPosition(latLng);
+
+            markUserPosition(latLng);
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i){}
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) { }
 }
