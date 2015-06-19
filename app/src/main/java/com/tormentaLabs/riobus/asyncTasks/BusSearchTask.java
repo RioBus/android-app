@@ -48,9 +48,8 @@ public class BusSearchTask extends AsyncTask<String, Void, List<Bus>>{
     @Override
     protected void onPostExecute(List<Bus> buses){
         super.onPostExecute(buses);
-        System.out.println("Resultado: " + String.valueOf(buses.size()) + " carros");
-        System.out.println("Ocultando dialog...");
         dialog.dismiss();
+
         BusDataReceptor receptor = (BusDataReceptor) context;
         receptor.retrieveBusData(buses);
     }

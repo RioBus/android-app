@@ -5,12 +5,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.drive.Drive;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -40,7 +39,7 @@ import com.tormentaLabs.riobus.domain.MapMarker;
 
 import java.util.List;
 
-public class Main extends ActionBarActivity implements OnMapReadyCallback, BusDataReceptor,
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, BusDataReceptor,
                                                        GoogleApiClient.ConnectionCallbacks,
                                                        GoogleApiClient.OnConnectionFailedListener {
 
@@ -56,6 +55,9 @@ public class Main extends ActionBarActivity implements OnMapReadyCallback, BusDa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mapa);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
         buildGoogleApiClient();
 
@@ -121,7 +123,7 @@ public class Main extends ActionBarActivity implements OnMapReadyCallback, BusDa
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 String searchContent = search.getText().toString();
-                Activity activity = Main.this;
+                Activity activity = MainActivity.this;
 
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER) &&
@@ -148,11 +150,13 @@ public class Main extends ActionBarActivity implements OnMapReadyCallback, BusDa
 
     public void updateUserLocation() {
         currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if(currentLocation == null) return;
+        if(currentLocation == null)
+            return;
         LatLng position = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         map.moveCamera(CameraUpdateFactory.newLatLng(position));
         map.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
         markUserPosition(position);
+
     }
 
     private void markUserPosition(LatLng posicao) {
@@ -163,6 +167,7 @@ public class Main extends ActionBarActivity implements OnMapReadyCallback, BusDa
             userMarker.position(posicao);
         }
         map.addMarker(userMarker);
+        map.setMyLocationEnabled(false);
         // depois de limpar tudo, precisa readicionar os pontos que estavam no map, caso houvesse
     }
 
