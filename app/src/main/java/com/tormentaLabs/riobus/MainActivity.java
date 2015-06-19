@@ -10,11 +10,10 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.LinearLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,9 +32,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.tormentaLabs.riobus.adapter.BusInfoWindowAdapter;
 import com.tormentaLabs.riobus.asyncTasks.BusSearchTask;
 import com.tormentaLabs.riobus.common.BusDataReceptor;
+import com.tormentaLabs.riobus.common.NetworkUtil;
 import com.tormentaLabs.riobus.common.Util;
-import com.tormentaLabs.riobus.domain.Bus;
-import com.tormentaLabs.riobus.domain.MapMarker;
+import com.tormentaLabs.riobus.model.Bus;
+import com.tormentaLabs.riobus.model.MapMarker;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                        GoogleApiClient.OnConnectionFailedListener {
 
     private AutoCompleteTextView search;
-    private LinearLayout linearLayout;
+    private ImageButton info;
 
     Location currentLocation;
     MarkerOptions userMarker;
@@ -56,15 +56,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mapa);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
         buildGoogleApiClient();
 
         search = (AutoCompleteTextView) findViewById(R.id.search);
-        linearLayout = (LinearLayout) findViewById(R.id.button_about);
+        info = (ImageButton) findViewById(R.id.button_about);
 
-        linearLayout.setOnClickListener(new View.OnClickListener() {
+        info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 clickOnAboutButton();
@@ -127,13 +125,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER) &&
-                        Util.isValidEntry(searchContent)) {
+                        Util.isValidString(searchContent)) {
 
                     InputMethodManager imm = (InputMethodManager) getSystemService(
                             Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
 
-                    if (Util.checkInternetConnection(activity)) {
+                    if (NetworkUtil.checkInternetConnection(activity)) {
                         Util.saveOnHistory(activity, searchContent, search);
                         setSuggestions(); //Updating the adapter
                         new BusSearchTask(activity).execute(searchContent);
@@ -153,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if(currentLocation == null)
             return;
         LatLng position = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        map.moveCamera(CameraUpdateFactory.newLatLng(position));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 13));
         map.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
         markUserPosition(position);
 
@@ -216,22 +214,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap map) {}
 
-    private void moveCameraToPosition(LatLng position) {
-        LatLng location = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        map.setMyLocationEnabled(true);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
-    }
 
     @Override
     public void onConnected(Bundle bundle) {
-        currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if(currentLocation != null) {
-            LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-
-            moveCameraToPosition(latLng);
-
-            markUserPosition(latLng);
-        }
+        updateUserLocation();
     }
 
     @Override

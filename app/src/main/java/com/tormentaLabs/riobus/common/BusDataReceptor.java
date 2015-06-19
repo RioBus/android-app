@@ -1,6 +1,6 @@
 package com.tormentaLabs.riobus.common;
 
-import com.tormentaLabs.riobus.domain.Bus;
+import com.tormentaLabs.riobus.model.Bus;
 
 import java.util.List;
 

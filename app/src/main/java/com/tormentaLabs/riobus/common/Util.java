@@ -33,21 +33,12 @@ public class Util {
         Log.i(TAG, msg);
     }
 
-    public static boolean isValidEntry(String entry) {
+    public static boolean isValidString(String entry) {
         return !(entry == null || entry.equals("") || entry.trim().equals(""));
     }
 
 
-    public static boolean checkInternetConnection(Activity act) {
-        ConnectivityManager conectivtyManager = (ConnectivityManager) act.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (conectivtyManager.getActiveNetworkInfo() != null
-                && conectivtyManager.getActiveNetworkInfo().isAvailable()
-                && conectivtyManager.getActiveNetworkInfo().isConnected()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 
     public static String[] getHistory(Context context) {
         String[] lineHistory = null;
@@ -58,6 +49,7 @@ public class Util {
         }
         return lineHistory;
     };
+
     public static void saveOnHistory(Context context,String line , AutoCompleteTextView search) {
         StringBuilder sb = new StringBuilder();
         boolean alreadyAdded = false;

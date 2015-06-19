@@ -1,36 +1,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/main_layout">
+    android:layout_height="match_parent">
 
     <fragment
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment" />
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <AutoCompleteTextView
+        android:id="@+id/search"
+        style="@style/search_map"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:id="@+id/search"
-        android:hint="@string/line_number"
-        style="@style/search_map" />
+        android:hint="@string/line_number" />
 
-    <LinearLayout
+
+    <ImageButton
+        android:id="@+id/button_about"
+        style="@style/botao"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:id="@+id/button_about"
-        style="@style/botao" >
+        android:layout_gravity="center"
+        android:layout_marginLeft="8dp"
+        android:src="@drawable/ic_action_about" />
 
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="8dp"
-            android:background="@drawable/ic_action_about" />
-
-    </LinearLayout>
 
 </RelativeLayout>
 

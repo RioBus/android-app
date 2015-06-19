@@ -5,7 +5,7 @@ import android.util.Log;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.tormentaLabs.riobus.EnvironmentConfig;
 import com.tormentaLabs.riobus.common.Util;
-import com.tormentaLabs.riobus.domain.Bus;
+import com.tormentaLabs.riobus.model.Bus;
 
 import org.json.JSONArray;
 import org.json.JSONException;

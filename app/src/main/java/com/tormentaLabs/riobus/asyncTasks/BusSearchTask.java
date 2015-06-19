@@ -5,7 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.tormentaLabs.riobus.R;
-import com.tormentaLabs.riobus.domain.Bus;
+import com.tormentaLabs.riobus.model.Bus;
 import com.tormentaLabs.riobus.service.IService;
 import com.tormentaLabs.riobus.service.ServiceFactory;
 import com.tormentaLabs.riobus.common.BusDataReceptor;

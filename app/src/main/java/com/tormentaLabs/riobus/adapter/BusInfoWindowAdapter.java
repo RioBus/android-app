@@ -8,7 +8,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 import com.google.gson.Gson;
 import com.tormentaLabs.riobus.R;
-import com.tormentaLabs.riobus.domain.Bus;
+import com.tormentaLabs.riobus.model.Bus;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;

@@ -1,4 +1,4 @@
-package com.tormentaLabs.riobus.domain;
+package com.tormentaLabs.riobus.model;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;

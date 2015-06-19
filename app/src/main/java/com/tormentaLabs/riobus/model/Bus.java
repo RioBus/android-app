@@ -1,4 +1,4 @@
-package com.tormentaLabs.riobus.domain;
+package com.tormentaLabs.riobus.model;
 
 import java.util.Date;
 

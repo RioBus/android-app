@@ -2,7 +2,7 @@ package com.tormentaLabs.riobus.service;
 
 import com.tormentaLabs.riobus.business.BusinessFactory;
 import com.tormentaLabs.riobus.business.IBusiness;
-import com.tormentaLabs.riobus.domain.Bus;
+import com.tormentaLabs.riobus.model.Bus;
 
 import java.util.List;
 
