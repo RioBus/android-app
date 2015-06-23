@@ -48,15 +48,16 @@ public class MapMarker {
         int diff =  Minutes.minutesBetween(last, current).getMinutes();
 
         BitmapDescriptor bitmap;
-        if(diff <= 5) {
-           bitmap = BitmapDescriptorFactory
-                .fromResource(R.drawable.bus_green);
-        } else if(diff > 10 ) {
+
+        if(diff > 5 && diff <= 10 ) {
+            bitmap = BitmapDescriptorFactory
+                    .fromResource(R.drawable.bus_yellow);
+        }  else if(diff > 10 ) {
            bitmap = BitmapDescriptorFactory
                 .fromResource(R.drawable.bus_red);
         } else {
-           bitmap = BitmapDescriptorFactory
-                .fromResource(R.drawable.bus_yellow);
+            bitmap = BitmapDescriptorFactory
+                    .fromResource(R.drawable.bus_green);
         }
         return bitmap;
     }
