@@ -40,14 +40,15 @@ import com.tormentaLabs.riobus.model.MapMarker;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, BusDataReceptor,
-                                                       GoogleApiClient.ConnectionCallbacks,
-                                                       GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
     private AutoCompleteTextView search;
     private ImageButton info;
 
     Location currentLocation;
-    MarkerOptions userMarker;
+
+    MapMarker mapMarker;
     private GoogleMap map;
     private GoogleApiClient mGoogleApiClient;
 
@@ -56,28 +57,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mapa);
 
-
         buildGoogleApiClient();
-
-        search = (AutoCompleteTextView) findViewById(R.id.search);
-        info = (ImageButton) findViewById(R.id.button_about);
-
-        info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clickOnAboutButton();
-            }
-        });
-
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-        map = mapFragment.getMap();
-
-        setUpMapIfNeeded();
-        setSuggestions(); // Shows the previous searched lines
+        setupSearch();
+        setupInfo();
+        setupMap();
+        setSuggestions();
         getSupportActionBar().hide();
 
     }
@@ -85,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onStart() {
         super.onStart();
-        if(!mGoogleApiClient.isConnecting()  && !mGoogleApiClient.isConnected()) {
+        if (!mGoogleApiClient.isConnecting() && !mGoogleApiClient.isConnected()) {
             mGoogleApiClient.connect();
         }
     }
@@ -115,7 +99,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    private void setUpMapIfNeeded() {
+    private void setupInfo() {
+        info = (ImageButton) findViewById(R.id.button_about);
+
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Dialog dialog = new Dialog(MainActivity.this);
+                dialog.setContentView(R.layout.about_dialog);
+                dialog.setTitle(getString(R.string.about_title));
+                TextView tv = (TextView) dialog.findViewById(R.id.content);
+                tv.setText(Html.fromHtml(getString(R.string.about_text)));
+                tv.setMovementMethod(LinkMovementMethod.getInstance());
+                dialog.show();
+            }
+        });
+    }
+
+    private void setupSearch() {
+
+        search = (AutoCompleteTextView) findViewById(R.id.search);
         //Quando o usuario digita enter, ele faz a requisição procurando a posição daquela linha
         search.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -146,46 +149,38 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
+    private void setupMap() {
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        map = mapFragment.getMap();
+        map.getUiSettings().setMapToolbarEnabled(false);
+        map.getUiSettings().setCompassEnabled(false);
+        map.setMyLocationEnabled(false);
+
+        mapMarker = new MapMarker(map);
+    }
+
     public void updateUserLocation() {
         currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if(currentLocation == null)
+        if (currentLocation == null)
             return;
         LatLng position = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 13));
         map.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
-        markUserPosition(position);
+        mapMarker.markUserPosition(this, position);
 
     }
 
-    private void markUserPosition(LatLng posicao) {
-        if (userMarker == null) {
-            userMarker = new MarkerOptions().position(posicao).title(getString(R.string.marker_user)).icon(BitmapDescriptorFactory
-                    .fromResource(R.drawable.man_maps));
-        } else {
-            userMarker.position(posicao);
-        }
-        map.addMarker(userMarker);
-        map.setMyLocationEnabled(false);
-        // depois de limpar tudo, precisa readicionar os pontos que estavam no map, caso houvesse
-    }
-
-    public void clickOnAboutButton() {
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.about_dialog);
-        dialog.setTitle(getString(R.string.about_title));
-        TextView tv = (TextView) dialog.findViewById(R.id.content);
-        tv.setText(Html.fromHtml(getString(R.string.about_text)));
-        tv.setMovementMethod(LinkMovementMethod.getInstance());
-        dialog.show();
-    }
 
     @Override
     public void retrieveBusData(List<Bus> buses) {
-        if(buses == null){
+        if (buses == null) {
             Toast.makeText(this, getString(R.string.error_connection_server), Toast.LENGTH_SHORT).show();
             return;
         }
-        if(buses.isEmpty()){
+        if (buses.isEmpty()) {
             Toast.makeText(this, getString(R.string.error_bus_404), Toast.LENGTH_SHORT).show();
             return;
         }
@@ -195,9 +190,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         marker.addMarkers(buses);
         LatLngBounds.Builder builder = marker.getBoundsBuilder();
 
-        if(currentLocation!=null){
+        if (currentLocation != null) {
             LatLng userPosition = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-            markUserPosition(userPosition);
+            mapMarker.markUserPosition(this, userPosition);
             builder.include(userPosition);
         }
 
@@ -212,7 +207,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @Override
-    public void onMapReady(GoogleMap map) {}
+    public void onMapReady(GoogleMap map) {
+    }
 
 
     @Override
@@ -221,8 +217,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @Override
-    public void onConnectionSuspended(int i){}
+    public void onConnectionSuspended(int i) {
+    }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) { }
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+    }
 }

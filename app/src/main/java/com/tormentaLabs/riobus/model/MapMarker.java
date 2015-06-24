@@ -1,5 +1,7 @@
 package com.tormentaLabs.riobus.model;
 
+import android.content.Context;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -20,6 +22,7 @@ public class MapMarker {
 
     private GoogleMap map;
     private LatLngBounds.Builder builder;
+    MarkerOptions userMarker;
 
     public MapMarker(GoogleMap map){
         this.map = map;
@@ -33,14 +36,31 @@ public class MapMarker {
         }
     }
 
+
+
     private MarkerOptions getMarker(Bus bus) {
         MarkerOptions options = new MarkerOptions();
         LatLng position = new LatLng(bus.getLatitude(), bus.getLongitude());
         options.position(position);
+        options.anchor(0.0f, 1.0f);
         options.icon(getIcon(bus.getTimestamp()));
         options.snippet(new Gson().toJson(bus));
         return options;
     }
+
+    public void markUserPosition(Context context, LatLng posicao) {
+        if (userMarker == null) {
+            userMarker = new MarkerOptions()
+                                .position(posicao)
+                                .title(context.getString(R.string.marker_user))
+                                .icon(BitmapDescriptorFactory
+                                .fromResource(R.drawable.man_maps));
+        } else {
+            userMarker.position(posicao);
+        }
+        map.addMarker(userMarker);
+    }
+
 
     private BitmapDescriptor getIcon(Date data) {
         DateTime current = new DateTime(Calendar.getInstance());
