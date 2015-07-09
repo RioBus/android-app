@@ -185,6 +185,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             return;
         }
 
+        map.clear();
+
         map.setInfoWindowAdapter(new BusInfoWindowAdapter(this));
         MapMarker marker = new MapMarker(map);
         marker.addMarkers(buses);
