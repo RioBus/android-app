@@ -36,11 +36,13 @@ public class BusDataAccess implements IDataAccess{
                 request.disconnect();
                 return parseData(body);
             }
-            return null;
         } catch (HttpRequest.HttpRequestException e){
+            Log.e(Util.TAG, "---------------");
+            e.printStackTrace();;
             Log.e(Util.TAG, e.getMessage());
-            return null;
+            Log.e(Util.TAG, "---------------");
         }
+        return new ArrayList<Bus>();
     }
 
     private List<Bus> parseData(String body) {
