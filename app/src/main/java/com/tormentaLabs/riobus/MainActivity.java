@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -29,6 +30,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.internal.bind.DateTypeAdapter;
 import com.tormentaLabs.riobus.adapter.BusInfoWindowAdapter;
 import com.tormentaLabs.riobus.asyncTasks.BusSearchTask;
 import com.tormentaLabs.riobus.common.BusDataReceptor;
@@ -36,8 +40,16 @@ import com.tormentaLabs.riobus.common.NetworkUtil;
 import com.tormentaLabs.riobus.common.Util;
 import com.tormentaLabs.riobus.model.Bus;
 import com.tormentaLabs.riobus.model.MapMarker;
+import com.tormentaLabs.riobus.service.HttpService;
 
+import java.util.Date;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import retrofit.converter.GsonConverter;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, BusDataReceptor,
         GoogleApiClient.ConnectionCallbacks,
@@ -135,9 +147,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
 
                     if (NetworkUtil.checkInternetConnection(activity)) {
+
                         Util.saveOnHistory(activity, searchContent, search);
                         setSuggestions(); //Updating the adapter
-                        new BusSearchTask(activity).execute(searchContent);
+
+                        new BusSearchTask(MainActivity.this).execute(searchContent);
 
                     } else {
                         Toast.makeText(activity, getString(R.string.error_connection_internet), Toast.LENGTH_SHORT).show();
@@ -155,8 +169,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
         map = mapFragment.getMap();
-        map.getUiSettings().setMapToolbarEnabled(false);
-        map.getUiSettings().setCompassEnabled(false);
+        if(map.getUiSettings() != null) {
+            map.getUiSettings().setMapToolbarEnabled(false);
+            map.getUiSettings().setCompassEnabled(false);
+        }
         map.setMyLocationEnabled(false);
 
         mapMarker = new MapMarker(map);

@@ -4,14 +4,18 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.tormentaLabs.riobus.EnvironmentConfig;
 import com.tormentaLabs.riobus.R;
-import com.tormentaLabs.riobus.model.Bus;
-import com.tormentaLabs.riobus.service.IService;
-import com.tormentaLabs.riobus.service.ServiceFactory;
 import com.tormentaLabs.riobus.common.BusDataReceptor;
+import com.tormentaLabs.riobus.model.Bus;
+import com.tormentaLabs.riobus.service.HttpService;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.RestAdapter;
+import retrofit.converter.GsonConverter;
 
 public class BusSearchTask extends AsyncTask<String, Void, List<Bus>>{
 
@@ -35,13 +39,21 @@ public class BusSearchTask extends AsyncTask<String, Void, List<Bus>>{
     @Override
     protected List<Bus> doInBackground(String... params) {
         String data = params[0];
-        IService service = ServiceFactory.getSearchService();
-        List<Bus> buses = new ArrayList<Bus>();
-        try {
-            buses = (List) service.execute(data);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        Gson gson = new GsonBuilder()
+                .setDateFormat("MM-dd-yyyy HH:mm:ss")
+                .create();
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(EnvironmentConfig.URL_ENDPOINT)
+                .setConverter(new GsonConverter(gson))
+                .build();
+
+
+        HttpService service = restAdapter.create(HttpService.class);
+
+        List<Bus> buses = service.getPage(data);
+
         return buses;
     }
 

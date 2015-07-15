@@ -1,14 +1,18 @@
 package com.tormentaLabs.riobus.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 public class Bus {
 
+    @SerializedName(value = "timeStamp")
     private Date timestamp;
     private String order;
     private String line;
     private double latitude;
     private double longitude;
+    @SerializedName(value = "speed")
     private double velocity;
     private String sense;
 
