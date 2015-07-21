@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setupSearch();
         setupInfo();
         setupMap();
-        setSuggestions();
         getSupportActionBar().hide();
 
     }
@@ -99,16 +98,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-    }
-
-    private void setSuggestions() {
-        String[] lineHistory = Util.getHistory(this);
-        if (lineHistory != null) {
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_dropdown_item_1line, Util.getHistory(this));
-            search.setAdapter(adapter);
-            search.setThreshold(0);
-        }
     }
 
     private void setupInfo() {
@@ -147,9 +136,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
 
                     if (NetworkUtil.checkInternetConnection(activity)) {
-
-                        Util.saveOnHistory(activity, searchContent, search);
-                        setSuggestions(); //Updating the adapter
 
                         new BusSearchTask(MainActivity.this).execute(searchContent);
 
