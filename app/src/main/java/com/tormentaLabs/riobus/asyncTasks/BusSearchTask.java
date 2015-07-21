@@ -38,7 +38,7 @@ public class BusSearchTask extends AsyncTask<String, Void, List<Bus>>{
 
     @Override
     protected List<Bus> doInBackground(String... params) {
-        String data = params[0];
+        String data = params[0].replaceAll("\\s","");
 
         Gson gson = new GsonBuilder()
                 .setDateFormat("MM-dd-yyyy HH:mm:ss")
@@ -52,9 +52,7 @@ public class BusSearchTask extends AsyncTask<String, Void, List<Bus>>{
 
         HttpService service = restAdapter.create(HttpService.class);
 
-        List<Bus> buses = service.getPage(data);
-
-        return buses;
+        return service.getPage(data);
     }
 
     @Override
