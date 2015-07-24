@@ -20,6 +20,7 @@
     <string name="marker_days">Atualizado há %1$s dia(s)</string>
     <string name="marker_velocity">Velocidade: %1$s Km/h</string>
     <string name="marker_sense">Sentido: %1$s</string>
+    <string name="marker_sense_null">desconhecido</string>
 
     <string name="about_text">
         <![CDATA[

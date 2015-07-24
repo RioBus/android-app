@@ -58,7 +58,12 @@ public class BusInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
             velocity.setText(context.getString(R.string.marker_velocity, String.valueOf(bus.getVelocity())));
 
             TextView sense = (TextView) view.findViewById(R.id.sense);
-            sense.setText(context.getString(R.string.marker_sense, String.valueOf(bus.getSense())));
+            if(bus.getSense() == null || bus.getSense().trim().equals("")) {
+                sense.setText(context.getString(R.string.marker_sense, context.getString(R.string.marker_sense_null)));
+            } else {
+
+                sense.setText(context.getString(R.string.marker_sense, String.valueOf(bus.getSense())));
+            }
         }
         else{
             view = context.getLayoutInflater().inflate(R.layout.info_window_layout_client, null);
