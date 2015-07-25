@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.tormentaLabs.riobus.R;
@@ -22,7 +23,7 @@ public class MapMarker {
 
     private GoogleMap map;
     private LatLngBounds.Builder builder;
-    MarkerOptions userMarker;
+    Marker userMarker;
 
     public MapMarker(GoogleMap map){
         this.map = map;
@@ -49,16 +50,16 @@ public class MapMarker {
     }
 
     public void markUserPosition(Context context, LatLng posicao) {
-        if (userMarker == null) {
-            userMarker = new MarkerOptions()
-                                .position(posicao)
-                                .title(context.getString(R.string.marker_user))
-                                .icon(BitmapDescriptorFactory
-                                .fromResource(R.drawable.man_maps));
-        } else {
-            userMarker.position(posicao);
+
+        if (userMarker != null) {
+            userMarker.remove();
         }
-        map.addMarker(userMarker);
+
+        userMarker = map.addMarker(new MarkerOptions()
+                .position(posicao)
+                .title(context.getString(R.string.marker_user))
+                .icon(BitmapDescriptorFactory
+                        .fromResource(R.drawable.man_maps)));
     }
 
 
