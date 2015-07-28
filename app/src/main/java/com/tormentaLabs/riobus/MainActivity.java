@@ -158,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if(map.getUiSettings() != null) {
             map.getUiSettings().setMapToolbarEnabled(false);
             map.getUiSettings().setCompassEnabled(false);
+            map.setTrafficEnabled(true);
         }
         map.setMyLocationEnabled(false);
 
