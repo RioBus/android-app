@@ -9,7 +9,7 @@
 
     <string name="error_connection_internet">Não foi encontrada uma conexão com a internet.</string>
     <string name="error_connection_gps">Não foi possível identificar sua localização.</string>
-    <string name="error_connection_server">Serviço fora do ar. Tente novamente mais tarde.</string>
+    <string name="error_connection_server">Não foi possível conectar ao servidor. Ele pode estar fora do ar ou você pode estar sem conexão.</string>
     <string name="error_bus_404">O ônibus solicitado não foi encontrado. Talvez ele não exista ou os dados estão fora do ar temporariamente.</string>
 
     <string name="marker_user">Você está aqui</string>

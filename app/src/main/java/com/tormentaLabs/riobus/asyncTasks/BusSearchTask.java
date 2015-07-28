@@ -3,6 +3,7 @@ package com.tormentaLabs.riobus.asyncTasks;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,6 +16,7 @@ import com.tormentaLabs.riobus.service.HttpService;
 import java.util.List;
 
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
 
 public class BusSearchTask extends AsyncTask<String, Void, List<Bus>>{
@@ -51,8 +53,12 @@ public class BusSearchTask extends AsyncTask<String, Void, List<Bus>>{
 
 
         HttpService service = restAdapter.create(HttpService.class);
-
-        return service.getPage(data);
+        try {
+            return service.getPage(data);
+        } catch (RetrofitError e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
