@@ -41,7 +41,7 @@ public class BusSearchTask extends AsyncTask<String, Void, List<Bus>>{
         String data = params[0].replaceAll("\\s","");
 
         Gson gson = new GsonBuilder()
-                .setDateFormat("MM-dd-yyyy HH:mm:ss")
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                 .create();
 
         RestAdapter restAdapter = new RestAdapter.Builder()
