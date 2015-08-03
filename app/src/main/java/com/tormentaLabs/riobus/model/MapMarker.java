@@ -70,10 +70,10 @@ public class MapMarker {
 
         BitmapDescriptor bitmap;
 
-        if(diff > 5 && diff <= 10 ) {
+        if(diff >= 5 && diff < 10 ) {
             bitmap = BitmapDescriptorFactory
                     .fromResource(R.drawable.bus_yellow);
-        }  else if(diff > 10 ) {
+        }  else if(diff >= 10 ) {
            bitmap = BitmapDescriptorFactory
                 .fromResource(R.drawable.bus_red);
         } else {

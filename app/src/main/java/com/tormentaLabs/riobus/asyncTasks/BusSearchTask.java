@@ -13,8 +13,12 @@ import com.tormentaLabs.riobus.common.BusDataReceptor;
 import com.tormentaLabs.riobus.model.Bus;
 import com.tormentaLabs.riobus.service.HttpService;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -89,6 +93,15 @@ public class BusSearchTask extends AsyncTask<String, Void, List<Bus>>{
     @Override
     protected void onPostExecute(List<Bus> buses){
         super.onPostExecute(buses);
+        TimeZone tz = TimeZone.getTimeZone("America/Sao_Paulo");
+        int offset = tz.getOffset(new Date().getTime())/1000/60/60;
+        for(int i=0; i<buses.size(); i++){
+            Bus bus = buses.get(i);
+            DateTime dt = new DateTime(bus.getTimestamp());
+            dt = dt.plusHours(offset);
+            bus.setTimestamp(dt.toDate());
+            buses.set(i, bus);
+        }
         dialog.dismiss();
 
         BusDataReceptor receptor = (BusDataReceptor) context;
