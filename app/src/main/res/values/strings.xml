@@ -58,5 +58,14 @@
     <string name="title_activity_rio_bus">RioBusActivity</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <array name="menu_items">
+        <item>Histórico</item>
+        <item>Favoritos</item>
+        <item>Compartilhar</item>
+        <item>Configurações</item>
+    </array>
 
 </resources>
