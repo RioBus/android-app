@@ -13,13 +13,10 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ItemClick;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
 @Fullscreen
 @EActivity(R.layout.activity_rio_bus)
-@OptionsMenu(R.menu.menu_rio_bus)
 public class RioBusActivity extends AppCompatActivity {
 
     private static final String TAG = RioBusActivity_.class.getName();
@@ -35,10 +32,10 @@ public class RioBusActivity extends AppCompatActivity {
 
     @AfterViews
     public void afterViews() {
+        getSupportActionBar().hide(); // TODO Find a better way to hide or remove actionbar
         sidemenuDrawerList.setAdapter(sidemenuListAdapter);
     }
 
-    @OptionsItem(R.id.sidemenu_toggle)
     public void sidemenuToggle() {
         if(rioBusDrawerLayout.isDrawerOpen(Gravity.LEFT))
             rioBusDrawerLayout.closeDrawer(Gravity.LEFT);
