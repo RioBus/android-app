@@ -60,6 +60,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="server_addr_v3">http://rest.riob.us/</string>
 
     <array name="menu_items">
         <item>Histórico</item>
