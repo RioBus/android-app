@@ -9,6 +9,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.RioBusActivity_;
+import com.tormentaLabs.riobus.googlemap.utils.GoogleMapPrefs_;
 import com.tormentaLabs.riobus.googlemap.utils.RioBusGoogleMapUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -16,9 +17,12 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.EditorAction;
 import org.androidannotations.annotations.SystemService;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
 /**
- * Created by limazix on 01/09/15.
+ * @author limazix
+ * @since 2.0
+ * Created on 01/09/15
  */
 @EFragment(R.layout.fragment_google_map)
 public class GoogleMapFragment extends Fragment {
@@ -30,16 +34,19 @@ public class GoogleMapFragment extends Fragment {
     @SystemService
     InputMethodManager inputMethodManager;
 
+    @Pref
+    GoogleMapPrefs_ googleMapPrefs;
+
     @AfterViews
     public void afterViews() {
         mapFragment = getMapFragment();
         map = mapFragment.getMap();
         if(map.getUiSettings() != null) {
-            map.getUiSettings().setMapToolbarEnabled(false);
-            map.getUiSettings().setCompassEnabled(false);
-            map.setTrafficEnabled(true);
+            map.getUiSettings().setMapToolbarEnabled(googleMapPrefs.isMapToolbarEnable().get());
+            map.getUiSettings().setCompassEnabled(googleMapPrefs.isMapCompasEnable().get());
+            map.setTrafficEnabled(googleMapPrefs.isMapTrafficEnable().get());
         }
-        map.setMyLocationEnabled(false);
+        map.setMyLocationEnabled(googleMapPrefs.isMapMyLocationEnable().get());
     }
 
     @EditorAction(R.id.search)
@@ -57,7 +64,7 @@ public class GoogleMapFragment extends Fragment {
 
     /**
      * Used to access the map fragment which is a child fragment called map_fragment
-     * @return @{SupportMapFragment}
+     * @return SupportMapFragment
      */
     private SupportMapFragment getMapFragment() {
         return (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment);
