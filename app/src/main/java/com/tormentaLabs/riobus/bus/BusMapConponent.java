@@ -1,10 +1,12 @@
 package com.tormentaLabs.riobus.bus;
 
 import android.content.Context;
-import android.support.annotation.UiThread;
 import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.tormentaLabs.riobus.bus.model.BusModel;
 import com.tormentaLabs.riobus.bus.service.BusService;
 import com.tormentaLabs.riobus.map.listener.MapComponentListener;
@@ -12,12 +14,16 @@ import com.tormentaLabs.riobus.map.listener.MapComponentListener;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.rest.RestService;
 
 import java.util.List;
 
 /**
- * Created by limazix on 02/09/15.
+ * Class used to add the buses of some given line to the map as a component
+ * @author limazix
+ * @since 2.0
+ * Created on 02/09/15.
  */
 @EBean
 public class BusMapConponent {
@@ -31,9 +37,9 @@ public class BusMapConponent {
     BusService busService;
 
     private String line;
-
     private MapComponentListener listener;
     private GoogleMap map;
+    private LatLngBounds.Builder boundsBuilder;
 
     public String getLine() {
         return line;
@@ -57,20 +63,45 @@ public class BusMapConponent {
 
     public void setMap(GoogleMap map) {
         this.map = map;
+        boundsBuilder = new LatLngBounds.Builder();
     }
 
     public void buildComponent() {
         getBusesByLine();
     }
 
+    /**
+     * Used to aceess the server and get the list of buses of some given lie
+     */
     @Background
     void getBusesByLine() {
         List<BusModel> buses = busService.getBusesByLine(line);
-        if(buses != null) {
-            for(BusModel bus : buses) {
-                Log.d(TAG, bus.getOrder());
-            }
-        }
+
+        if (buses != null)
+            addMarkers(buses);
+
         listener.onComponentMapReady();
+    }
+
+    /**
+     * Used to add a marker for each buson map
+     * @param buses List of buses
+     */
+    @UiThread
+    void addMarkers(List<BusModel> buses) {
+        for (BusModel bus : buses)
+            map.addMarker(getMarker(bus));
+    }
+
+    /**
+     * Used to build the bus marker based on its features
+     * @param bus
+     * @return MarkerOptions the bus marker
+     */
+    private MarkerOptions getMarker(BusModel bus) {
+        MarkerOptions options = new MarkerOptions();
+        LatLng position = new LatLng(bus.getLatitude(), bus.getLongitude());
+        options.position(position);
+        return options;
     }
 }
