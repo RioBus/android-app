@@ -1,6 +1,7 @@
-package com.tormentaLabs.riobus.googlemap;
+package com.tormentaLabs.riobus.map;
 
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
@@ -9,10 +10,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.RioBusActivity_;
-import com.tormentaLabs.riobus.googlemap.utils.GoogleMapPrefs_;
-import com.tormentaLabs.riobus.googlemap.utils.RioBusGoogleMapUtils;
+import com.tormentaLabs.riobus.bus.BusMapConponent;
+import com.tormentaLabs.riobus.map.listener.MapComponentListener;
+import com.tormentaLabs.riobus.map.utils.MapPrefs_;
+import com.tormentaLabs.riobus.map.utils.MapUtils;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.EditorAction;
@@ -25,9 +29,9 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
  * Created on 01/09/15
  */
 @EFragment(R.layout.fragment_google_map)
-public class GoogleMapFragment extends Fragment {
+public class MapFragment extends Fragment implements MapComponentListener {
 
-    private static final String TAG = GoogleMapFragment_.class.getName();
+    private static final String TAG = MapFragment_.class.getName();
     private GoogleMap map;
     private SupportMapFragment mapFragment;
 
@@ -35,25 +39,39 @@ public class GoogleMapFragment extends Fragment {
     InputMethodManager inputMethodManager;
 
     @Pref
-    GoogleMapPrefs_ googleMapPrefs;
+    MapPrefs_ mapPrefs;
+
+    @Bean
+    BusMapConponent busMapComponent;
 
     @AfterViews
     public void afterViews() {
         mapFragment = getMapFragment();
         map = mapFragment.getMap();
         if(map.getUiSettings() != null) {
-            map.getUiSettings().setMapToolbarEnabled(googleMapPrefs.isMapToolbarEnable().get());
-            map.getUiSettings().setCompassEnabled(googleMapPrefs.isMapCompasEnable().get());
-            map.setTrafficEnabled(googleMapPrefs.isMapTrafficEnable().get());
+            map.getUiSettings().setMapToolbarEnabled(mapPrefs.isMapToolbarEnable().get());
+            map.getUiSettings().setCompassEnabled(mapPrefs.isMapCompasEnable().get());
+            map.setTrafficEnabled(mapPrefs.isMapTrafficEnable().get());
         }
-        map.setMyLocationEnabled(googleMapPrefs.isMapMyLocationEnable().get());
+        map.setMyLocationEnabled(mapPrefs.isMapMyLocationEnable().get());
     }
 
+    /**
+     * Listener of input search for keybord event action <br>
+     *     It is called every time the user press enter button.
+     * @param textView
+     * @param actionId
+     * @param event
+     */
     @EditorAction(R.id.search)
     public void onPerformSearch(TextView textView, int actionId, KeyEvent event) {
         String keyword = textView.getText().toString();
-        if(event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && RioBusGoogleMapUtils.isValidString(keyword)) {
+        if(event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && MapUtils.isValidString(keyword)) {
             inputMethodManager.hideSoftInputFromWindow(textView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            busMapComponent.setLine(keyword);
+            busMapComponent.setListener(this);
+            busMapComponent.setMap(map);
+            busMapComponent.buildComponent();
         }
     };
 
@@ -70,4 +88,13 @@ public class GoogleMapFragment extends Fragment {
         return (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment);
     }
 
+    @Override
+    public void onComponentMapReady() {
+        Log.d(TAG, "Map Ready");
+    }
+
+    @Override
+    public void onComponentMapError(Exception error) {
+        Log.e(TAG, error.getMessage());
+    }
 }

@@ -1,4 +1,4 @@
-package com.tormentaLabs.riobus.googlemap.utils;
+package com.tormentaLabs.riobus.map.utils;
 
 import org.androidannotations.annotations.sharedpreferences.DefaultBoolean;
 import org.androidannotations.annotations.sharedpreferences.SharedPref;
@@ -10,7 +10,7 @@ import org.androidannotations.annotations.sharedpreferences.SharedPref;
  * Created at 01/09/15
  */
 @SharedPref(value = SharedPref.Scope.UNIQUE)
-public interface GoogleMapPrefs {
+public interface MapPrefs {
 
     /**
      * Used to enable/disable the Google Map Toolbar feature
