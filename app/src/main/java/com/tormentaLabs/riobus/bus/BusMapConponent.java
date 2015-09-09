@@ -3,10 +3,14 @@ package com.tormentaLabs.riobus.bus;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.bus.model.BusModel;
 import com.tormentaLabs.riobus.bus.service.BusService;
 import com.tormentaLabs.riobus.map.listener.MapComponentListener;
@@ -16,11 +20,18 @@ import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.rest.RestService;
+import org.joda.time.DateTime;
+import org.joda.time.Minutes;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Class used to add the buses of some given line to the map as a component
+ *
  * @author limazix
  * @since 2.0
  * Created on 02/09/15.
@@ -29,6 +40,7 @@ import java.util.List;
 public class BusMapConponent {
 
     private static final String TAG = BusMapConponent.class.getName();
+    public static final int BOUNDS_PADDING = 50;
 
     @RootContext
     Context context;
@@ -67,6 +79,7 @@ public class BusMapConponent {
     }
 
     public void buildComponent() {
+        boundsBuilder = new LatLngBounds.Builder();
         getBusesByLine();
     }
 
@@ -85,16 +98,19 @@ public class BusMapConponent {
 
     /**
      * Used to add a marker for each buson map
+     *
      * @param buses List of buses
      */
     @UiThread
     void addMarkers(List<BusModel> buses) {
         for (BusModel bus : buses)
             map.addMarker(getMarker(bus));
+        map.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), BOUNDS_PADDING));
     }
 
     /**
      * Used to build the bus marker based on its features
+     *
      * @param bus
      * @return MarkerOptions the bus marker
      */
@@ -102,6 +118,8 @@ public class BusMapConponent {
         MarkerOptions options = new MarkerOptions();
         LatLng position = new LatLng(bus.getLatitude(), bus.getLongitude());
         options.position(position);
+        boundsBuilder.include(position);
         return options;
     }
+
 }
