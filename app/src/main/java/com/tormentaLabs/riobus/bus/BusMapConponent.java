@@ -31,7 +31,6 @@ import java.util.List;
 
 /**
  * Class used to add the buses of some given line to the map as a component
- *
  * @author limazix
  * @since 2.0
  * Created on 02/09/15.
@@ -41,6 +40,7 @@ public class BusMapConponent {
 
     private static final String TAG = BusMapConponent.class.getName();
     public static final int BOUNDS_PADDING = 50;
+    public static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
 
     @RootContext
     Context context;
@@ -98,7 +98,6 @@ public class BusMapConponent {
 
     /**
      * Used to add a marker for each buson map
-     *
      * @param buses List of buses
      */
     @UiThread
@@ -110,7 +109,6 @@ public class BusMapConponent {
 
     /**
      * Used to build the bus marker based on its features
-     *
      * @param bus
      * @return MarkerOptions the bus marker
      */
@@ -123,11 +121,15 @@ public class BusMapConponent {
         return options;
     }
 
-
+    /**
+     * Used to get the bus marker icon based on its last update position time
+     * @param timestamp Bus last update position time
+     * @return BitmapDescriptor bus marker icon
+     */
     private BitmapDescriptor getIcon(String timestamp) {
         BitmapDescriptor bitmap = null;
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_PATTERN);
             Date date = dateFormat.parse(timestamp);
 
             DateTime current = new DateTime(Calendar.getInstance());
