@@ -118,8 +118,35 @@ public class BusMapConponent {
         MarkerOptions options = new MarkerOptions();
         LatLng position = new LatLng(bus.getLatitude(), bus.getLongitude());
         options.position(position);
+        options.icon(getIcon(bus.getTimeStamp()));
         boundsBuilder.include(position);
         return options;
     }
 
+
+    private BitmapDescriptor getIcon(String timestamp) {
+        BitmapDescriptor bitmap = null;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            Date date = dateFormat.parse(timestamp);
+
+            DateTime current = new DateTime(Calendar.getInstance());
+            DateTime last = new DateTime(date);
+            int diff = Minutes.minutesBetween(last, current).getMinutes();
+
+            if (diff >= 5 && diff < 10) {
+                bitmap = BitmapDescriptorFactory
+                        .fromResource(R.drawable.bus_yellow);
+            } else if (diff >= 10) {
+                bitmap = BitmapDescriptorFactory
+                        .fromResource(R.drawable.bus_red);
+            } else {
+                bitmap = BitmapDescriptorFactory
+                        .fromResource(R.drawable.bus_green);
+            }
+        } catch (ParseException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        return bitmap;
+    }
 }
