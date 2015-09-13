@@ -3,17 +3,21 @@ package com.tormentaLabs.riobus.map;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.RioBusActivity_;
-import com.tormentaLabs.riobus.bus.BusMapConponent;
+import com.tormentaLabs.riobus.marker.BusMarkerConponent;
 import com.tormentaLabs.riobus.map.listener.MapComponentListener;
 import com.tormentaLabs.riobus.map.utils.MapPrefs_;
 import com.tormentaLabs.riobus.map.utils.MapUtils;
+import com.tormentaLabs.riobus.marker.UserMarkerComponent;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -29,7 +33,7 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
  * Created on 01/09/15
  */
 @EFragment(R.layout.fragment_google_map)
-public class MapFragment extends Fragment implements MapComponentListener {
+public class MapFragment extends Fragment implements MapComponentListener, OnMapReadyCallback {
 
     private static final String TAG = MapFragment_.class.getName();
     private GoogleMap map;
@@ -42,12 +46,26 @@ public class MapFragment extends Fragment implements MapComponentListener {
     MapPrefs_ mapPrefs;
 
     @Bean
-    BusMapConponent busMapComponent;
+    BusMarkerConponent busMapComponent;
+
+    @Bean
+    UserMarkerComponent userMarkerComponent;
 
     @AfterViews
     public void afterViews() {
         mapFragment = getMapFragment();
         map = mapFragment.getMap();
+        setupMap();
+
+        userMarkerComponent.setMap(map)
+                .setListener(this)
+                .buildComponent();
+    }
+
+    /**
+     * Used to setup global map preferences
+     */
+    private void setupMap() {
         if(map.getUiSettings() != null) {
             map.getUiSettings().setMapToolbarEnabled(mapPrefs.isMapToolbarEnable().get());
             map.getUiSettings().setCompassEnabled(mapPrefs.isMapCompasEnable().get());
@@ -57,25 +75,27 @@ public class MapFragment extends Fragment implements MapComponentListener {
     }
 
     /**
-     * Listener of input search for keybord event action <br>
-     *     It is called every time the user press enter button.
+     * Listener of input search for keybord event action.
+     * It is called every time the user press enter button.
      * @param textView
      * @param actionId
-     * @param event
      */
     @EditorAction(R.id.search)
-    public void onPerformSearch(TextView textView, int actionId, KeyEvent event) {
+    public void onPerformSearch(TextView textView, int actionId) {
         String keyword = textView.getText().toString();
-        if(event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && MapUtils.isValidString(keyword)) {
+        if(MapUtils.isSearchAction(actionId) && MapUtils.isValidString(keyword)) {
             inputMethodManager.hideSoftInputFromWindow(textView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             map.clear();
-            busMapComponent.setLine(keyword);
-            busMapComponent.setListener(this);
-            busMapComponent.setMap(map);
-            busMapComponent.buildComponent();
+            busMapComponent.setLine(keyword)
+            .setListener(this)
+            .setMap(map)
+            .buildComponent();
         }
     };
 
+    /**
+     * Used to show/hide sidemenu based on sidemenu button click
+     */
     @Click(R.id.sidemenu_toggle)
     public void sidemenuToggle() {
         ((RioBusActivity_)getActivity()).sidemenuToggle();
@@ -97,5 +117,10 @@ public class MapFragment extends Fragment implements MapComponentListener {
     @Override
     public void onComponentMapError(Exception error) {
         Log.e(TAG, error.getMessage());
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        Toast.makeText(getActivity(), "Map Ready", Toast.LENGTH_LONG).show();
     }
 }

@@ -27,21 +27,23 @@
         android:layout_width="match_parent"
         android:padding="10dp"
         android:layout_marginRight="15dp"
+        android:singleLine="true"
         android:drawableRight="@drawable/ic_action_search"
         android:layout_height="@dimen/component_height"
         android:hint="@string/line_number"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/sidemenu_toggle"
         android:layout_marginTop="42dp"
-        android:layout_toRightOf="@+id/sidemenu_toggle" />
+        android:layout_toRightOf="@+id/sidemenu_toggle"
+        android:imeOptions="actionSearch"/>
 
     <ImageButton
-        android:id="@+id/button_about"
+        android:id="@+id/button_user_location"
         style="@style/botao"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="center"
         android:layout_marginLeft="8dp"
-        android:src="@drawable/ic_action_about" />
+        android:src="@android:drawable/ic_menu_mylocation" />
 
 </RelativeLayout>

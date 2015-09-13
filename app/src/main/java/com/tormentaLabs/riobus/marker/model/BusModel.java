@@ -1,4 +1,4 @@
-package com.tormentaLabs.riobus.bus.model;
+package com.tormentaLabs.riobus.marker.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

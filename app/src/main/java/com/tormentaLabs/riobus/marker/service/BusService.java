@@ -1,6 +1,6 @@
-package com.tormentaLabs.riobus.bus.service;
+package com.tormentaLabs.riobus.marker.service;
 
-import com.tormentaLabs.riobus.bus.model.BusModel;
+import com.tormentaLabs.riobus.marker.model.BusModel;
 
 import org.androidannotations.annotations.rest.Accept;
 import org.androidannotations.annotations.rest.Get;
