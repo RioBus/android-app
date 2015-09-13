@@ -2,8 +2,6 @@ package com.tormentaLabs.riobus.map;
 
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +31,7 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
  * Created on 01/09/15
  */
 @EFragment(R.layout.fragment_google_map)
-public class MapFragment extends Fragment implements MapComponentListener, OnMapReadyCallback {
+public class MapFragment extends Fragment implements MapComponentListener {
 
     private static final String TAG = MapFragment_.class.getName();
     private GoogleMap map;
@@ -72,6 +70,11 @@ public class MapFragment extends Fragment implements MapComponentListener, OnMap
             map.setTrafficEnabled(mapPrefs.isMapTrafficEnable().get());
         }
         map.setMyLocationEnabled(mapPrefs.isMapMyLocationEnable().get());
+    }
+
+    @Click(R.id.button_user_location)
+    void updateUserLocation() {
+        userMarkerComponent.updateUserLocation();
     }
 
     /**
@@ -119,8 +122,4 @@ public class MapFragment extends Fragment implements MapComponentListener, OnMap
         Log.e(TAG, error.getMessage());
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        Toast.makeText(getActivity(), "Map Ready", Toast.LENGTH_LONG).show();
-    }
 }
