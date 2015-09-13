@@ -1,5 +1,6 @@
 package com.tormentaLabs.riobus.marker;
 
+import android.app.Activity;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -10,9 +11,11 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.map.bean.MapComponent;
+import com.tormentaLabs.riobus.marker.adapter.BusInfoWindowAdapter;
 import com.tormentaLabs.riobus.marker.model.BusModel;
 import com.tormentaLabs.riobus.marker.service.BusService;
 import com.tormentaLabs.riobus.marker.utils.MarkerUtils;
+import com.tormentaLabs.riobus.utils.RioBusUtils;
 
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EBean;
@@ -22,7 +25,6 @@ import org.joda.time.DateTime;
 import org.joda.time.Minutes;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -38,7 +40,6 @@ public class BusMarkerConponent extends MapComponent {
 
     private static final String TAG = BusMarkerConponent.class.getName();
     public static final int BOUNDS_PADDING = 50;
-    public static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
 
     @RestService
     BusService busService;
@@ -48,6 +49,7 @@ public class BusMarkerConponent extends MapComponent {
     @Override
     public void buildComponent() {
         boundsBuilder = new LatLngBounds.Builder();
+        getMap().setInfoWindowAdapter(new BusInfoWindowAdapter((Activity) getContext()));
         getBusesByLine();
     }
 
@@ -80,6 +82,7 @@ public class BusMarkerConponent extends MapComponent {
     private MarkerOptions getMarker(BusModel bus) {
         MarkerOptions options = MarkerUtils.createMarker(bus.getLatitude(), bus.getLongitude());
         options.icon(getIcon(bus.getTimeStamp()));
+        options.snippet(bus.toString());
         boundsBuilder.include(options.getPosition());
         return options;
     }
@@ -92,8 +95,7 @@ public class BusMarkerConponent extends MapComponent {
     private BitmapDescriptor getIcon(String timestamp) {
         BitmapDescriptor bitmap = null;
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_PATTERN);
-            Date date = dateFormat.parse(timestamp);
+            Date date = RioBusUtils.parseStringToDate(timestamp);
 
             DateTime current = new DateTime(Calendar.getInstance());
             DateTime last = new DateTime(date);
