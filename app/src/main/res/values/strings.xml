@@ -69,4 +69,6 @@
         <item>Configurações</item>
     </array>
 
+    <string name="no_bus_found">Nenhum Onibus Encontrado</string>
+
 </resources>

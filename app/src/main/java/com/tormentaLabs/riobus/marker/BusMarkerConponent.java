@@ -1,7 +1,9 @@
 package com.tormentaLabs.riobus.marker;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -20,6 +22,7 @@ import com.tormentaLabs.riobus.utils.RioBusUtils;
 
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.rest.RestService;
 import org.joda.time.DateTime;
@@ -69,7 +72,10 @@ public class BusMarkerConponent extends MapComponent {
     @Background
     void getBusesByLine() {
         List<BusModel> buses = busService.getBusesByLine(getLine());
-        if (buses != null) addMarkers(buses);
+        if (buses != null) {
+            if(!buses.isEmpty()) addMarkers(buses);
+            else showNoBusFound();
+        }
         getListener().onComponentMapReady();
     }
 
@@ -84,6 +90,12 @@ public class BusMarkerConponent extends MapComponent {
             markers.add(marker);
         }
         getMap().moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), BOUNDS_PADDING));
+    }
+
+    @UiThread
+    void showNoBusFound() {
+        String message = getContext().getResources().getString(R.string.no_bus_found);
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
     /**
