@@ -88,7 +88,6 @@ public class MapFragment extends Fragment implements MapComponentListener {
         String keyword = textView.getText().toString();
         if(MapUtils.isSearchAction(actionId) && MapUtils.isValidString(keyword)) {
             inputMethodManager.hideSoftInputFromWindow(textView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            map.clear();
             busMapComponent.setLine(keyword)
             .setListener(this)
             .setMap(map)

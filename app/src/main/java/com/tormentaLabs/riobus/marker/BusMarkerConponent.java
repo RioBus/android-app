@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.map.bean.MapComponent;
@@ -25,6 +26,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Minutes;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -40,6 +42,7 @@ public class BusMarkerConponent extends MapComponent {
 
     private static final String TAG = BusMarkerConponent.class.getName();
     public static final int BOUNDS_PADDING = 50;
+    private List<Marker> markers = new ArrayList<>();
 
     @RestService
     BusService busService;
@@ -48,9 +51,16 @@ public class BusMarkerConponent extends MapComponent {
 
     @Override
     public void buildComponent() {
+        removeComponent();
         boundsBuilder = new LatLngBounds.Builder();
         getMap().setInfoWindowAdapter(new BusInfoWindowAdapter((Activity) getContext()));
         getBusesByLine();
+    }
+
+    private void removeComponent() {
+        for(Marker m : markers)
+            m.remove();
+        markers.clear();
     }
 
     /**
@@ -69,8 +79,10 @@ public class BusMarkerConponent extends MapComponent {
      */
     @UiThread
     void addMarkers(List<BusModel> buses) {
-        for (BusModel bus : buses)
-            getMap().addMarker(getMarker(bus));
+        for (BusModel bus : buses) {
+           Marker marker = getMap().addMarker(getMarker(bus));
+            markers.add(marker);
+        }
         getMap().moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), BOUNDS_PADDING));
     }
 
