@@ -33,6 +33,9 @@ public class BusModel {
     @JsonProperty("timeStamp")
     private String timeStamp;
 
+    public BusModel() {
+    }
+
     public String getLine() {
         return line;
     }

@@ -68,6 +68,11 @@ public class UserMarkerComponent extends MapComponent implements
     }
 
     @Override
+    public void removeComponent() {
+
+    }
+
+    @Override
     public void onConnected(Bundle bundle) {
         updateUserLocation();
         isApiReady = true;

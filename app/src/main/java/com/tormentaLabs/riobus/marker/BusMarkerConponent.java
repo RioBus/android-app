@@ -60,7 +60,8 @@ public class BusMarkerConponent extends MapComponent {
         getBusesByLine();
     }
 
-    private void removeComponent() {
+    @Override
+    public void removeComponent() {
         for(Marker m : markers)
             m.remove();
         markers.clear();

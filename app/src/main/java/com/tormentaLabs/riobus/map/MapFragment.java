@@ -11,6 +11,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.RioBusActivity_;
+import com.tormentaLabs.riobus.itinerary.ItineraryComponent;
 import com.tormentaLabs.riobus.marker.BusMarkerConponent;
 import com.tormentaLabs.riobus.map.listener.MapComponentListener;
 import com.tormentaLabs.riobus.map.utils.MapPrefs_;
@@ -48,6 +49,9 @@ public class MapFragment extends Fragment implements MapComponentListener {
 
     @Bean
     UserMarkerComponent userMarkerComponent;
+
+    @Bean
+    ItineraryComponent itineraryComponent;
 
     @AfterViews
     public void afterViews() {
@@ -89,6 +93,11 @@ public class MapFragment extends Fragment implements MapComponentListener {
         if(MapUtils.isSearchAction(actionId) && MapUtils.isValidString(keyword)) {
             inputMethodManager.hideSoftInputFromWindow(textView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             busMapComponent.setLine(keyword)
+            .setListener(this)
+            .setMap(map)
+            .buildComponent();
+
+            itineraryComponent.setLine(keyword)
             .setListener(this)
             .setMap(map)
             .buildComponent();

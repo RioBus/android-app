@@ -56,4 +56,6 @@ public abstract class MapComponent {
     }
 
     public abstract void buildComponent();
+
+    public abstract void removeComponent();
 }
