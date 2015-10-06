@@ -3,6 +3,7 @@ package com.tormentaLabs.riobus.itinerary;
 import android.graphics.Color;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.tormentaLabs.riobus.itinerary.model.ItineraryModel;
 import com.tormentaLabs.riobus.itinerary.model.SpotModel;
@@ -27,7 +28,7 @@ public class ItineraryComponent extends MapComponent {
 
     private static final String TAG = ItineraryComponent.class.getName();
     private static final float LINE_WIDTH = 2;
-    private PolylineOptions polylineOptions = null;
+    private Polyline polyline = null;
 
     @RestService
     ItineraryService itineraryService;
@@ -47,20 +48,23 @@ public class ItineraryComponent extends MapComponent {
 
     @UiThread
     void drawItinerary(ArrayList<LatLng> spots) {
-        polylineOptions = new PolylineOptions();
+        PolylineOptions polylineOptions = new PolylineOptions();
         polylineOptions.addAll(spots);
         polylineOptions.width(LINE_WIDTH);
         polylineOptions.color(Color.BLUE);
-        getMap().addPolyline(polylineOptions);
+
+        polyline = getMap().addPolyline(polylineOptions);
     }
 
     @Override
     public void buildComponent() {
+        removeComponent();
         getItineraries();
     }
 
     @Override
     public void removeComponent() {
-
+        if(polyline != null && polyline.isVisible())
+            polyline.remove();
     }
 }
