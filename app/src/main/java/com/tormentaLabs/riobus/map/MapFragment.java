@@ -11,6 +11,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.RioBusActivity_;
+import com.tormentaLabs.riobus.history.controller.HistoryController;
 import com.tormentaLabs.riobus.itinerary.ItineraryComponent;
 import com.tormentaLabs.riobus.marker.BusMarkerConponent;
 import com.tormentaLabs.riobus.map.listener.MapComponentListener;
@@ -52,6 +53,9 @@ public class MapFragment extends Fragment implements MapComponentListener {
 
     @Bean
     ItineraryComponent itineraryComponent;
+
+    @Bean
+    HistoryController historyController;
 
     @AfterViews
     public void afterViews() {
@@ -101,6 +105,9 @@ public class MapFragment extends Fragment implements MapComponentListener {
             .setListener(this)
             .setMap(map)
             .buildComponent();
+
+            String[] lines = MapUtils.separateMultiLines(keyword);
+            historyController.addLines(lines);
         }
     };
 

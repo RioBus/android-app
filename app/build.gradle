@@ -20,6 +20,7 @@ buildscript {
 repositories {
     maven { url "https://jitpack.io" }
     maven { url 'http://repo.spring.io/milestone' }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     mavenCentral()
     mavenLocal()
 }
@@ -43,6 +44,7 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-core:$JacksonVersion"
     compile "com.fasterxml.jackson.core:jackson-annotations:$JacksonVersion"
     compile "com.fasterxml.jackson.core:jackson-databind:$JacksonVersion"
+    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
 }
 
 android {
