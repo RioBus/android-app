@@ -9,8 +9,8 @@ import com.activeandroid.annotation.Table;
  * @since 2.1
  * Created on 05/10/15
  */
-@Table(name = "LINE_HISTORY")
-public class LineHistory extends Model {
+@Table(name = "HISTORY")
+public class HistoryItem extends Model {
 
     @Column(name = "LINE")
     public String line;
@@ -18,11 +18,11 @@ public class LineHistory extends Model {
     @Column(name = "LAST_USAGE_DATE")
     public long lastUsage;
 
-    public LineHistory() {
+    public HistoryItem() {
         super();
     }
 
-    public LineHistory(String line, long lastUsage) {
+    public HistoryItem(String line, long lastUsage) {
         super();
         this.line = line;
         this.lastUsage = lastUsage;

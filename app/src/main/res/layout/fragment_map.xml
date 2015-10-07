@@ -35,7 +35,8 @@
         android:layout_toEndOf="@+id/sidemenu_toggle"
         android:layout_marginTop="42dp"
         android:layout_toRightOf="@+id/sidemenu_toggle"
-        android:imeOptions="actionSearch"/>
+        android:imeOptions="actionSearch"
+        android:completionThreshold="1"/>
 
     <ImageButton
         android:id="@+id/button_user_location"

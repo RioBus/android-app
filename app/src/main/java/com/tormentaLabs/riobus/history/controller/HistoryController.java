@@ -1,11 +1,11 @@
 package com.tormentaLabs.riobus.history.controller;
 
 import com.activeandroid.query.Select;
-import com.tormentaLabs.riobus.history.model.LineHistory;
+import com.tormentaLabs.riobus.history.model.HistoryItem;
 
 import org.androidannotations.annotations.EBean;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Used to control history data access
@@ -22,20 +22,27 @@ public class HistoryController {
     }
 
     public void addLine(String line) {
-        LineHistory lh = new Select().from(LineHistory.class)
+        HistoryItem historyItem = new Select().from(HistoryItem.class)
                 .where("LINE = ?", line).executeSingle();
 
-        if(lh == null) {
-            lh = new LineHistory();
-            lh.line = line;
+        if(historyItem == null) {
+            historyItem = new HistoryItem();
+            historyItem.line = line;
         }
 
-        lh.lastUsage = System.currentTimeMillis();
-        lh.save();
+        historyItem.lastUsage = System.currentTimeMillis();
+        historyItem.save();
     }
 
-    public List<LineHistory> getLineHistory() {
-        return new Select().from(LineHistory.class).execute();
+    public String[] getHistory() {
+        ArrayList<HistoryItem> historyItems = (ArrayList) new Select().from(HistoryItem.class).execute();
+
+        String[] lines = new String[historyItems.size()];
+        for(HistoryItem item : historyItems) {
+            lines[historyItems.indexOf(item)] = item.line;
+        }
+
+        return lines;
     }
 
 }

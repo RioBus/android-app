@@ -3,11 +3,11 @@ package com.tormentaLabs.riobus.map;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.RioBusActivity_;
@@ -25,6 +25,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.EditorAction;
 import org.androidannotations.annotations.SystemService;
+import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 /**
@@ -32,7 +33,7 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
  * @since 2.0
  * Created on 01/09/15
  */
-@EFragment(R.layout.fragment_google_map)
+@EFragment(R.layout.fragment_map)
 public class MapFragment extends Fragment implements MapComponentListener {
 
     private static final String TAG = MapFragment_.class.getName();
@@ -57,6 +58,9 @@ public class MapFragment extends Fragment implements MapComponentListener {
     @Bean
     HistoryController historyController;
 
+    @ViewById(R.id.search)
+    AutoCompleteTextView searchTextView;
+
     @AfterViews
     public void afterViews() {
         mapFragment = getMapFragment();
@@ -66,6 +70,17 @@ public class MapFragment extends Fragment implements MapComponentListener {
         userMarkerComponent.setMap(map)
                 .setListener(this)
                 .buildComponent();
+
+        setupAutoComplete();
+    }
+
+    private void setupAutoComplete() {
+        final String[] lines = historyController.getHistory();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_dropdown_item_1line, lines);
+
+        searchTextView.setAdapter(adapter);
     }
 
     /**
@@ -108,6 +123,7 @@ public class MapFragment extends Fragment implements MapComponentListener {
 
             String[] lines = MapUtils.separateMultiLines(keyword);
             historyController.addLines(lines);
+            setupAutoComplete();
         }
     };
 
