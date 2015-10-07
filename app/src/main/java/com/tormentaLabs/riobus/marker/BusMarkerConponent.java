@@ -25,6 +25,7 @@ import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.rest.RestService;
+import org.androidannotations.api.BackgroundExecutor;
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
 
@@ -44,7 +45,15 @@ import java.util.List;
 public class BusMarkerConponent extends MapComponent {
 
     private static final String TAG = BusMarkerConponent.class.getName();
+    private static final String BUSES_UPDATE_THREAD_ID = "auto_update";
+    private static final String GET_BUSES_THREAD_ID = "get_buses";
+
+    public static final int BUSES_UPDATE_INTERVAL = 15000;
     public static final int BOUNDS_PADDING = 50;
+
+    private static final boolean INTERRUPT_IF_RUNNING = true;
+
+    private boolean isAutoUpdate = false;
     private List<Marker> markers = new ArrayList<>();
 
     @RestService
@@ -54,7 +63,8 @@ public class BusMarkerConponent extends MapComponent {
 
     @Override
     public void buildComponent() {
-        removeComponent();
+        isAutoUpdate = false;
+        shutdownAutoUpdate();
         boundsBuilder = new LatLngBounds.Builder();
         getMap().setInfoWindowAdapter(new BusInfoWindowAdapter((Activity) getContext()));
         getBusesByLine();
@@ -62,22 +72,32 @@ public class BusMarkerConponent extends MapComponent {
 
     @Override
     public void removeComponent() {
-        for(Marker m : markers)
-            m.remove();
-        markers.clear();
+        shutdownAutoUpdate();
+        removeMarkers();
+    }
+
+    @Background(delay = BUSES_UPDATE_INTERVAL, id = BUSES_UPDATE_THREAD_ID)
+    void autoUpdateBusesPosition() {
+        isAutoUpdate = true;
+        getBusesByLine();
     }
 
     /**
      * Used to aceess the server and get the list of buses of some given lie
      */
-    @Background
+    @Background(id = GET_BUSES_THREAD_ID)
     void getBusesByLine() {
         List<BusModel> buses = busService.getBusesByLine(getLine());
+
         if (buses != null) {
-            if(!buses.isEmpty()) addMarkers(buses);
-            else showNoBusFound();
+            if(!buses.isEmpty()) {
+                removeMarkers();
+                addMarkers(buses);
+            } else showNoBusFound();
         }
-        getListener().onComponentMapReady();
+
+        if(!isAutoUpdate) getListener().onComponentMapReady();
+        autoUpdateBusesPosition();
     }
 
     /**
@@ -90,13 +110,31 @@ public class BusMarkerConponent extends MapComponent {
            Marker marker = getMap().addMarker(getMarker(bus));
             markers.add(marker);
         }
-        getMap().moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), BOUNDS_PADDING));
+        if(!isAutoUpdate) getMap().moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), BOUNDS_PADDING));
+    }
+
+    /**
+     * Used to remove all markers of each bus from the map
+     */
+    @UiThread
+    void removeMarkers() {
+        for(Marker m : markers)
+            m.remove();
+        markers.clear();
     }
 
     @UiThread
     void showNoBusFound() {
         String message = getContext().getResources().getString(R.string.no_bus_found);
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Used to shutdown threads of autoupdate proccess
+     */
+    private void shutdownAutoUpdate() {
+        BackgroundExecutor.cancelAll(BUSES_UPDATE_THREAD_ID, INTERRUPT_IF_RUNNING);
+        BackgroundExecutor.cancelAll(GET_BUSES_THREAD_ID, INTERRUPT_IF_RUNNING);
     }
 
     /**
