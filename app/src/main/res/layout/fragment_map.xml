@@ -9,7 +9,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
+<!--
     <AutoCompleteTextView
         android:id="@+id/search"
         android:background="@drawable/rounded_corners_white"
@@ -24,7 +24,7 @@
         android:layout_marginTop="42dp"
         android:imeOptions="actionSearch"
         android:completionThreshold="1"/>
-
+-->
     <ImageButton
         android:id="@+id/button_user_location"
         style="@style/botao"

@@ -1,7 +1,11 @@
 package com.tormentaLabs.riobus.map;
 
+import android.app.SearchManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -24,6 +28,9 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.EditorAction;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
+import org.androidannotations.annotations.OptionsMenuItem;
 import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
@@ -33,15 +40,13 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
  * @since 2.0
  * Created on 01/09/15
  */
+@OptionsMenu(R.menu.map_fragment)
 @EFragment(R.layout.fragment_map)
-public class MapFragment extends Fragment implements MapComponentListener {
+public class MapFragment extends Fragment implements MapComponentListener, SearchView.OnQueryTextListener {
 
     private static final String TAG = MapFragment_.class.getName();
     private GoogleMap map;
     private SupportMapFragment mapFragment;
-
-    @SystemService
-    InputMethodManager inputMethodManager;
 
     @Pref
     MapPrefs_ mapPrefs;
@@ -58,8 +63,8 @@ public class MapFragment extends Fragment implements MapComponentListener {
     @Bean
     HistoryController historyController;
 
-    @ViewById(R.id.search)
-    AutoCompleteTextView searchTextView;
+    @OptionsMenuItem(R.id.search)
+    MenuItem menuSearch;
 
     @AfterViews
     public void afterViews() {
@@ -71,9 +76,9 @@ public class MapFragment extends Fragment implements MapComponentListener {
                 .setListener(this)
                 .buildComponent();
 
-        setupAutoComplete();
+//        setupAutoComplete();
     }
-
+/*
     private void setupAutoComplete() {
         final String[] lines = historyController.getHistory();
 
@@ -100,32 +105,12 @@ public class MapFragment extends Fragment implements MapComponentListener {
         userMarkerComponent.updateUserLocation();
     }
 
-    /**
-     * Listener of input search for keybord event action.
-     * It is called every time the user press enter button.
-     * @param textView
-     * @param actionId
-     */
-    @EditorAction(R.id.search)
-    public void onPerformSearch(TextView textView, int actionId) {
-        String keyword = textView.getText().toString();
-        if(MapUtils.isSearchAction(actionId) && MapUtils.isValidString(keyword)) {
-            inputMethodManager.hideSoftInputFromWindow(textView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            busMapComponent.setLine(keyword)
-            .setListener(this)
-            .setMap(map)
-            .buildComponent();
-
-            itineraryComponent.setLine(keyword)
-            .setListener(this)
-            .setMap(map)
-            .buildComponent();
-
-            String[] lines = MapUtils.separateMultiLines(keyword);
-            historyController.addLines(lines);
-            setupAutoComplete();
-        }
-    };
+    @OptionsItem(R.id.search)
+    boolean menuSearch() {
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+        searchView.setOnQueryTextListener(this);
+        return false;
+    }
 
     /**
      * Used to access the map fragment which is a child fragment called map_fragment
@@ -145,4 +130,29 @@ public class MapFragment extends Fragment implements MapComponentListener {
         Log.e(TAG, error.getMessage());
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String keyword) {
+
+        if (MapUtils.isValidString(keyword)) {
+            busMapComponent.setLine(keyword)
+                    .setListener(this)
+                    .setMap(map)
+                    .buildComponent();
+
+            itineraryComponent.setLine(keyword)
+                    .setListener(this)
+                    .setMap(map)
+                    .buildComponent();
+
+            String[] lines = MapUtils.separateMultiLines(keyword);
+            historyController.addLines(lines);
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
 }
