@@ -1,7 +1,24 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowNoTitle">true</item>
+    <style name="RioBus" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/riobus_primary</item>
+        <!--   darker variant for the status bar and contextual app bars -->
+        <item name="colorPrimaryDark">@color/riobus_primary_dark</item>
+        <!--   theme UI controls like checkboxes and text fields e.g. FloatActionButton -->
+        <item name="colorAccent">@color/riobus_accent</item>
+        <!-- Title Text Color -->
+        <item name="android:textColorPrimary">@color/riobus_primary_text</item>
+        <!-- color of the menu overflow icon (three vertical dots) -->
+        <item name="android:textColorSecondary">@color/riobus_secondary_text</item>
+
+        <item name="android:windowBackground">@color/riobus_window_background</item>
+
+    </style>
+
+    <style name="RioBus.ToolBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">@color/riobus_primary</item>
     </style>
 
     <style name="search_map">

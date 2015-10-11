@@ -9,4 +9,6 @@
 
     <dimen name="component_height">48dp</dimen>
     <dimen name="component_width">48dp</dimen>
+
+    <dimen name="riobus_elevation">6dp</dimen>
 </resources>

@@ -128,14 +128,6 @@ public class MapFragment extends Fragment implements MapComponentListener {
     };
 
     /**
-     * Used to show/hide sidemenu based on sidemenu button click
-     */
-    @Click(R.id.sidemenu_toggle)
-    public void sidemenuToggle() {
-        ((RioBusActivity_)getActivity()).sidemenuToggle();
-    }
-
-    /**
      * Used to access the map fragment which is a child fragment called map_fragment
      * @return SupportMapFragment
      */
