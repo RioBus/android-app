@@ -36,6 +36,16 @@
         <item name="android:indeterminate">true</item>
     </style>
 
+    <style name="RioBus.Map.FloatPositionButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:src">@drawable/ic_location_on</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+    </style>
+
     <style name="botao">
         <item name="android:background">@drawable/rounded_corners_white</item>
         <item name="android:layout_alignParentBottom">true</item>

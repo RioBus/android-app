@@ -122,7 +122,7 @@ public class MapFragment extends Fragment implements MapComponentListener, Searc
         progressBar.setVisibility(visibility);
     }
 
-    @Click(R.id.button_user_location)
+    @Click(R.id.userPositionButton)
     void updateUserLocation() {
         userMarkerComponent.updateUserLocation();
     }
