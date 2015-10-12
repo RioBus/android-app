@@ -33,14 +33,14 @@ public class RioBusActivity extends AppCompatActivity implements View.OnClickLis
 
     @ViewById(R.id.rio_bus_drawer_layout)
     DrawerLayout rioBusDrawerLayout;
-
+/*
     @ViewById(R.id.sidemenu_drawer_list)
     ListView sidemenuDrawerList;
-
+*/
     @AfterViews
     public void afterViews() {
         setupToolBar();
-        sidemenuDrawerList.setAdapter(sidemenuListAdapter);
+        //sidemenuDrawerList.setAdapter(sidemenuListAdapter);
     }
 
     private void setupToolBar() {
@@ -48,13 +48,13 @@ public class RioBusActivity extends AppCompatActivity implements View.OnClickLis
         rioBusToolBar.setNavigationIcon(R.drawable.ic_menu);
         rioBusToolBar.setNavigationOnClickListener(this);
     }
-
+    /*
     @ItemClick(R.id.sidemenu_drawer_list)
     public void sidemenuItemClicked(String item) {
         rioBusDrawerLayout.closeDrawer(Gravity.LEFT);
         Toast.makeText(this, item, Toast.LENGTH_LONG).show();
     }
-
+*/
     @Override
     public void onClick(View view) {
         if(rioBusDrawerLayout.isDrawerOpen(Gravity.LEFT))

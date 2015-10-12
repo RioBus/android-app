@@ -1,7 +1,7 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/riobusToolbar"
@@ -20,7 +20,16 @@
             android:id="@+id/content_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-        <!-- The navigation drawer -->
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/navigation"
+            style="@style/RioBus.Navigation.View"
+            app:headerLayout="@layout/nav_header"
+            app:itemTextColor="@color/riobus_text"
+            app:itemIconTint="@color/riobus_text"
+            app:menu="@menu/rio_bus_activty"/>
+
+        <!-- The navigation drawer
         <ListView android:id="@+id/sidemenu_drawer_list"
             android:layout_width="240dp"
             android:layout_height="match_parent"
@@ -29,5 +38,6 @@
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp"
             android:background="#111"/>
+            -->
     </android.support.v4.widget.DrawerLayout>
 </RelativeLayout>

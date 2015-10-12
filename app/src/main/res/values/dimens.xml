@@ -10,6 +10,10 @@
     <dimen name="component_height">48dp</dimen>
     <dimen name="component_width">48dp</dimen>
 
+    <dimen name="riobus_spacing_short">8dp</dimen>
+    <dimen name="riobus_spacing_middle">16dp</dimen>
+
     <dimen name="riobus_elevation">6dp</dimen>
     <dimen name="riobus_floating_button_margin">20dp</dimen>
+    <dimen name="riobus_nav_header_height">192dp</dimen>
 </resources>
