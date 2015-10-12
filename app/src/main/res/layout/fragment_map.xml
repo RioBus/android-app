@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -7,24 +6,12 @@
     <fragment
         android:id="@+id/map_fragment"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-<!--
-    <AutoCompleteTextView
-        android:id="@+id/search"
-        android:background="@drawable/rounded_corners_white"
-        android:layout_width="match_parent"
-        android:padding="10dp"
-        android:layout_margin="15dp"
-        android:singleLine="true"
-        android:drawableRight="@drawable/ic_action_search"
-        android:layout_height="@dimen/component_height"
-        android:hint="@string/line_number"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="42dp"
-        android:imeOptions="actionSearch"
-        android:completionThreshold="1"/>
--->
+        style="@style/RioBus.Map" />
+
+    <ProgressBar
+        android:id="@+id/rioBusProgressBar"
+        style="@style/RioBus.Map.ProgressBar"/>
+
     <ImageButton
         android:id="@+id/button_user_location"
         style="@style/botao"

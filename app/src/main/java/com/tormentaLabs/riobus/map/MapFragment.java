@@ -1,14 +1,18 @@
 package com.tormentaLabs.riobus.map;
 
 import android.app.SearchManager;
+import android.graphics.AvoidXfermode;
+import android.graphics.PorterDuff;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -32,6 +36,7 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.OptionsMenuItem;
 import org.androidannotations.annotations.SystemService;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
@@ -63,6 +68,9 @@ public class MapFragment extends Fragment implements MapComponentListener, Searc
     @Bean
     HistoryController historyController;
 
+    @ViewById(R.id.rioBusProgressBar)
+    ProgressBar progressBar;
+
     @OptionsMenuItem(R.id.search)
     MenuItem menuSearch;
 
@@ -77,6 +85,7 @@ public class MapFragment extends Fragment implements MapComponentListener, Searc
                 .buildComponent();
 
 //        setupAutoComplete();
+
     }
 /*
     private void setupAutoComplete() {
@@ -100,6 +109,19 @@ public class MapFragment extends Fragment implements MapComponentListener, Searc
         map.setMyLocationEnabled(mapPrefs.isMapMyLocationEnable().get());
     }
 
+    /**
+     * Used to access the map fragment which is a child fragment called map_fragment
+     * @return SupportMapFragment
+     */
+    private SupportMapFragment getMapFragment() {
+        return (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment);
+    }
+
+    @UiThread
+    void setProgressVisibility(int visibility) {
+        progressBar.setVisibility(visibility);
+    }
+
     @Click(R.id.button_user_location)
     void updateUserLocation() {
         userMarkerComponent.updateUserLocation();
@@ -112,17 +134,10 @@ public class MapFragment extends Fragment implements MapComponentListener, Searc
         return false;
     }
 
-    /**
-     * Used to access the map fragment which is a child fragment called map_fragment
-     * @return SupportMapFragment
-     */
-    private SupportMapFragment getMapFragment() {
-        return (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment);
-    }
-
     @Override
     public void onComponentMapReady() {
         Log.d(TAG, "Map Ready");
+        setProgressVisibility(View.GONE);
     }
 
     @Override
@@ -146,6 +161,7 @@ public class MapFragment extends Fragment implements MapComponentListener, Searc
 
             String[] lines = MapUtils.separateMultiLines(keyword);
             historyController.addLines(lines);
+            setProgressVisibility(View.VISIBLE);
         }
 
         return false;

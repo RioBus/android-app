@@ -6,9 +6,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/riobusToolbar"
         style="@style/RioBus.ToolBar"
-        android:elevation="@dimen/riobus_elevation">
-
-    </android.support.v7.widget.Toolbar>
+        android:elevation="@dimen/riobus_elevation"/>
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/rio_bus_drawer_layout"
