@@ -2,8 +2,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.tormentaLabs.riobus.RioBusActivty">
-    <item android:id="@+id/action_example" android:title="@string/action_example"
-        app:showAsAction="withText|ifRoom" />
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        app:showAsAction="withText|ifRoom" />
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/action_home" android:title="@string/menu_home"
+            android:icon="@drawable/ic_home" android:checkable="true"
+            app:showAsAction="withText|ifRoom" />
+        <item android:id="@+id/action_history" android:title="@string/menu_history" android:checkable="true"
+            android:icon="@drawable/ic_history" app:showAsAction="withText|ifRoom"/>
+        <item android:id="@+id/action_settings" android:title="@string/menu_settings" android:checkable="true"
+            android:icon="@drawable/ic_settings"
+            app:showAsAction="withText|ifRoom" />
+    </group>
 </menu>

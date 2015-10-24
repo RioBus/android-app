@@ -1,65 +1,100 @@
 package com.tormentaLabs.riobus;
 
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import com.tormentaLabs.riobus.sidemenu.adapter.SidemenuListAdapter;
+import com.tormentaLabs.riobus.history.fragment.HistoryFragment;
+import com.tormentaLabs.riobus.history.fragment.HistoryFragment_;
+import com.tormentaLabs.riobus.map.MapFragment;
+import com.tormentaLabs.riobus.map.MapFragment_;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Fullscreen;
-import org.androidannotations.annotations.ItemClick;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_rio_bus)
-public class RioBusActivity extends AppCompatActivity implements View.OnClickListener {
+public class RioBusActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = RioBusActivity_.class.getName();
 
-    @Bean
-    SidemenuListAdapter sidemenuListAdapter;
+    private int currentViewId;
 
     @ViewById(R.id.riobusToolbar)
     Toolbar rioBusToolBar;
 
     @ViewById(R.id.rio_bus_drawer_layout)
     DrawerLayout rioBusDrawerLayout;
-/*
-    @ViewById(R.id.sidemenu_drawer_list)
-    ListView sidemenuDrawerList;
-*/
+
+    @ViewById(R.id.navigation)
+    NavigationView navigationView;
+
     @AfterViews
     public void afterViews() {
         setupToolBar();
-        //sidemenuDrawerList.setAdapter(sidemenuListAdapter);
+        showMapFragment();
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void setupToolBar() {
         setSupportActionBar(rioBusToolBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         rioBusToolBar.setNavigationIcon(R.drawable.ic_menu);
         rioBusToolBar.setNavigationOnClickListener(this);
     }
-    /*
-    @ItemClick(R.id.sidemenu_drawer_list)
-    public void sidemenuItemClicked(String item) {
+
+    private void closeSideMenu() {
         rioBusDrawerLayout.closeDrawer(Gravity.LEFT);
-        Toast.makeText(this, item, Toast.LENGTH_LONG).show();
     }
-*/
+
+    private void openSideMenu() {
+        rioBusDrawerLayout.openDrawer(Gravity.LEFT);
+    }
+
     @Override
     public void onClick(View view) {
-        if(rioBusDrawerLayout.isDrawerOpen(Gravity.LEFT))
-            rioBusDrawerLayout.closeDrawer(Gravity.LEFT);
-        else
-            rioBusDrawerLayout.openDrawer(Gravity.LEFT);
+        openSideMenu();
+    }
+
+    private void showMapFragment() {
+        MapFragment mapFragment = new MapFragment_();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, mapFragment)
+                .commit();
+        currentViewId = R.id.action_home;
+    }
+
+    private void showHistoryFragment() {
+        HistoryFragment historyFragment = new HistoryFragment_();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, historyFragment)
+                .commit();
+        currentViewId = R.id.action_history;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        if(menuItem.getItemId() != currentViewId)
+            navigate(menuItem.getItemId());
+
+        closeSideMenu();
+        return true;
+    }
+
+    private void navigate(int selectedViewId) {
+        switch (selectedViewId) {
+            case R.id.action_home:
+                showMapFragment();
+                break;
+            case R.id.action_history:
+                showHistoryFragment();
+                break;
+            default:
+                break;
+        }
     }
 }

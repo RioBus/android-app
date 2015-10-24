@@ -43,32 +43,23 @@
 
         ]]>
     </string>
-    <string name="title_activity_rio_bus_activty">RioBusActivty</string>
 
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+
+    <string name="title_activity_rio_bus_activty">RioBusActivty</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_example">Example action</string>
-
-    <string name="action_settings">Settings</string>
     <string name="title_activity_rio_bus">RioBus</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="server_addr_v3">http://rest.riob.us/</string>
 
-    <array name="menu_items">
-        <item>Histórico</item>
-        <item>Favoritos</item>
-        <item>Compartilhar</item>
-        <item>Configurações</item>
-    </array>
-
     <string name="no_bus_found">Nenhum Onibus Encontrado</string>
+
+    <!-- MENU -->
+    <string name="menu_home">Início</string>
+    <string name="menu_history">Histórico</string>
+    <string name="menu_settings">Configurações</string>
 
 </resources>

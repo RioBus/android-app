@@ -3,23 +3,28 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/riobusToolbar"
-        style="@style/RioBus.ToolBar"
-        android:elevation="@dimen/riobus_elevation"/>
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/rio_bus_drawer_layout"
-        android:layout_below="@id/riobusToolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- The main content view -->
-        <fragment
-            android:name="com.tormentaLabs.riobus.map.MapFragment_"
-            android:id="@+id/content_frame"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/riobusToolbar"
+                style="@style/RioBus.ToolBar"
+                android:elevation="@dimen/riobus_elevation"/>
+
+            <FrameLayout
+                android:layout_below="@id/riobusToolbar"
+                android:id="@+id/content_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </RelativeLayout>
 
         <android.support.design.widget.NavigationView
             android:id="@+id/navigation"
@@ -29,15 +34,5 @@
             app:itemIconTint="@color/riobus_text"
             app:menu="@menu/rio_bus_activty"/>
 
-        <!-- The navigation drawer
-        <ListView android:id="@+id/sidemenu_drawer_list"
-            android:layout_width="240dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:choiceMode="singleChoice"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp"
-            android:background="#111"/>
-            -->
     </android.support.v4.widget.DrawerLayout>
 </RelativeLayout>
