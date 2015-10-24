@@ -17,10 +17,10 @@
 
         <meta-data
             android:name="AA_MODELS"
-            android:value="com.tormentaLabs.riobus.history.model.HistoryItem" />
+            android:value="com.tormentaLabs.riobus.core.model.LineModel, com.tormentaLabs.riobus.history.model.HistoryModel" />
 
         <meta-data android:name="AA_DB_NAME" android:value="RioBus.db" />
-        <meta-data android:name="AA_DB_VERSION" android:value="1" />
+        <meta-data android:name="AA_DB_VERSION" android:value="2" />
 
         <meta-data
             android:name="com.google.android.gms.version"

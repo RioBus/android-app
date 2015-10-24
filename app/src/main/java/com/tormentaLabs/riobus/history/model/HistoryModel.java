@@ -3,6 +3,7 @@ package com.tormentaLabs.riobus.history.model;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.tormentaLabs.riobus.core.model.LineModel;
 
 /**
  * @author limazix
@@ -10,23 +11,21 @@ import com.activeandroid.annotation.Table;
  * Created on 05/10/15
  */
 @Table(name = "HISTORY")
-public class HistoryItem extends Model {
+public class HistoryModel extends Model {
 
     @Column(name = "LINE")
-    public String line;
+    public LineModel line;
 
-    @Column(name = "LAST_USAGE_DATE")
-    public long lastUsage;
+    @Column(name = "CREATED_AT")
+    public String createdAt;
 
-    public HistoryItem() {
+    public HistoryModel() {
         super();
     }
 
-    public HistoryItem(String line, long lastUsage) {
+    public HistoryModel(LineModel line, String createdAt) {
         super();
         this.line = line;
-        this.lastUsage = lastUsage;
+        this.createdAt = createdAt;
     }
-
-
 }

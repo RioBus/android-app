@@ -83,18 +83,6 @@ public class MapFragment extends Fragment implements MapComponentListener, Searc
         userMarkerComponent.setMap(map)
                 .setListener(this)
                 .buildComponent();
-
-//        setupAutoComplete();
-
-    }
-/*
-    private void setupAutoComplete() {
-        final String[] lines = historyController.getHistory();
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_dropdown_item_1line, lines);
-
-        searchTextView.setAdapter(adapter);
     }
 
     /**

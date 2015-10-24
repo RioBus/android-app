@@ -1,11 +1,15 @@
 package com.tormentaLabs.riobus.history.controller;
 
 import com.activeandroid.query.Select;
-import com.tormentaLabs.riobus.history.model.HistoryItem;
+import com.tormentaLabs.riobus.core.controller.LineController;
+import com.tormentaLabs.riobus.core.model.LineModel;
+import com.tormentaLabs.riobus.history.model.HistoryModel;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
+import org.joda.time.DateTime;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Used to control history data access
@@ -16,33 +20,26 @@ import java.util.ArrayList;
 @EBean
 public class HistoryController {
 
+    @Bean
+    LineController lineController;
+
     public void addLines(String[] lines) {
         for(String line : lines)
             addLine(line);
     }
 
     public void addLine(String line) {
-        HistoryItem historyItem = new Select().from(HistoryItem.class)
-                .where("LINE = ?", line).executeSingle();
 
-        if(historyItem == null) {
-            historyItem = new HistoryItem();
-            historyItem.line = line;
-        }
+        LineModel lineModel = lineController.createIfNotExists(line);
 
-        historyItem.lastUsage = System.currentTimeMillis();
+        HistoryModel historyItem = new HistoryModel();
+        historyItem.line = lineModel;
+        historyItem.createdAt = new DateTime().toString();
         historyItem.save();
     }
 
-    public String[] getHistory() {
-        ArrayList<HistoryItem> historyItems = (ArrayList) new Select().from(HistoryItem.class).execute();
-
-        String[] lines = new String[historyItems.size()];
-        for(HistoryItem item : historyItems) {
-            lines[historyItems.indexOf(item)] = item.line;
-        }
-
-        return lines;
+    public List<HistoryModel> getHistory() {
+        return new Select().from(HistoryModel.class).execute();
     }
 
 }
