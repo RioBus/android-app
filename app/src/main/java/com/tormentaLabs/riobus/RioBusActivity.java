@@ -1,12 +1,13 @@
 package com.tormentaLabs.riobus;
 
+import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.tormentaLabs.riobus.history.fragment.HistoryFragment;
 import com.tormentaLabs.riobus.history.fragment.HistoryFragment_;
@@ -18,11 +19,12 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_rio_bus)
-public class RioBusActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class RioBusActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = RioBusActivity_.class.getName();
 
     private int currentViewId;
+    private ActionBarDrawerToggle rioBusDrawerToggle;
 
     @ViewById(R.id.riobusToolbar)
     Toolbar rioBusToolBar;
@@ -41,23 +43,11 @@ public class RioBusActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void setupToolBar() {
+        rioBusDrawerToggle = new ActionBarDrawerToggle(this, rioBusDrawerLayout, rioBusToolBar, R.string.drawer_open, R.string.drawer_close);
+        rioBusDrawerLayout.setDrawerListener(rioBusDrawerToggle);
+
         setSupportActionBar(rioBusToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        rioBusToolBar.setNavigationIcon(R.drawable.ic_menu);
-        rioBusToolBar.setNavigationOnClickListener(this);
-    }
-
-    private void closeSideMenu() {
-        rioBusDrawerLayout.closeDrawer(Gravity.LEFT);
-    }
-
-    private void openSideMenu() {
-        rioBusDrawerLayout.openDrawer(Gravity.LEFT);
-    }
-
-    @Override
-    public void onClick(View view) {
-        openSideMenu();
     }
 
     private void showMapFragment() {
@@ -75,13 +65,32 @@ public class RioBusActivity extends AppCompatActivity implements View.OnClickLis
                 .commit();
         currentViewId = R.id.action_history;
     }
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        rioBusDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        rioBusDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (rioBusDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
+        rioBusDrawerLayout.closeDrawers();
         if(menuItem.getItemId() != currentViewId)
             navigate(menuItem.getItemId());
-
-        closeSideMenu();
         return true;
     }
 

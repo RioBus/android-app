@@ -60,6 +60,7 @@
     <!-- MENU -->
     <string name="menu_home">Início</string>
     <string name="menu_history">Histórico</string>
+    <string name="menu_favorite">Favoritos</string>
     <string name="menu_settings">Configurações</string>
 
 </resources>

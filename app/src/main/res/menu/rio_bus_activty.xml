@@ -7,10 +7,12 @@
         <item android:id="@+id/action_home" android:title="@string/menu_home"
             android:icon="@drawable/ic_home" android:checkable="true"
             app:showAsAction="withText|ifRoom" />
+        <item android:id="@+id/action_favorite" android:title="@string/menu_favorite"
+            android:checkable="true" android:icon="@drawable/ic_favorite" app:showAsAction="withText|ifRoom"/>
         <item android:id="@+id/action_history" android:title="@string/menu_history" android:checkable="true"
             android:icon="@drawable/ic_history" app:showAsAction="withText|ifRoom"/>
-        <item android:id="@+id/action_settings" android:title="@string/menu_settings" android:checkable="true"
-            android:icon="@drawable/ic_settings"
+        <item android:id="@+id/action_settings" android:title="@string/menu_settings"
+            android:checkable="true" android:icon="@drawable/ic_settings"
             app:showAsAction="withText|ifRoom" />
     </group>
 </menu>
