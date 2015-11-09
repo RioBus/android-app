@@ -1,14 +1,12 @@
 package com.tormentaLabs.riobus.marker;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -22,7 +20,6 @@ import com.tormentaLabs.riobus.utils.RioBusUtils;
 
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EBean;
-import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.rest.RestService;
 import org.androidannotations.api.BackgroundExecutor;
@@ -36,7 +33,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Class used to manage the buses of some given line to the map as a component.
+ * Class used to manage the buses of some given number to the map as a component.
  * @author limazix
  * @since 2.0
  * Created on 02/09/15.
@@ -158,7 +155,7 @@ public class BusMarkerConponent extends MapComponent {
     private BitmapDescriptor getIcon(String timestamp) {
         BitmapDescriptor bitmap = null;
         try {
-            Date date = RioBusUtils.parseStringToDate(timestamp);
+            Date date = RioBusUtils.parseStringToDateTime(timestamp);
 
             DateTime current = new DateTime(Calendar.getInstance());
             DateTime last = new DateTime(date);

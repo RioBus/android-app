@@ -1,24 +1,16 @@
 package com.tormentaLabs.riobus.map;
 
-import android.app.SearchManager;
-import android.graphics.AvoidXfermode;
-import android.graphics.PorterDuff;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.tormentaLabs.riobus.R;
-import com.tormentaLabs.riobus.RioBusActivity_;
 import com.tormentaLabs.riobus.history.controller.HistoryController;
 import com.tormentaLabs.riobus.itinerary.ItineraryComponent;
 import com.tormentaLabs.riobus.marker.BusMarkerConponent;
@@ -31,11 +23,9 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.EditorAction;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.OptionsMenuItem;
-import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;

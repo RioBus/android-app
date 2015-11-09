@@ -3,28 +3,21 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/riobusToolbar"
+        style="@style/RioBus.ToolBar"
+        android:elevation="@dimen/riobus_elevation"/>
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/rio_bus_drawer_layout"
+        android:layout_below="@id/riobusToolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <FrameLayout
+            android:id="@+id/content_frame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/riobusToolbar"
-                style="@style/RioBus.ToolBar"
-                android:elevation="@dimen/riobus_elevation"/>
-
-            <FrameLayout
-                android:layout_below="@id/riobusToolbar"
-                android:id="@+id/content_frame"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </RelativeLayout>
+            android:layout_height="match_parent" />
 
         <android.support.design.widget.NavigationView
             android:id="@+id/navigation"

@@ -12,7 +12,6 @@ import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.marker.model.BusModel;
 import com.tormentaLabs.riobus.utils.RioBusUtils;
 
-import org.androidannotations.annotations.EBean;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Hours;
@@ -64,7 +63,7 @@ public class BusInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
                 try {
                     TextView dateTime = (TextView) view.findViewById(R.id.hora);
-                    String datePrepared = prepareDate(RioBusUtils.parseStringToDate(bus.getTimeStamp()));
+                    String datePrepared = prepareDate(RioBusUtils.parseStringToDateTime(bus.getTimeStamp()));
                     dateTime.setText(datePrepared);
                 } catch (ParseException e) {
                     e.printStackTrace();

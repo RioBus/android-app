@@ -12,15 +12,15 @@ import com.activeandroid.annotation.Table;
 @Table(name = "LINES")
 public class LineModel extends Model {
 
-    @Column(name = "LINE")
-    public String line;
+    @Column(name = "NUMBER")
+    public String number;
 
     public LineModel() {
         super();
     }
 
-    public LineModel(String line) {
+    public LineModel(String number) {
         super();
-        this.line = line;
+        this.number = number;
     }
 }

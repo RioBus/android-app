@@ -79,4 +79,37 @@
         <item name="android:layout_alignParentRight">true</item>
     </style>
 
+    <style name="RioBus.History">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="RioBus.History.List">
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_margin">@dimen/riobus_spacing_short</item>
+    </style>
+
+    <style name="RioBus.History.Group">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/riobus_spacing_middle</item>
+        <item name="android:textColor">#2d2d2d</item>
+    </style>
+
+    <style name="RioBus.History.Group.Title">
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_alignParentRight">true</item>
+    </style>
+
+    <style name="RioBus.History.Group.Item">
+    </style>
+
+    <style name="RioBus.History.Group.Item.Title">
+        <item name="android:layout_alignParentLeft">true</item>
+    </style>
+
+    <style name="RioBus.History.Group.Item.Date">
+        <item name="android:layout_alignParentRight">true</item>
+    </style>
+
 </resources>

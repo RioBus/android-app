@@ -19,7 +19,7 @@ import org.androidannotations.annotations.rest.RestService;
 import java.util.ArrayList;
 
 /**
- * Class used to manage the itinarary of some given line to the map as a component.
+ * Class used to manage the itinarary of some given number to the map as a component.
  * @author limazix
  * @since 2.1
  * Created on 05/09/15.
