@@ -1,11 +1,16 @@
 package com.tormentaLabs.riobus.map;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.InflateException;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -40,6 +45,7 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 public class MapFragment extends Fragment implements MapComponentListener, SearchView.OnQueryTextListener {
 
     private static final String TAG = MapFragment_.class.getName();
+    private static View view;
     private GoogleMap map;
     private SupportMapFragment mapFragment;
 
@@ -63,6 +69,32 @@ public class MapFragment extends Fragment implements MapComponentListener, Searc
 
     @OptionsMenuItem(R.id.search)
     MenuItem menuSearch;
+
+    /**
+     * Method override to solve the fragment navigation with nested view problem
+     * @see {@link http://stackoverflow.com/questions/14083950/duplicate-id-tag-null-or-parent-id-with-another-fragment-for-com-google-androi}
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if(view != null) {
+            ViewGroup parent = (ViewGroup) view.getParent();
+            if(parent != null) {
+                parent.removeView(view);
+            }
+        }
+
+        try {
+            view = inflater.inflate(R.layout.fragment_map, container, false);
+        } catch (InflateException e) {
+            Log.d(TAG, e.getMessage()); // Map is already there
+        }
+        return view;
+    }
 
     @AfterViews
     public void afterViews() {
@@ -114,7 +146,6 @@ public class MapFragment extends Fragment implements MapComponentListener, Searc
 
     @Override
     public void onComponentMapReady() {
-        Log.d(TAG, "Map Ready");
         setProgressVisibility(View.GONE);
     }
 
