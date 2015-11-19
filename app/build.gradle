@@ -34,9 +34,9 @@ apt {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:design:22.2.0'
-    compile 'com.android.support:multidex:1.0.0'
     compile 'joda-time:joda-time:2.3'
-    compile 'com.google.android.gms:play-services:7.5.0'
+    compile 'com.google.android.gms:play-services-maps:7.5.0'
+    compile 'com.google.android.gms:play-services-location:7.5.0'
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
     compile "org.springframework.android:spring-android-rest-template:$SpringVersion"
@@ -66,7 +66,6 @@ android {
         targetSdkVersion 22
         versionCode 62
         versionName '3.0.0'
-        multiDexEnabled true
     }
 
     buildTypes {
