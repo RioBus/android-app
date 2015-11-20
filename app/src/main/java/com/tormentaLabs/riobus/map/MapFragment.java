@@ -1,9 +1,15 @@
 package com.tormentaLabs.riobus.map;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.CursorAdapter;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.InflateException;
@@ -13,9 +19,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.activeandroid.content.ContentProvider;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.tormentaLabs.riobus.R;
+import com.tormentaLabs.riobus.core.model.LineModel;
 import com.tormentaLabs.riobus.history.controller.HistoryController;
 import com.tormentaLabs.riobus.itinerary.ItineraryComponent;
 import com.tormentaLabs.riobus.marker.BusMarkerConponent;
@@ -48,6 +56,7 @@ public class MapFragment extends Fragment implements MapComponentListener, Searc
     private static View view;
     private GoogleMap map;
     private SupportMapFragment mapFragment;
+    private SearchView searchView;
 
     @Pref
     MapPrefs_ mapPrefs;
@@ -139,9 +148,46 @@ public class MapFragment extends Fragment implements MapComponentListener, Searc
 
     @OptionsItem(R.id.search)
     boolean menuSearch() {
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+        searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
         searchView.setOnQueryTextListener(this);
+
+        setupSearchSuggestions();
+
         return false;
+    }
+
+    private void setupSearchSuggestions() {
+        searchView.setSuggestionsAdapter(
+                new SimpleCursorAdapter(
+                        getActivity(),
+                        android.R.layout.simple_expandable_list_item_1,
+                        null,
+                        new String[] { "NUMBER" },
+                        new int[] { android.R.id.text1 },
+                        CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER
+                ));
+
+        getActivity().getSupportLoaderManager()
+                .initLoader(0, null, new LoaderManager.LoaderCallbacks<Cursor>() {
+                    @Override
+                    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+                        return new CursorLoader(
+                                getActivity(),
+                                ContentProvider.createUri(LineModel.class, null),
+                                null,null, null, null
+                        );
+                    }
+
+                    @Override
+                    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+                        searchView.getSuggestionsAdapter().swapCursor(data);
+                    }
+
+                    @Override
+                    public void onLoaderReset(Loader<Cursor> loader) {
+                        searchView.getSuggestionsAdapter().swapCursor(null);
+                    }
+                });
     }
 
     @Override

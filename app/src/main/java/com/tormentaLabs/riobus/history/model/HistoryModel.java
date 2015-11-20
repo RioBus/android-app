@@ -1,5 +1,7 @@
 package com.tormentaLabs.riobus.history.model;
 
+import android.provider.BaseColumns;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -10,7 +12,7 @@ import com.tormentaLabs.riobus.core.model.LineModel;
  * @since 2.1
  * Created on 05/10/15
  */
-@Table(name = "HISTORY")
+@Table(name = "HISTORY", id = BaseColumns._ID)
 public class HistoryModel extends Model {
 
     @Column(name = "LINE")

@@ -1,5 +1,7 @@
 package com.tormentaLabs.riobus.favorite.model;
 
+import android.provider.BaseColumns;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -12,7 +14,7 @@ import java.sql.Date;
  * @since 3.0
  * Created on 24/10/15
  */
-@Table(name = "FAVORITE")
+@Table(name = "FAVORITE", id = BaseColumns._ID)
 public class FavoriteModel extends Model {
 
     @Column(name = "CREATED_AT")
