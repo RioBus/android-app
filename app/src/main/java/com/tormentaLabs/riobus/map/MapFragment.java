@@ -50,13 +50,15 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
  */
 @OptionsMenu(R.menu.map_fragment)
 @EFragment(R.layout.fragment_map)
-public class MapFragment extends Fragment implements MapComponentListener, SearchView.OnQueryTextListener {
+public class MapFragment extends Fragment implements MapComponentListener,
+        SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
 
     private static final String TAG = MapFragment_.class.getName();
     private static View view;
     private GoogleMap map;
     private SupportMapFragment mapFragment;
     private SearchView searchView;
+    private SimpleCursorAdapter searchSuggestionCursorAdapter;
 
     @Pref
     MapPrefs_ mapPrefs;
@@ -150,6 +152,7 @@ public class MapFragment extends Fragment implements MapComponentListener, Searc
     boolean menuSearch() {
         searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
         searchView.setOnQueryTextListener(this);
+        searchView.setOnSuggestionListener(this);
 
         setupSearchSuggestions();
 
@@ -157,15 +160,16 @@ public class MapFragment extends Fragment implements MapComponentListener, Searc
     }
 
     private void setupSearchSuggestions() {
-        searchView.setSuggestionsAdapter(
-                new SimpleCursorAdapter(
-                        getActivity(),
-                        android.R.layout.simple_expandable_list_item_1,
-                        null,
-                        new String[] { "NUMBER" },
-                        new int[] { android.R.id.text1 },
-                        CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER
-                ));
+        searchSuggestionCursorAdapter = new SimpleCursorAdapter(
+                getActivity(),
+                android.R.layout.simple_expandable_list_item_1,
+                null,
+                new String[] { "NUMBER" },
+                new int[] { android.R.id.text1 },
+                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER
+        );
+
+        searchView.setSuggestionsAdapter(searchSuggestionCursorAdapter);
 
         getActivity().getSupportLoaderManager()
                 .initLoader(0, null, new LoaderManager.LoaderCallbacks<Cursor>() {
@@ -174,7 +178,7 @@ public class MapFragment extends Fragment implements MapComponentListener, Searc
                         return new CursorLoader(
                                 getActivity(),
                                 ContentProvider.createUri(LineModel.class, null),
-                                null,null, null, null
+                                null, null, null, null
                         );
                     }
 
@@ -203,6 +207,12 @@ public class MapFragment extends Fragment implements MapComponentListener, Searc
     @Override
     public boolean onQueryTextSubmit(String keyword) {
 
+        buildBusLineMap(keyword);
+
+        return false;
+    }
+
+    private void buildBusLineMap(String keyword) {
         if (MapUtils.isValidString(keyword)) {
             busMapComponent.setLine(keyword)
                     .setListener(this)
@@ -218,12 +228,23 @@ public class MapFragment extends Fragment implements MapComponentListener, Searc
             historyController.addLines(lines);
             setProgressVisibility(View.VISIBLE);
         }
-
-        return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    @Override
+    public boolean onSuggestionSelect(int position) {
+        return false;
+    }
+
+    @Override
+    public boolean onSuggestionClick(int position) {
+        Cursor cursor = (Cursor) searchSuggestionCursorAdapter.getItem(position);
+        String keyword = cursor.getString(cursor.getColumnIndex("NUMBER"));
+        searchView.setQuery(keyword, false);
         return false;
     }
 }
