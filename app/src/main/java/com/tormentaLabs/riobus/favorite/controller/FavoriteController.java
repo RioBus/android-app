@@ -8,6 +8,8 @@ import com.tormentaLabs.riobus.favorite.model.FavoriteModel;
 import org.androidannotations.annotations.EBean;
 import org.joda.time.DateTime;
 
+import java.util.List;
+
 /**
  * @author limazix
  * @since 3.0
@@ -42,7 +44,7 @@ public class FavoriteController {
     }
 
     /**
-     * Method used to get one particular line from favorite data base
+     * Method used to get one particular line from favorite DB
      * @param line
      * @return It returns null if no entry was found
      */
@@ -50,6 +52,15 @@ public class FavoriteController {
         return new Select().from(FavoriteModel.class)
                     .where("LINE = ? ", line)
                     .executeSingle();
+    }
+
+    /**
+     * Method used to get all favorites entries from the DB
+     * @return
+     */
+    public List<FavoriteModel> getAllFavorites() {
+        return new Select().from(FavoriteModel.class)
+                .execute();
     }
 
     /**

@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.tormentaLabs.riobus.favorite.fragment.FavoriteFragment;
+import com.tormentaLabs.riobus.favorite.fragment.FavoriteFragment_;
 import com.tormentaLabs.riobus.history.fragment.HistoryFragment;
 import com.tormentaLabs.riobus.history.fragment.HistoryFragment_;
 import com.tormentaLabs.riobus.map.MapFragment;
@@ -111,6 +113,10 @@ public class RioBusActivity extends AppCompatActivity implements NavigationView.
             case R.id.action_history:
                 HistoryFragment historyFrag = new HistoryFragment_();
                 switchFragment(historyFrag);
+                break;
+            case R.id.action_favorite:
+                FavoriteFragment favoriteFrag = new FavoriteFragment_();
+                switchFragment(favoriteFrag);
                 break;
             default:
                 break;
