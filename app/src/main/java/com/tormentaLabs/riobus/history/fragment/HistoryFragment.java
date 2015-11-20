@@ -16,6 +16,7 @@ import org.androidannotations.annotations.ViewById;
  * @author limazix
  * @since 3.0
  * Created at 24/10/15
+ * @// TODO: 19/11/15 ADD Search and endless scroll list
  */
 @EFragment(R.layout.fragment_history)
 public class HistoryFragment extends Fragment {

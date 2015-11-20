@@ -16,7 +16,7 @@ import java.sql.Date;
 public class FavoriteModel extends Model {
 
     @Column(name = "CREATED_AT")
-    public Date createdAt;
+    public String createdAt;
 
     @Column(name = "LINE")
     public LineModel line;

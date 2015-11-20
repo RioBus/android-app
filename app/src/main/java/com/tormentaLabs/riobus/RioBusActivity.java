@@ -61,7 +61,7 @@ public class RioBusActivity extends AppCompatActivity implements NavigationView.
             transaction.addToBackStack(lastFragment.getClass().getName());
 
         transaction.replace(R.id.content_frame, fragment)
-                .commitAllowingStateLoss();
+                .commit();
 
         lastFragment = fragment;
     }
