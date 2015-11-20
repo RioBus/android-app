@@ -50,7 +50,7 @@ public class FavoriteController {
      */
     public FavoriteModel getFavorite(LineModel line) {
         return new Select().from(FavoriteModel.class)
-                    .where("LINE = ? ", line)
+                    .where("LINE = ? ", line.getId())
                     .executeSingle();
     }
 
@@ -68,8 +68,9 @@ public class FavoriteController {
      * @param line
      */
     public void removeFromFavorites(LineModel line) {
+        FavoriteModel favorite = getFavorite(line);
         new Delete().from(FavoriteModel.class)
-                .where("LINE = ? ", line)
+                .where("LINE = ? ", line.getId())
                 .execute();
     }
 

@@ -55,10 +55,12 @@ public class FavoriteStarView extends RelativeLayout implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-
-        if(isFavorite) favoriteController.removeFromFavorites(line);
-        else favoriteController.addToFavorites(line);
-
-        isFavorite = !isFavorite;
+        if(isFavorite) {
+            favoriteController.removeFromFavorites(line);
+            isFavorite = false;
+        } else {
+            favoriteController.addToFavorites(line);
+            isFavorite = true;
+        }
     }
 }
