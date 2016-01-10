@@ -243,8 +243,9 @@ public class MapFragment extends Fragment implements MapComponentListener,
     @Override
     public boolean onSuggestionClick(int position) {
         Cursor cursor = (Cursor) searchSuggestionCursorAdapter.getItem(position);
-        String keyword = cursor.getString(cursor.getColumnIndex("NUMBER"));
-        searchView.setQuery(keyword, false);
+        String suggestionLine = cursor.getString(cursor.getColumnIndex("NUMBER"));
+
+        searchView.setQuery(suggestionLine, true);
         return false;
     }
 }
