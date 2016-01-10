@@ -3,7 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/riobusFavoriteToolbar"
+        style="@style/RioBus.ToolBar"
+        android:elevation="@dimen/riobus_elevation"/>
+
     <ListView
+        android:layout_below="@id/riobusFavoriteToolbar"
         android:id="@+id/favorityList"
         style="@style/RioBus.Favorite.List"/>
 

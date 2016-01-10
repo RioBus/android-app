@@ -1,6 +1,7 @@
-package com.tormentaLabs.riobus.favorite.fragment;
+package com.tormentaLabs.riobus.favorite;
 
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 
 import com.tormentaLabs.riobus.R;
@@ -8,17 +9,20 @@ import com.tormentaLabs.riobus.favorite.adapter.FavoriteAdapter;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 /**
  * Class used to list all favorite lines
  * @author limazix
  * @since 3.0
- * @// TODO: 19/11/15 ADD Search and endless scroll list
+ * @// TODO: 10/01/16 ADD Search and endless scroll list
  */
-@EFragment(R.layout.fragment_favorite)
-public class FavoriteFragment extends Fragment {
+@EActivity(R.layout.activity_favorite)
+public class FavoriteActivity extends AppCompatActivity {
+
+    @ViewById(R.id.riobusFavoriteToolbar)
+    Toolbar rioBusToolBar;
 
     @Bean
     FavoriteAdapter favoriteAdapter;
@@ -28,6 +32,8 @@ public class FavoriteFragment extends Fragment {
 
     @AfterViews
     void afterViews() {
+        setSupportActionBar(rioBusToolBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         favoriteList.setAdapter(favoriteAdapter);
     }
 }

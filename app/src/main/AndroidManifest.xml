@@ -38,12 +38,22 @@
         <activity
             android:name=".RioBusActivity_"
             android:screenOrientation="portrait"
-            android:label="@string/title_activity_rio_bus" >
+            android:label="@string/title_activity_rio_bus"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".favorite.FavoriteActivity_"
+            android:screenOrientation="portrait"
+            android:label="@string/favorite_page_title"
+            android:parentActivityName=".RioBusActivity_">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RioBusActivity_"/>
         </activity>
     </application>
 
