@@ -2,7 +2,6 @@ package com.tormentaLabs.riobus.map;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -12,11 +11,8 @@ import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.view.InflateException;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.activeandroid.content.ContentProvider;
@@ -26,10 +22,10 @@ import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.core.model.LineModel;
 import com.tormentaLabs.riobus.history.controller.HistoryController;
 import com.tormentaLabs.riobus.itinerary.ItineraryComponent;
-import com.tormentaLabs.riobus.marker.BusMarkerConponent;
 import com.tormentaLabs.riobus.map.listener.MapComponentListener;
 import com.tormentaLabs.riobus.map.utils.MapPrefs_;
 import com.tormentaLabs.riobus.map.utils.MapUtils;
+import com.tormentaLabs.riobus.marker.BusMarkerConponent;
 import com.tormentaLabs.riobus.marker.UserMarkerComponent;
 
 import org.androidannotations.annotations.AfterViews;
@@ -54,7 +50,6 @@ public class MapFragment extends Fragment implements MapComponentListener,
         SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
 
     private static final String TAG = MapFragment_.class.getName();
-    private static View view;
     private GoogleMap map;
     private SupportMapFragment mapFragment;
     private SearchView searchView;
@@ -80,32 +75,6 @@ public class MapFragment extends Fragment implements MapComponentListener,
 
     @OptionsMenuItem(R.id.search)
     MenuItem menuSearch;
-
-    /**
-     * Method override to solve the fragment navigation with nested view problem
-     * @see {@link http://stackoverflow.com/questions/14083950/duplicate-id-tag-null-or-parent-id-with-another-fragment-for-com-google-androi}
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
-     */
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(view != null) {
-            ViewGroup parent = (ViewGroup) view.getParent();
-            if(parent != null) {
-                parent.removeView(view);
-            }
-        }
-
-        try {
-            view = inflater.inflate(R.layout.fragment_map, container, false);
-        } catch (InflateException e) {
-            Log.d(TAG, e.getMessage()); // Map is already there
-        }
-        return view;
-    }
 
     @AfterViews
     public void afterViews() {
