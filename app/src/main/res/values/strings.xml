@@ -58,8 +58,8 @@
     <string name="no_bus_found">Nenhum Onibus Encontrado</string>
 
     <!-- MENU -->
-    <string name="menu_home">Início</string>
-    <string name="menu_history">Histórico</string>
+    <string name="menu_about">Sobre</string>
+    <string name="menu_rate_this_app">Avalie o Aplicativo</string>
     <string name="menu_favorite">Favoritos</string>
     <string name="menu_settings">Configurações</string>
 

@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,9 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.tormentaLabs.riobus.favorite.FavoriteActivity_;
-import com.tormentaLabs.riobus.history.fragment.HistoryFragment;
-import com.tormentaLabs.riobus.history.fragment.HistoryFragment_;
-import com.tormentaLabs.riobus.map.MapFragment;
 import com.tormentaLabs.riobus.map.MapFragment_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -27,8 +22,6 @@ public class RioBusActivity extends AppCompatActivity implements NavigationView.
 
     private static final String TAG = RioBusActivity_.class.getName();
 
-    private int currentViewId;
-    private Fragment lastFragment;
     private ActionBarDrawerToggle rioBusDrawerToggle;
 
     @ViewById(R.id.riobusToolbar)
@@ -44,8 +37,9 @@ public class RioBusActivity extends AppCompatActivity implements NavigationView.
     public void afterViews() {
         setupToolBar();
         navigationView.setNavigationItemSelectedListener(this);
-        MapFragment mapFrag = new MapFragment_();
-        switchFragment(mapFrag);
+        getSupportFragmentManager().beginTransaction()
+        .replace(R.id.content_frame, new MapFragment_())
+                .commit();
     }
 
     private void setupToolBar() {
@@ -54,18 +48,6 @@ public class RioBusActivity extends AppCompatActivity implements NavigationView.
 
         setSupportActionBar(rioBusToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    public void switchFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        if(lastFragment != null)
-            transaction.addToBackStack(lastFragment.getClass().getName());
-
-        transaction.replace(R.id.content_frame, fragment)
-                .commit();
-
-        lastFragment = fragment;
     }
 
     @Override
@@ -91,35 +73,14 @@ public class RioBusActivity extends AppCompatActivity implements NavigationView.
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         rioBusDrawerLayout.closeDrawers();
-        if(menuItem.getItemId() != currentViewId)
-            navigate(menuItem.getItemId());
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if(getSupportFragmentManager().getBackStackEntryCount() > 0)
-            getSupportFragmentManager().popBackStack();
-        else
-            super.onBackPressed();
-    }
-
-    private void navigate(int selectedViewId) {
-        switch (selectedViewId) {
-            case R.id.action_home:
-                MapFragment mapFrag = new MapFragment_();
-                switchFragment(mapFrag);
-                break;
-            case R.id.action_history:
-                HistoryFragment historyFrag = new HistoryFragment_();
-                switchFragment(historyFrag);
-                break;
+        switch (menuItem.getItemId()) {
             case R.id.action_favorite:
                 openActivity(new FavoriteActivity_());
                 break;
             default:
                 break;
         }
+        return true;
     }
 
     private void openActivity(AppCompatActivity activity) {
