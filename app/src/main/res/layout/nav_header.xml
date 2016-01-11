@@ -7,7 +7,7 @@
         style="@style/RioBus.Navigation.Header.Icon"/>
 
     <TextView
-        android:layout_toRightOf="@id/navHeaderIcon"
+        android:layout_below="@id/navHeaderIcon"
         style="@style/RioBus.Navigation.Header.Title"/>
 
 </RelativeLayout>
