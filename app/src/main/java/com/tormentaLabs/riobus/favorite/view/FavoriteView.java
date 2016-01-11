@@ -21,6 +21,9 @@ public class FavoriteView extends RelativeLayout {
     private static final String TAG = FavoriteView.class.getName();
     private FavoriteModel favorite;
 
+    @ViewById(R.id.itemFavoriteStar)
+    FavoriteStarView favoriteStar;
+
     @ViewById(R.id.favoriteLine)
     TextView favoriteLine;
 
@@ -30,7 +33,7 @@ public class FavoriteView extends RelativeLayout {
 
     public void bind(FavoriteModel favorite) {
         this.favorite = favorite;
-
         favoriteLine.setText(favorite.line.number);
+        favoriteStar.build(favorite.line);
     }
 }
