@@ -1,5 +1,6 @@
 package com.tormentaLabs.riobus;
 
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -10,8 +11,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.tormentaLabs.riobus.favorite.FavoriteActivity_;
 import com.tormentaLabs.riobus.map.MapFragment_;
@@ -83,6 +87,9 @@ public class RioBusActivity extends AppCompatActivity implements NavigationView.
                 break;
             case R.id.action_rate_this_app:
                 openPlayStore();
+                break;
+            case R.id.action_about:
+                openInfo();
             default:
                 break;
         }
@@ -109,5 +116,15 @@ public class RioBusActivity extends AppCompatActivity implements NavigationView.
             Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
             startActivity(i);
         }
+    }
+
+    private void openInfo() {
+        Dialog dialog = new Dialog(RioBusActivity.this);
+        dialog.setContentView(R.layout.about_dialog);
+        dialog.setTitle(getString(R.string.about_title));
+        TextView tv = (TextView) dialog.findViewById(R.id.content);
+        tv.setText(Html.fromHtml(getString(R.string.about_text)));
+        tv.setMovementMethod(LinkMovementMethod.getInstance());
+        dialog.show();
     }
 }
