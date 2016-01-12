@@ -1,17 +1,21 @@
 package com.tormentaLabs.riobus;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.tormentaLabs.riobus.favorite.FavoriteActivity_;
 import com.tormentaLabs.riobus.map.MapFragment_;
+import com.tormentaLabs.riobus.utils.RioBusUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -38,7 +42,7 @@ public class RioBusActivity extends AppCompatActivity implements NavigationView.
         setupToolBar();
         navigationView.setNavigationItemSelectedListener(this);
         getSupportFragmentManager().beginTransaction()
-        .replace(R.id.content_frame, new MapFragment_())
+                .replace(R.id.content_frame, new MapFragment_())
                 .commit();
     }
 
@@ -77,6 +81,8 @@ public class RioBusActivity extends AppCompatActivity implements NavigationView.
             case R.id.action_favorite:
                 openActivity(new FavoriteActivity_());
                 break;
+            case R.id.action_rate_this_app:
+                openPlayStore();
             default:
                 break;
         }
@@ -86,5 +92,22 @@ public class RioBusActivity extends AppCompatActivity implements NavigationView.
     private void openActivity(AppCompatActivity activity) {
         Intent i = new Intent(this, activity.getClass());
         startActivity(i);
+    }
+
+    private void openPlayStore() {
+        final String appPackageName = getPackageName();
+
+        try {
+            String uri = RioBusUtils.URI_PLAY_STORE_APP
+                    .replace(RioBusUtils.URI_WILDCARD_APP_ID, appPackageName);
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+            startActivity(i);
+        } catch (ActivityNotFoundException e) {
+            Log.e(TAG, e.getMessage());
+            String uri = RioBusUtils.URI_PLAY_STORE_PAGE
+                    .replace(RioBusUtils.URI_WILDCARD_APP_ID, appPackageName);
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+            startActivity(i);
+        }
     }
 }

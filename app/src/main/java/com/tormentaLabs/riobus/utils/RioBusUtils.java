@@ -15,6 +15,10 @@ public class RioBusUtils {
     public static final String PATTERN_FORMAT_DATE = "dd/MM/yyyy";
     public static final String PATTERN_FORMAT_TIME = "HH:mm:ss";
 
+    public static final String URI_WILDCARD_APP_ID = "%id%";
+    public static final String URI_PLAY_STORE_APP = "market://details?id=" + URI_WILDCARD_APP_ID;
+    public static final String URI_PLAY_STORE_PAGE = "https://play.google.com/store/apps/details?id=" + URI_WILDCARD_APP_ID;
+
     public static Date parseStringToDateTime(String timestamp) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat(PATTERN_FORMAT_TIMESTAMP);
         return dateFormat.parse(timestamp);
