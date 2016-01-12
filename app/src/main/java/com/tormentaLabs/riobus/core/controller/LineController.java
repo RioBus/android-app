@@ -2,6 +2,7 @@ package com.tormentaLabs.riobus.core.controller;
 
 import com.activeandroid.query.Select;
 import com.tormentaLabs.riobus.core.model.LineModel;
+import com.tormentaLabs.riobus.core.utils.CoreUtils;
 
 import org.androidannotations.annotations.EBean;
 
@@ -17,7 +18,7 @@ public class LineController {
     public LineModel createIfNotExists(String line) {
 
         LineModel lineModel = new Select().from(LineModel.class)
-                .where("NUMBER = ? ", line)
+                .where(CoreUtils.TABLE_LINES_WHERE_NUMBER, line)
                 .executeSingle();
 
         if(lineModel == null) {
