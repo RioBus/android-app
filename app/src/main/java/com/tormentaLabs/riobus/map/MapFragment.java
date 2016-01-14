@@ -7,8 +7,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.CursorAdapter;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.MenuItem;
@@ -19,7 +17,9 @@ import com.activeandroid.content.ContentProvider;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.tormentaLabs.riobus.R;
+import com.tormentaLabs.riobus.core.controller.LineController;
 import com.tormentaLabs.riobus.core.model.LineModel;
+import com.tormentaLabs.riobus.core.utils.CoreUtils;
 import com.tormentaLabs.riobus.history.controller.HistoryController;
 import com.tormentaLabs.riobus.itinerary.ItineraryComponent;
 import com.tormentaLabs.riobus.map.listener.MapComponentListener;
@@ -27,6 +27,7 @@ import com.tormentaLabs.riobus.map.utils.MapPrefs_;
 import com.tormentaLabs.riobus.map.utils.MapUtils;
 import com.tormentaLabs.riobus.marker.BusMarkerConponent;
 import com.tormentaLabs.riobus.marker.UserMarkerComponent;
+import com.tormentaLabs.riobus.search.adapter.SearchSuggestionsCursorAdapter;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -53,7 +54,7 @@ public class MapFragment extends Fragment implements MapComponentListener,
     private GoogleMap map;
     private SupportMapFragment mapFragment;
     private SearchView searchView;
-    private SimpleCursorAdapter searchSuggestionCursorAdapter;
+    private SearchSuggestionsCursorAdapter searchSuggestionCursorAdapter;
 
     @Pref
     MapPrefs_ mapPrefs;
@@ -69,6 +70,9 @@ public class MapFragment extends Fragment implements MapComponentListener,
 
     @Bean
     HistoryController historyController;
+
+    @Bean
+    LineController lineCtrl;
 
     @ViewById(R.id.rioBusProgressBar)
     ProgressBar progressBar;
@@ -122,6 +126,7 @@ public class MapFragment extends Fragment implements MapComponentListener,
         searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
         searchView.setOnQueryTextListener(this);
         searchView.setOnSuggestionListener(this);
+        searchView.setQueryRefinementEnabled(true);
 
         setupSearchSuggestions();
 
@@ -129,14 +134,9 @@ public class MapFragment extends Fragment implements MapComponentListener,
     }
 
     private void setupSearchSuggestions() {
-        searchSuggestionCursorAdapter = new SimpleCursorAdapter(
-                getActivity(),
-                android.R.layout.simple_expandable_list_item_1,
-                null,
-                new String[] { "NUMBER" },
-                new int[] { android.R.id.text1 },
-                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER
-        );
+
+        searchSuggestionCursorAdapter = new SearchSuggestionsCursorAdapter(
+                getActivity(), lineCtrl.fetchCursor());
 
         searchView.setSuggestionsAdapter(searchSuggestionCursorAdapter);
 
@@ -201,6 +201,7 @@ public class MapFragment extends Fragment implements MapComponentListener,
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        searchSuggestionCursorAdapter.changeCursor(lineCtrl.fetchCursor(newText));
         return false;
     }
 
@@ -212,7 +213,7 @@ public class MapFragment extends Fragment implements MapComponentListener,
     @Override
     public boolean onSuggestionClick(int position) {
         Cursor cursor = (Cursor) searchSuggestionCursorAdapter.getItem(position);
-        String suggestionLine = cursor.getString(cursor.getColumnIndex("NUMBER"));
+        String suggestionLine = cursor.getString(cursor.getColumnIndex(CoreUtils.TABLE_LINES_COL_NUMBER));
 
         searchView.setQuery(suggestionLine, true);
         return false;

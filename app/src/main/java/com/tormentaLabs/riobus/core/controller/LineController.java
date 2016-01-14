@@ -1,5 +1,9 @@
 package com.tormentaLabs.riobus.core.controller;
 
+import android.database.Cursor;
+import android.util.Log;
+
+import com.activeandroid.Cache;
 import com.activeandroid.query.Select;
 import com.tormentaLabs.riobus.core.model.LineModel;
 import com.tormentaLabs.riobus.core.utils.CoreUtils;
@@ -15,18 +19,42 @@ import org.androidannotations.annotations.EBean;
 @EBean
 public class LineController {
 
+    private static final String TAG = LineController.class.getName();
+
     public LineModel createIfNotExists(String line) {
 
         LineModel lineModel = new Select().from(LineModel.class)
                 .where(CoreUtils.TABLE_LINES_WHERE_NUMBER, line)
                 .executeSingle();
 
-        if(lineModel == null) {
+        if (lineModel == null) {
             lineModel = new LineModel();
             lineModel.number = line;
             lineModel.save();
         }
 
         return lineModel;
+    }
+
+    public LineModel getLine(String line) {
+        return new Select().from(LineModel.class)
+                .where(CoreUtils.TABLE_LINES_WHERE_NUMBER, line)
+                .executeSingle();
+    }
+
+    public Cursor fetchCursor() {
+        String resultRecords = new Select()
+                .from(LineModel.class).toSql();
+
+        return Cache.openDatabase().rawQuery(resultRecords, null);
+    }
+
+    public Cursor fetchCursor(String searchTerm) {
+        String resultRecords = new Select()
+                .from(LineModel.class)
+                .where(CoreUtils.TABLE_LINES_COL_NUMBER + " LIKE '%" + searchTerm + "%'")
+                .toSql();
+
+        return Cache.openDatabase().rawQuery(resultRecords, null);
     }
 }
