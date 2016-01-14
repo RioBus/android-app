@@ -18,6 +18,9 @@ public class LineModel extends Model {
     @Column(name = CoreUtils.TABLE_LINES_COL_NUMBER)
     public String number;
 
+    @Column(name = CoreUtils.TABLE_LINES_COL_DESCRIPTION)
+    public String description;;
+
     public LineModel() {
         super();
     }

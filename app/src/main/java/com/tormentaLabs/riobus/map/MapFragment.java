@@ -183,18 +183,17 @@ public class MapFragment extends Fragment implements MapComponentListener,
 
     private void buildBusLineMap(String keyword) {
         if (MapUtils.isValidString(keyword)) {
-            busMapComponent.setLine(keyword)
+            LineModel line = historyController.addLine(keyword);
+            busMapComponent.setLine(line)
                     .setListener(this)
                     .setMap(map)
                     .buildComponent();
 
-            itineraryComponent.setLine(keyword)
+            itineraryComponent.setLine(line)
                     .setListener(this)
                     .setMap(map)
                     .buildComponent();
 
-            String[] lines = MapUtils.separateMultiLines(keyword);
-            historyController.addLines(lines);
             setProgressVisibility(View.VISIBLE);
         }
     }

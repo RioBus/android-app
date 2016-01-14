@@ -6,6 +6,7 @@ import org.androidannotations.annotations.rest.Accept;
 import org.androidannotations.annotations.rest.Get;
 import org.androidannotations.annotations.rest.Rest;
 import org.androidannotations.api.rest.MediaType;
+import org.androidannotations.api.rest.RestClientErrorHandling;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 /**
@@ -13,7 +14,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
  */
 @Accept(MediaType.APPLICATION_JSON)
 @Rest(rootUrl = "http://rest.riob.us/v3",converters = {MappingJackson2HttpMessageConverter.class})
-public interface ItineraryService {
+public interface ItineraryService extends RestClientErrorHandling {
 
     @Get("/itinerary/{line}")
     ItineraryModel getItinarary(String line);

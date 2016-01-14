@@ -29,12 +29,15 @@ public class HistoryController {
     @Bean
     LineController lineController;
 
-    public void addLines(String[] lines) {
+    public List<LineModel> addLines(String[] lines) {
+        ArrayList<LineModel> lineList = new ArrayList<>();
         for(String line : lines)
-            addLine(line);
+            lineList.add(addLine(line));
+
+        return lineList;
     }
 
-    public void addLine(String line) {
+    public LineModel addLine(String line) {
 
         LineModel lineModel = lineController.createIfNotExists(line);
 
@@ -42,6 +45,8 @@ public class HistoryController {
         historyItem.line = lineModel;
         historyItem.createdAt = new DateTime().toString();
         historyItem.save();
+
+        return lineModel;
     }
 
     public List<HistoryModel> getHistory() {

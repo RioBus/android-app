@@ -9,9 +9,12 @@ import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.itinerary.model.ItineraryModel;
 import com.tormentaLabs.riobus.itinerary.model.SpotModel;
 import com.tormentaLabs.riobus.itinerary.service.ItineraryService;
+import com.tormentaLabs.riobus.itinerary.service.ItineraryServiceErrorHandler;
 import com.tormentaLabs.riobus.map.bean.MapComponent;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.rest.RestService;
@@ -34,9 +37,20 @@ public class ItineraryComponent extends MapComponent {
     @RestService
     ItineraryService itineraryService;
 
+    @Bean
+    ItineraryServiceErrorHandler itineraryServiceErrorHandler;
+
+    @AfterInject
+    void afterInject() {
+        itineraryService.setRestErrorHandler(itineraryServiceErrorHandler);
+    }
+
     @Background
     void getItineraries(){
-        ItineraryModel itinerary = itineraryService.getItinarary(getLine());
+        ItineraryModel itinerary = itineraryService.getItinarary(getLine().number);
+
+        getLine().description = itinerary.getDescription();
+        getLine().save();
 
         ArrayList<LatLng> spots = new ArrayList<>();
         for(SpotModel spot : itinerary.getSpots()) {

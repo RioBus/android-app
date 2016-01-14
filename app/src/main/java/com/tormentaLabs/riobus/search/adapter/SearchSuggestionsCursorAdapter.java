@@ -36,14 +36,16 @@ public class SearchSuggestionsCursorAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        TextView title = (TextView) view.findViewById(R.id.searchSuggestionItemTitle);
         String lineNumber = cursor.getString(cursor.getColumnIndex(CoreUtils.TABLE_LINES_COL_NUMBER));
+        LineModel line = lineCtrl.getLine(lineNumber);
+
+        TextView title = (TextView) view.findViewById(R.id.searchSuggestionItemTitle);
         title.setText(lineNumber);;
 
         TextView subTitle = (TextView) view.findViewById(R.id.searchSuggestionItemSubTitle);
+        subTitle.setText(line.description);
 
         ImageView star = (ImageView) view.findViewById(R.id.searchSuggestionItemStar);
-        LineModel line = lineCtrl.getLine(lineNumber);
 
         if(favoriteCtrl.isFavorite(line))
             star.setImageResource(R.drawable.ic_favorite);

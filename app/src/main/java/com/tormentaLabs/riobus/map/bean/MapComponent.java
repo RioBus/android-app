@@ -3,6 +3,7 @@ package com.tormentaLabs.riobus.map.bean;
 import android.content.Context;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.tormentaLabs.riobus.core.model.LineModel;
 import com.tormentaLabs.riobus.map.listener.MapComponentListener;
 
 import org.androidannotations.annotations.EBean;
@@ -20,7 +21,7 @@ public abstract class MapComponent {
     @RootContext
     public Context context;
 
-    private String line;
+    private LineModel line;
     private MapComponentListener listener;
     private GoogleMap map;
 
@@ -28,11 +29,11 @@ public abstract class MapComponent {
         return context;
     }
 
-    public String getLine() {
+    public LineModel getLine() {
         return line;
     }
 
-    public MapComponent setLine(String line) {
+    public MapComponent setLine(LineModel line) {
         this.line = line;
         return this;
     }

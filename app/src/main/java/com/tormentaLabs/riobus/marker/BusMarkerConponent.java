@@ -15,10 +15,13 @@ import com.tormentaLabs.riobus.map.bean.MapComponent;
 import com.tormentaLabs.riobus.marker.adapter.BusInfoWindowAdapter;
 import com.tormentaLabs.riobus.marker.model.BusModel;
 import com.tormentaLabs.riobus.marker.service.BusService;
+import com.tormentaLabs.riobus.marker.service.BusServiceErrorHandler;
 import com.tormentaLabs.riobus.marker.utils.MarkerUtils;
 import com.tormentaLabs.riobus.utils.RioBusUtils;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.rest.RestService;
@@ -56,6 +59,14 @@ public class BusMarkerConponent extends MapComponent {
     @RestService
     BusService busService;
 
+    @Bean
+    BusServiceErrorHandler busServiceErrorHandler;
+
+    @AfterInject
+    void afterInject() {
+        busService.setRestErrorHandler(busServiceErrorHandler);
+    }
+
     private LatLngBounds.Builder boundsBuilder;
 
     @Override
@@ -84,7 +95,7 @@ public class BusMarkerConponent extends MapComponent {
      */
     @Background(id = GET_BUSES_THREAD_ID)
     void getBusesByLine() {
-        List<BusModel> buses = busService.getBusesByLine(getLine());
+        List<BusModel> buses = busService.getBusesByLine(getLine().number);
 
         if (buses != null) {
             if(!buses.isEmpty()) {
