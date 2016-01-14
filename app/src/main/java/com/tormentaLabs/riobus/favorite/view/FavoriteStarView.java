@@ -16,8 +16,11 @@ import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
 /**
- * @// TODO: 19/11/15 Create the star icons
+ * @author limazix
+ * @since 3.0
+ * Created on 19/11/15
  */
+
 @EViewGroup(R.layout.view_favorite_star_button)
 public class FavoriteStarView extends RelativeLayout implements View.OnClickListener {
 
@@ -46,11 +49,18 @@ public class FavoriteStarView extends RelativeLayout implements View.OnClickList
     public void build(LineModel line) {
         this.line = line;
 
-        favoriteStar.setImageResource(R.drawable.ic_favorite);
-
         isFavorite = favoriteController.isFavorite(line);
 
+        updateIcon();
+
         favoriteStar.setOnClickListener(this);
+    }
+
+    private void updateIcon() {
+        if(isFavorite)
+            favoriteStar.setImageResource(R.drawable.ic_favorite);
+        else
+            favoriteStar.setImageResource(R.drawable.ic_not_favorite);
     }
 
     @Override
@@ -62,5 +72,6 @@ public class FavoriteStarView extends RelativeLayout implements View.OnClickList
             favoriteController.addToFavorites(line);
             isFavorite = true;
         }
+        updateIcon();
     }
 }
