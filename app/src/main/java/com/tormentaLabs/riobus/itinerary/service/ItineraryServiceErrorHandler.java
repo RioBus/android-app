@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.api.rest.RestErrorHandler;
 import org.springframework.core.NestedRuntimeException;
 
@@ -20,6 +21,7 @@ public class ItineraryServiceErrorHandler implements RestErrorHandler {
     @RootContext
     Context context;
 
+    @UiThread
     @Override
     public void onRestClientExceptionThrown(NestedRuntimeException e) {
         Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
