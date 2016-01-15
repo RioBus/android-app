@@ -2,6 +2,7 @@ package com.tormentaLabs.riobus.map;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -25,6 +26,7 @@ import com.tormentaLabs.riobus.itinerary.ItineraryComponent;
 import com.tormentaLabs.riobus.map.listener.MapComponentListener;
 import com.tormentaLabs.riobus.map.utils.MapPrefs_;
 import com.tormentaLabs.riobus.map.utils.MapUtils;
+import com.tormentaLabs.riobus.map.view.LineMapControllerView;
 import com.tormentaLabs.riobus.marker.BusMarkerConponent;
 import com.tormentaLabs.riobus.marker.UserMarkerComponent;
 import com.tormentaLabs.riobus.search.adapter.SearchSuggestionsCursorAdapter;
@@ -77,11 +79,15 @@ public class MapFragment extends Fragment implements MapComponentListener,
     @ViewById(R.id.rioBusProgressBar)
     ProgressBar progressBar;
 
+    @ViewById(R.id.lineMapControllerView)
+    LineMapControllerView lineMapControllerView;
+
     @OptionsMenuItem(R.id.search)
     MenuItem menuSearch;
 
     @AfterViews
     public void afterViews() {
+        lineMapControllerView.setVisibility(View.GONE);
         mapFragment = getMapFragment();
         map = mapFragment.getMap();
         setupMap();
@@ -126,7 +132,7 @@ public class MapFragment extends Fragment implements MapComponentListener,
         searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
         searchView.setOnQueryTextListener(this);
         searchView.setOnSuggestionListener(this);
-        searchView.setQueryRefinementEnabled(true);
+        //searchView.setQueryRefinementEnabled(true);
 
         setupSearchSuggestions();
 
@@ -195,6 +201,8 @@ public class MapFragment extends Fragment implements MapComponentListener,
                     .buildComponent();
 
             setProgressVisibility(View.VISIBLE);
+            lineMapControllerView.setVisibility(View.VISIBLE);
+            lineMapControllerView.build(line);
         }
     }
 
