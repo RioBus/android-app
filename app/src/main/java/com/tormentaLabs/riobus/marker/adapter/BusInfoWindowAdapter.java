@@ -96,6 +96,7 @@ public class BusInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         DateTime now = new DateTime(Calendar.getInstance());
 
         int time = Seconds.secondsBetween(busTimestamp, now).getSeconds();
+        if (time < 0) System.out.println( busTimestamp.toString());
         if(time < 60) return context.getString(R.string.marker_seconds, String.valueOf(time));
 
         time = Minutes.minutesBetween(busTimestamp, now).getMinutes();

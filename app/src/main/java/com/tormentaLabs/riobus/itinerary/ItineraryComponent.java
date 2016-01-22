@@ -49,6 +49,8 @@ public class ItineraryComponent extends MapComponent {
     void getItineraries(){
         ItineraryModel itinerary = itineraryService.getItinarary(getLine().number);
 
+        if(itinerary == null)
+            return;
         getLine().description = itinerary.getDescription();
         getLine().save();
 

@@ -55,9 +55,15 @@ public class LineMapControllerView extends RelativeLayout implements View.OnClic
 
     private void buildEndPoints () {
         if(line.description == null) return;
-        String[] endPoints = line.description.split("X");
-        firstLineEndPoint.setText(endPoints[0].trim());
-        secondLineEndPoint.setText(endPoints[1].trim());
+
+        if(line.description.equals("desconhecido")) {
+            firstLineEndPoint.setText("sentido");
+            secondLineEndPoint.setText("desconhecido");
+        }else {
+            String[] endPoints = line.description.split("X");
+            firstLineEndPoint.setText(endPoints[0].trim());
+            secondLineEndPoint.setText(endPoints[1].trim());
+        }
     }
 
     @Override
