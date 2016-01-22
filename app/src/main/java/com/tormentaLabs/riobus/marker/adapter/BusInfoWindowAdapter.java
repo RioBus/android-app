@@ -20,8 +20,10 @@ import org.joda.time.Seconds;
 ;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 // TODO need tobe refectored!!!
 public class BusInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
@@ -96,7 +98,13 @@ public class BusInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         DateTime now = new DateTime(Calendar.getInstance());
 
         int time = Seconds.secondsBetween(busTimestamp, now).getSeconds();
-        if (time < 0) System.out.println( busTimestamp.toString());
+        if (time < 0) {
+            // TODO: fix workaround
+            busTimestamp = busTimestamp.minusHours(2);
+            if(Seconds.secondsBetween(busTimestamp, now).getSeconds()<0) busTimestamp.minusHours(1);
+            time = Seconds.secondsBetween(busTimestamp, now).getSeconds();
+
+        }
         if(time < 60) return context.getString(R.string.marker_seconds, String.valueOf(time));
 
         time = Minutes.minutesBetween(busTimestamp, now).getMinutes();
