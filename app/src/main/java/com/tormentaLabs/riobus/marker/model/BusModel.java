@@ -9,6 +9,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class BusModel {
 
+    @JsonProperty("_id")
+    private String _id;
+
     @JsonProperty("line")
     private String line;
 
@@ -30,7 +33,7 @@ public class BusModel {
     @JsonProperty("sense")
     private String sense;
 
-    @JsonProperty("timeStamp")
+    @JsonProperty("timestamp")
     private String timeStamp;
 
     public BusModel() {
@@ -98,6 +101,14 @@ public class BusModel {
 
     public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public String getId() {
+        return _id;
+    }
+
+    public void setId(String id) {
+        _id = id;
     }
 
     @Override

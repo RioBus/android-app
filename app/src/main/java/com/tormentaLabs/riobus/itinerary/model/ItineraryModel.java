@@ -9,6 +9,9 @@ import java.util.List;
  */
 public class ItineraryModel {
 
+    @JsonProperty("_id")
+    private String _id;
+
     @JsonProperty("line")
     String line;
 
@@ -65,5 +68,13 @@ public class ItineraryModel {
 
     public void setSpots(List<SpotModel> spots) {
         this.spots = spots;
+    }
+
+    public String getId() {
+        return _id;
+    }
+
+    public void setId(String id) {
+        _id = id;
     }
 }

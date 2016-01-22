@@ -65,5 +65,7 @@
 
     <!-- FAVORITE -->
     <string name="favorite_page_title">Favoritos</string>
+    <string name="text_sense">Sentido</string>
+    <string name="text_unknown">Desconhecido</string>
 
 </resources>
