@@ -97,14 +97,11 @@ public class BusInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         DateTime busTimestamp = new DateTime(date);
         DateTime now = new DateTime(Calendar.getInstance());
 
-        int time = Seconds.secondsBetween(busTimestamp, now).getSeconds();
-        if (time < 0) {
-            // TODO: fix workaround
-            busTimestamp = busTimestamp.minusHours(2);
-            if(Seconds.secondsBetween(busTimestamp, now).getSeconds()<0) busTimestamp.minusHours(1);
-            time = Seconds.secondsBetween(busTimestamp, now).getSeconds();
+        TimeZone tz = TimeZone.getTimeZone("America/Sao_Paulo");
+        int offset = tz.getOffset(new Date().getTime())/3600000;
+        busTimestamp = busTimestamp.plusHours(offset);
 
-        }
+        int time = Seconds.secondsBetween(busTimestamp, now).getSeconds();
         if(time < 60) return context.getString(R.string.marker_seconds, String.valueOf(time));
 
         time = Minutes.minutesBetween(busTimestamp, now).getMinutes();

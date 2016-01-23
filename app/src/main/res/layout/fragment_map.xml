@@ -28,6 +28,7 @@
         android:layout_above="@id/lineMapControllerView"
         android:id="@+id/userPositionButton"
         style="@style/RioBus.Map.FloatPositionButton"
-        app:fabSize="normal"/>
+        app:fabSize="normal"
+        android:layout_marginBottom="20dip" />
 
 </RelativeLayout>
