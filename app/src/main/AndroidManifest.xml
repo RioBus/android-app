@@ -55,6 +55,13 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value=".RioBusActivity_"/>
         </activity>
+
+        <activity
+            android:name=".search.SearchActivity_"
+            android:screenOrientation="portrait"
+            android:label="@string/search_page_title">
+        </activity>
+
     </application>
 
 </manifest>

@@ -68,4 +68,7 @@
     <string name="text_sense">Sense</string>
     <string name="text_unknown">Unknown</string>
 
+    <!-- SEARCH -->
+    <string name="search_page_title">Search</string>
+
 </resources>
