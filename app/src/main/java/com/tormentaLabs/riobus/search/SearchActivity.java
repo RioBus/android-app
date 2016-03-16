@@ -1,5 +1,7 @@
 package com.tormentaLabs.riobus.search;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -10,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tormentaLabs.riobus.R;
+import com.tormentaLabs.riobus.search.utils.SearchUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -71,6 +74,10 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        Intent i = new Intent();
+        i.putExtra(SearchUtils.EXTRA_SEARCH_RESULT, query);
+        setResult(Activity.RESULT_OK, i);
+        finish();
         return false;
     }
 

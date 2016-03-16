@@ -11,6 +11,7 @@ import java.util.Date;
  */
 public class RioBusUtils {
 
+    public static final String SERVER_ADDR = "http://dev.riob.us:8080/v3";
     public static final String PATTERN_FORMAT_TIMESTAMP = "yyyy-MM-dd'T'HH:mm:ss";
     public static final String PATTERN_FORMAT_DATE = "dd/MM/yyyy";
     public static final String PATTERN_FORMAT_TIME = "HH:mm:ss";

@@ -22,6 +22,7 @@ import com.tormentaLabs.riobus.map.view.LineMapControllerView;
 import com.tormentaLabs.riobus.marker.BusMarkerConponent;
 import com.tormentaLabs.riobus.marker.UserMarkerComponent;
 import com.tormentaLabs.riobus.search.SearchActivity_;
+import com.tormentaLabs.riobus.search.utils.SearchUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -44,7 +45,6 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 public class MapFragment extends Fragment implements MapComponentListener {
 
     private static final String TAG = MapFragment_.class.getName();
-    private static final String EXTRA_SEARCH_RESULT = "result";
     private GoogleMap map;
     private SupportMapFragment mapFragment;
 
@@ -121,17 +121,16 @@ public class MapFragment extends Fragment implements MapComponentListener {
     boolean menuSearch() {
         Intent i = new Intent(getActivity(), SearchActivity_.class);
         startActivityForResult(i, Activity.DEFAULT_KEYS_SEARCH_GLOBAL);
-
         return false;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == Activity.DEFAULT_KEYS_SEARCH_GLOBAL) {
-            if(requestCode == Activity.RESULT_OK) {
-                String result = data.getStringExtra(EXTRA_SEARCH_RESULT);
-                Log.e(TAG, result);
-            } else if (requestCode == Activity.RESULT_CANCELED) {
+            if(resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra(SearchUtils.EXTRA_SEARCH_RESULT);
+                buildBusLineMap(result);
+            } else if (resultCode == Activity.RESULT_CANCELED) {
                 Log.e(TAG, "search canceled");
             }
         }
@@ -147,6 +146,7 @@ public class MapFragment extends Fragment implements MapComponentListener {
         Log.e(TAG, error.getMessage());
     }
 
+    // TODO do something when it is not valid
     private void buildBusLineMap(String keyword) {
         if (MapUtils.isValidString(keyword)) {
             LineModel line = historyController.addLine(keyword);
