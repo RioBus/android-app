@@ -59,8 +59,12 @@
         <activity
             android:name=".search.SearchActivity_"
             android:screenOrientation="portrait"
-            android:label="@string/search_page_title">
+            android:label="@string/search_page_title"
+            android:parentActivityName=".RioBusActivity_">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RioBusActivity_"/>
         </activity>
+
         <activity
             android:name=".history.HistoryActivity_"
             android:screenOrientation="portrait"

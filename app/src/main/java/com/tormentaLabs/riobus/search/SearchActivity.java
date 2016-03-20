@@ -60,6 +60,8 @@ public class SearchActivity extends AppCompatActivity implements
     @AfterViews
     void afterViews() {
         setSupportActionBar(rioBusToolBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        
         suggestionsCursorAdapter = new SearchSuggestionsCursorAdapter(this, lineController.fetchCursor());
         searchSuggestions.setAdapter(suggestionsCursorAdapter);
     }
