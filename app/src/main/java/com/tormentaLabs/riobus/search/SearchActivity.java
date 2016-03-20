@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tormentaLabs.riobus.R;
+import com.tormentaLabs.riobus.favorite.listener.OnFavoriteItemClickListener;
 import com.tormentaLabs.riobus.favorite.model.FavoriteModel;
 import com.tormentaLabs.riobus.search.utils.SearchUtils;
 import com.tormentaLabs.riobus.favorite.adapter.FavoriteAdapter;
@@ -35,7 +36,8 @@ import java.util.ArrayList;
  */
 @OptionsMenu(R.menu.activity_search)
 @EActivity(R.layout.activity_search)
-public class SearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class SearchActivity extends AppCompatActivity implements
+        SearchView.OnQueryTextListener, OnFavoriteItemClickListener {
 
     private static final String TAG = SearchActivity.class.getName();
     private SearchView searchView;
@@ -49,14 +51,8 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     @ViewById(R.id.riobusSearchToolbar)
     Toolbar rioBusToolBar;
 
-    @ViewById(R.id.favoriteListHeader)
-    TextView favoriteListHeader;
-
     @ViewById(R.id.favoriteList)
     ListView favoriteList;
-
-    @ViewById(R.id.historyListHeader)
-    TextView historyListHeader;
 
     @ViewById(R.id.historyList)
     ListView historyList;
@@ -68,7 +64,6 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     void afterViews() {
         setSupportActionBar(rioBusToolBar);
 
-        favoriteListHeader.setText(R.string.favorite_page_title);
         favoriteList.setAdapter(favoriteAdapter);
     }
 
@@ -84,11 +79,15 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        sendToMap(query);
+        return false;
+    }
+
+    private void sendToMap(String query) {
         Intent i = new Intent();
         i.putExtra(SearchUtils.EXTRA_SEARCH_RESULT, query);
         setResult(Activity.RESULT_OK, i);
         finish();
-        return false;
     }
 
     @Override
@@ -100,4 +99,13 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         return false;
     }
 
+    @Override
+    public void onFavoriteItemClicked(FavoriteModel favorite) {
+        sendToMap(favorite.line.number);
+    }
+
+    @Override
+    public void onFavoriteItemClickedError(String errorMessage) {
+
+    }
 }

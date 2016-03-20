@@ -17,7 +17,7 @@ import org.androidannotations.annotations.ViewById;
 
 /**
  * @author limazix
- * @since 3.0
+ * @since 3.0.0
  * Created on 19/11/15
  */
 @EViewGroup(R.layout.view_favorite_star_button)

@@ -7,10 +7,11 @@ import android.widget.BaseAdapter;
 
 import com.tormentaLabs.riobus.core.model.LineModel;
 import com.tormentaLabs.riobus.favorite.controller.FavoriteController;
+import com.tormentaLabs.riobus.favorite.listener.OnFavoriteItemClickListener;
 import com.tormentaLabs.riobus.favorite.listener.OnFavoriteStatusChangedListener;
 import com.tormentaLabs.riobus.favorite.model.FavoriteModel;
-import com.tormentaLabs.riobus.favorite.view.FavoriteView;
-import com.tormentaLabs.riobus.favorite.view.FavoriteView_;
+import com.tormentaLabs.riobus.favorite.view.FavoriteItemView;
+import com.tormentaLabs.riobus.favorite.view.FavoriteItemView_;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
@@ -18,7 +19,6 @@ import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author limazix
@@ -28,6 +28,8 @@ import java.util.List;
 public class FavoriteAdapter extends BaseAdapter implements OnFavoriteStatusChangedListener {
 
     private ArrayList<FavoriteModel> favorites;
+
+    private OnFavoriteItemClickListener listener;
 
     @Bean
     FavoriteController favoriteController;
@@ -57,17 +59,20 @@ public class FavoriteAdapter extends BaseAdapter implements OnFavoriteStatusChan
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        FavoriteView favoriteView;
+        FavoriteItemView favoriteItemView;
 
         if(view == null) {
-            favoriteView = FavoriteView_.build(context);
+            favoriteItemView = FavoriteItemView_.build(context);
         } else {
-            favoriteView = (FavoriteView) view;
+            favoriteItemView = (FavoriteItemView) view;
         }
 
-        favoriteView.bind(getItem(i), this);
+        favoriteItemView.bind(getItem(i), this);
 
-        return favoriteView;
+        if(listener != null)
+            favoriteItemView.setOnFavoriteItemClickListener(listener);
+
+        return favoriteItemView;
     }
 
     public void updateFavorites(ArrayList<FavoriteModel> favorites) {
@@ -85,6 +90,10 @@ public class FavoriteAdapter extends BaseAdapter implements OnFavoriteStatusChan
             }
             i++;
         }
+    }
+
+    public void registerItemClickListener(OnFavoriteItemClickListener listener) {
+        this.listener = listener;
     }
 
     @Override

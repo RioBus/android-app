@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.tormentaLabs.riobus.favorite.FavoriteActivity_;
+import com.tormentaLabs.riobus.map.MapFragment;
 import com.tormentaLabs.riobus.map.MapFragment_;
 import com.tormentaLabs.riobus.utils.RioBusUtils;
 
@@ -31,6 +32,7 @@ public class RioBusActivity extends AppCompatActivity implements NavigationView.
     private static final String TAG = RioBusActivity_.class.getName();
 
     private ActionBarDrawerToggle rioBusDrawerToggle;
+    private MapFragment mapFragmet;
 
     @ViewById(R.id.riobusToolbar)
     Toolbar rioBusToolBar;
@@ -45,8 +47,10 @@ public class RioBusActivity extends AppCompatActivity implements NavigationView.
     public void afterViews() {
         setupToolBar();
         navigationView.setNavigationItemSelectedListener(this);
+
+        mapFragmet = new MapFragment_();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, new MapFragment_())
+                .replace(R.id.content_frame, mapFragmet)
                 .commit();
     }
 
@@ -97,8 +101,8 @@ public class RioBusActivity extends AppCompatActivity implements NavigationView.
     }
 
     private void openActivity(AppCompatActivity activity) {
-        Intent i = new Intent(this, activity.getClass());
-        startActivity(i);
+        Intent i = new Intent(this, FavoriteActivity_.class);
+        startActivityForResult(i, DEFAULT_KEYS_SEARCH_GLOBAL);
     }
 
     private void openPlayStore() {
@@ -126,5 +130,11 @@ public class RioBusActivity extends AppCompatActivity implements NavigationView.
         tv.setText(Html.fromHtml(getString(R.string.about_text)));
         tv.setMovementMethod(LinkMovementMethod.getInstance());
         dialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mapFragmet.onActivityResult(requestCode, resultCode, data);
     }
 }
