@@ -6,7 +6,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,7 +16,6 @@ import com.tormentaLabs.riobus.search.utils.SearchUtils;
 import com.tormentaLabs.riobus.favorite.adapter.FavoriteAdapter;
 import com.tormentaLabs.riobus.favorite.controller.FavoriteController;
 
-import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;

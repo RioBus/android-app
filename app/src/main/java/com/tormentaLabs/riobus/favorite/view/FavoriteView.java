@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tormentaLabs.riobus.R;
+import com.tormentaLabs.riobus.favorite.listener.OnFavoriteStatusChangedListener;
 import com.tormentaLabs.riobus.favorite.model.FavoriteModel;
 
 import org.androidannotations.annotations.EViewGroup;
@@ -31,9 +32,10 @@ public class FavoriteView extends RelativeLayout {
         super(context);
     }
 
-    public void bind(FavoriteModel favorite) {
+    public void bind(FavoriteModel favorite, OnFavoriteStatusChangedListener listener) {
         this.favorite = favorite;
         favoriteLine.setText(favorite.line.number);
-        favoriteStar.build(favorite.line);
+        favoriteStar.build(favorite.line, listener);
     }
+
 }

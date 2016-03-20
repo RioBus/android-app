@@ -5,7 +5,9 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 
 import com.tormentaLabs.riobus.R;
+import com.tormentaLabs.riobus.core.model.LineModel;
 import com.tormentaLabs.riobus.favorite.adapter.FavoriteAdapter;
+import com.tormentaLabs.riobus.favorite.listener.OnFavoriteStatusChangedListener;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -36,4 +38,5 @@ public class FavoriteActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         favoriteList.setAdapter(favoriteAdapter);
     }
+
 }

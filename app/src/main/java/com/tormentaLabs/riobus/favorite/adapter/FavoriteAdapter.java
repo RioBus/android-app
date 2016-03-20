@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 
 import com.tormentaLabs.riobus.core.model.LineModel;
 import com.tormentaLabs.riobus.favorite.controller.FavoriteController;
+import com.tormentaLabs.riobus.favorite.listener.OnFavoriteStatusChangedListener;
 import com.tormentaLabs.riobus.favorite.model.FavoriteModel;
 import com.tormentaLabs.riobus.favorite.view.FavoriteView;
 import com.tormentaLabs.riobus.favorite.view.FavoriteView_;
@@ -24,7 +25,7 @@ import java.util.List;
  * @since 3.0
  */
 @EBean
-public class FavoriteAdapter extends BaseAdapter {
+public class FavoriteAdapter extends BaseAdapter implements OnFavoriteStatusChangedListener {
 
     private ArrayList<FavoriteModel> favorites;
 
@@ -64,7 +65,7 @@ public class FavoriteAdapter extends BaseAdapter {
             favoriteView = (FavoriteView) view;
         }
 
-        favoriteView.bind(getItem(i));
+        favoriteView.bind(getItem(i), this);
 
         return favoriteView;
     }
@@ -72,5 +73,28 @@ public class FavoriteAdapter extends BaseAdapter {
     public void updateFavorites(ArrayList<FavoriteModel> favorites) {
         this.favorites = favorites;
         notifyDataSetChanged();
+    }
+
+    public void removeFavorite(LineModel line) {
+        int i = 0;
+        for(FavoriteModel favorite : favorites) {
+            if(favorite.line.number == line.number) {
+                favorites.remove(i);
+                notifyDataSetChanged();
+                break;
+            }
+            i++;
+        }
+    }
+
+    @Override
+    public void OnFavoriteStatusChanged(LineModel line, boolean isFavorite) {
+        if(!isFavorite)
+            removeFavorite(line);
+    }
+
+    @Override
+    public void OnFavoriteStatusChangedError(String errorMessage) {
+
     }
 }
