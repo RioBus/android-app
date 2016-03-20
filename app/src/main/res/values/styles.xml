@@ -144,20 +144,17 @@
 
     <style name="RioBus.Search.Suggestions">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_margin">@dimen/riobus_spacing_middle</item>
+        <item name="android:layout_marginTop">@dimen/riobus_spacing_middle</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="RioBus.Search.Suggestions.List">
-        <item name="android:divider">@color/riobus_divider</item>
-        <item name="android:dividerHeight">1dp</item>
         <item name="android:background">@android:color/white</item>
     </style>
 
     <style name="RioBus.Search.Suggestions.List.Item">
         <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_margin">0dp</item>
-        <item name="android:paddingLeft">@dimen/riobus_spacing_middle</item>
+        <item name="android:layout_margin">@dimen/riobus_spacing_middle</item>
     </style>
 
     <style name="RioBus.Search.Suggestions.List.Item.Title">
@@ -165,23 +162,22 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:padding">2dp</item>
+        <item name="android:layout_margin">0dp</item>
     </style>
 
     <style name="RioBus.Search.Suggestions.List.Item.SubTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:padding">2dp</item>
+        <item name="android:layout_margin">0dp</item>
     </style>
 
     <style name="RioBus.Search.Suggestions.List.Item.Icon">
-        <item name="android:layout_width">36dp</item>
-        <item name="android:layout_height">36dp</item>
-        <item name="android:padding">4dp</item>
+        <item name="android:layout_width">@dimen/riobus_icon_small_size</item>
+        <item name="android:layout_height">@dimen/riobus_icon_small_size</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:tint">@color/riobus_text</item>
-        <item name="android:layout_margin">@dimen/riobus_spacing_short</item>
+        <item name="android:layout_margin">0dp</item>
         <item name="android:layout_alignParentRight">true</item>
     </style>
     <!-- END SEARCH -->

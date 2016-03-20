@@ -10,7 +10,6 @@
     <ListView
         android:layout_below="@id/riobusSearchToolbar"
         android:id="@+id/searchSuggestions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        style="@style/RioBus.Search.Suggestions.List"/>
 
 </RelativeLayout>

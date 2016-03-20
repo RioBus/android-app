@@ -8,16 +8,13 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.core.controller.LineController;
-import com.tormentaLabs.riobus.favorite.listener.OnFavoriteItemClickListener;
-import com.tormentaLabs.riobus.favorite.model.FavoriteModel;
+import com.tormentaLabs.riobus.core.model.LineModel;
 import com.tormentaLabs.riobus.search.adapter.SearchSuggestionsCursorAdapter;
+import com.tormentaLabs.riobus.search.listener.OnSearchSuggestionItemClickListener;
 import com.tormentaLabs.riobus.search.utils.SearchUtils;
-import com.tormentaLabs.riobus.favorite.adapter.FavoriteAdapter;
-import com.tormentaLabs.riobus.favorite.controller.FavoriteController;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -26,8 +23,6 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.OptionsMenuItem;
 import org.androidannotations.annotations.ViewById;
-
-import java.util.ArrayList;
 
 /**
  * TODO Add discription here
@@ -39,7 +34,7 @@ import java.util.ArrayList;
 @OptionsMenu(R.menu.activity_search)
 @EActivity(R.layout.activity_search)
 public class SearchActivity extends AppCompatActivity implements
-        SearchView.OnQueryTextListener {
+        SearchView.OnQueryTextListener, OnSearchSuggestionItemClickListener {
 
     private static final String TAG = SearchActivity.class.getName();
     private SearchView searchView;
@@ -61,8 +56,9 @@ public class SearchActivity extends AppCompatActivity implements
     void afterViews() {
         setSupportActionBar(rioBusToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        
+
         suggestionsCursorAdapter = new SearchSuggestionsCursorAdapter(this, lineController.fetchCursor());
+        suggestionsCursorAdapter.setItemClickListener(this);
         searchSuggestions.setAdapter(suggestionsCursorAdapter);
     }
 
@@ -99,4 +95,13 @@ public class SearchActivity extends AppCompatActivity implements
         return false;
     }
 
+    @Override
+    public void onSearchSuggestionItemClicked(LineModel line) {
+        sendToMap(line.number);
+    }
+
+    @Override
+    public void onSearchSuggestionItemClickError(String errorMessage) {
+
+    }
 }

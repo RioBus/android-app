@@ -14,6 +14,7 @@ import com.tormentaLabs.riobus.core.controller.LineController;
 import com.tormentaLabs.riobus.core.model.LineModel;
 import com.tormentaLabs.riobus.core.utils.CoreUtils;
 import com.tormentaLabs.riobus.favorite.controller.FavoriteController;
+import com.tormentaLabs.riobus.search.listener.OnSearchSuggestionItemClickListener;
 import com.tormentaLabs.riobus.search.view.SearchSuggestionsItemView;
 import com.tormentaLabs.riobus.search.view.SearchSuggestionsItemView_;
 
@@ -23,6 +24,7 @@ import com.tormentaLabs.riobus.search.view.SearchSuggestionsItemView_;
 public class SearchSuggestionsCursorAdapter extends CursorAdapter {
 
     private LineController lineCtrl;
+    private OnSearchSuggestionItemClickListener itemClickListener;
 
     public SearchSuggestionsCursorAdapter(Context context, Cursor c) {
         super(context, c);
@@ -40,6 +42,10 @@ public class SearchSuggestionsCursorAdapter extends CursorAdapter {
         LineModel line = lineCtrl.getLine(lineNumber);
 
         SearchSuggestionsItemView itemView = (SearchSuggestionsItemView) view;
-        itemView.bind(line);
+        itemView.bind(line, itemClickListener);
+    }
+
+    public void setItemClickListener(OnSearchSuggestionItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
     }
 }

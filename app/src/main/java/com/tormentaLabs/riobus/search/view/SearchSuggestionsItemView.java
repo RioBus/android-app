@@ -2,6 +2,7 @@ package com.tormentaLabs.riobus.search.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.core.model.LineModel;
 import com.tormentaLabs.riobus.favorite.controller.FavoriteController;
+import com.tormentaLabs.riobus.search.listener.OnSearchSuggestionItemClickListener;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EViewGroup;
@@ -22,9 +24,10 @@ import org.androidannotations.annotations.ViewById;
  * Created on 20/03/16
  */
 @EViewGroup(R.layout.view_search_suggestions_item)
-public class SearchSuggestionsItemView extends RelativeLayout {
+public class SearchSuggestionsItemView extends RelativeLayout implements View.OnClickListener {
 
     private LineModel line;
+    private OnSearchSuggestionItemClickListener listener;
 
     @Bean
     FavoriteController favoriteController;
@@ -50,7 +53,7 @@ public class SearchSuggestionsItemView extends RelativeLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    public void bind(LineModel line) {
+    public void bind(LineModel line, OnSearchSuggestionItemClickListener listener) {
         this.line = line;
         title.setText(line.number);
         subtitle.setText(line.description);
@@ -59,5 +62,13 @@ public class SearchSuggestionsItemView extends RelativeLayout {
             icon.setImageResource(R.drawable.ic_favorite);
         else
             icon.setImageResource(R.drawable.ic_history);
+
+        this.listener = listener;
+        setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        listener.onSearchSuggestionItemClicked(line);
     }
 }
