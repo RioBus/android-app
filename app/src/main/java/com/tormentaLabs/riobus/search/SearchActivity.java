@@ -93,7 +93,7 @@ public class SearchActivity extends AppCompatActivity implements
             suggestionsCursorAdapter.changeCursor(lineController.fetchCursor(newText));
         else
             suggestionsCursorAdapter.changeCursor(lineController.fetchCursor());
-        
+
         return false;
     }
 

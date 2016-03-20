@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.tormentaLabs.riobus.favorite.FavoriteActivity_;
 import com.tormentaLabs.riobus.map.MapFragment;
+import com.tormentaLabs.riobus.history.HistoryActivity_;
 import com.tormentaLabs.riobus.map.MapFragment_;
 import com.tormentaLabs.riobus.utils.RioBusUtils;
 
@@ -89,6 +90,9 @@ public class RioBusActivity extends AppCompatActivity implements NavigationView.
             case R.id.action_favorite:
                 openActivity(new FavoriteActivity_());
                 break;
+            case R.id.action_history:
+                openActivity(new HistoryActivity_());
+                break;
             case R.id.action_rate_this_app:
                 openPlayStore();
                 break;
@@ -101,7 +105,7 @@ public class RioBusActivity extends AppCompatActivity implements NavigationView.
     }
 
     private void openActivity(AppCompatActivity activity) {
-        Intent i = new Intent(this, FavoriteActivity_.class);
+        Intent i = new Intent(this, activity.getClass());
         startActivityForResult(i, DEFAULT_KEYS_SEARCH_GLOBAL);
     }
 

@@ -3,7 +3,13 @@
     style="@style/RioBus.History"
     android:id="@+id/history_fragment">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/riobusHistoryToolbar"
+        style="@style/RioBus.ToolBar"
+        android:elevation="@dimen/riobus_elevation"/>
+
     <ExpandableListView
+        android:layout_below="@id/riobusHistoryToolbar"
         android:id="@+id/historyListView"
         style="@style/RioBus.History.List" />
 
