@@ -7,27 +7,10 @@
         style="@style/RioBus.ToolBar"
         android:elevation="@dimen/riobus_elevation"/>
 
-    <TextView
+    <ListView
         android:layout_below="@id/riobusSearchToolbar"
-        android:id="@+id/favoriteListHeader"
+        android:id="@+id/searchSuggestions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <ListView
-        android:layout_below="@id/favoriteListHeader"
-        android:id="@+id/favoriteList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:layout_below="@id/favoriteList"
-        android:id="@+id/historyListHeader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <ListView
-        android:layout_below="@id/historyListHeader"
-        android:id="@+id/historyList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 </RelativeLayout>

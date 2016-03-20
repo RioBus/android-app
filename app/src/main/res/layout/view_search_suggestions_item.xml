@@ -12,7 +12,7 @@
         style="@style/RioBus.Search.Suggestions.List.Item.SubTitle"/>
 
     <ImageView
-        android:id="@+id/searchSuggestionItemStar"
+        android:id="@+id/searchSuggestionItemIcon"
         style="@style/RioBus.Search.Suggestions.List.Item.Icon" />
 
 </RelativeLayout>

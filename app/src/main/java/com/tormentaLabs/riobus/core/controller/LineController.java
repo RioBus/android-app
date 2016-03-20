@@ -53,6 +53,7 @@ public class LineController {
         String resultRecords = new Select()
                 .from(LineModel.class)
                 .where(CoreUtils.TABLE_LINES_COL_NUMBER + " LIKE '%" + searchTerm + "%'")
+                .or(CoreUtils.TABLE_LINES_COL_DESCRIPTION + " LIKE '%" + searchTerm + "%'")
                 .toSql();
 
         return Cache.openDatabase().rawQuery(resultRecords, null);

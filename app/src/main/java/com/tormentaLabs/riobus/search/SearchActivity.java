@@ -11,8 +11,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tormentaLabs.riobus.R;
+import com.tormentaLabs.riobus.core.controller.LineController;
 import com.tormentaLabs.riobus.favorite.listener.OnFavoriteItemClickListener;
 import com.tormentaLabs.riobus.favorite.model.FavoriteModel;
+import com.tormentaLabs.riobus.search.adapter.SearchSuggestionsCursorAdapter;
 import com.tormentaLabs.riobus.search.utils.SearchUtils;
 import com.tormentaLabs.riobus.favorite.adapter.FavoriteAdapter;
 import com.tormentaLabs.riobus.favorite.controller.FavoriteController;
@@ -37,25 +39,20 @@ import java.util.ArrayList;
 @OptionsMenu(R.menu.activity_search)
 @EActivity(R.layout.activity_search)
 public class SearchActivity extends AppCompatActivity implements
-        SearchView.OnQueryTextListener, OnFavoriteItemClickListener {
+        SearchView.OnQueryTextListener {
 
     private static final String TAG = SearchActivity.class.getName();
     private SearchView searchView;
+    private SearchSuggestionsCursorAdapter suggestionsCursorAdapter;
 
     @Bean
-    FavoriteController favoriteController;
-
-    @Bean
-    FavoriteAdapter favoriteAdapter;
+    LineController lineController;
 
     @ViewById(R.id.riobusSearchToolbar)
     Toolbar rioBusToolBar;
 
-    @ViewById(R.id.favoriteList)
-    ListView favoriteList;
-
-    @ViewById(R.id.historyList)
-    ListView historyList;
+    @ViewById(R.id.searchSuggestions)
+    ListView searchSuggestions;
 
     @OptionsMenuItem(R.id.search)
     MenuItem menuSearch;
@@ -63,8 +60,8 @@ public class SearchActivity extends AppCompatActivity implements
     @AfterViews
     void afterViews() {
         setSupportActionBar(rioBusToolBar);
-
-        favoriteList.setAdapter(favoriteAdapter);
+        suggestionsCursorAdapter = new SearchSuggestionsCursorAdapter(this, lineController.fetchCursor());
+        searchSuggestions.setAdapter(suggestionsCursorAdapter);
     }
 
     @OptionsItem(R.id.search)
@@ -92,20 +89,12 @@ public class SearchActivity extends AppCompatActivity implements
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if(!newText.isEmpty()) {
-            ArrayList<FavoriteModel> favorites = (ArrayList < FavoriteModel >) favoriteController.searchFavorites(newText);
-            favoriteAdapter.updateFavorites(favorites);
-        }
+        if(!newText.isEmpty())
+            suggestionsCursorAdapter.changeCursor(lineController.fetchCursor(newText));
+        else
+            suggestionsCursorAdapter.changeCursor(lineController.fetchCursor());
+        
         return false;
     }
 
-    @Override
-    public void onFavoriteItemClicked(FavoriteModel favorite) {
-        sendToMap(favorite.line.number);
-    }
-
-    @Override
-    public void onFavoriteItemClickedError(String errorMessage) {
-
-    }
 }

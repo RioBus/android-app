@@ -49,7 +49,6 @@ public class FavoriteActivity extends AppCompatActivity implements OnFavoriteIte
 
     @Override
     public void onFavoriteItemClicked(FavoriteModel favorite) {
-        Log.e(TAG, "listener");
         Intent i = new Intent();
         i.putExtra(SearchUtils.EXTRA_SEARCH_RESULT, favorite.line.number);
         setResult(Activity.RESULT_OK, i);
