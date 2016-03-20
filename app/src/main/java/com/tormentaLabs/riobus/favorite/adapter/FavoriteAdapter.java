@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.tormentaLabs.riobus.core.model.LineModel;
 import com.tormentaLabs.riobus.favorite.controller.FavoriteController;
 import com.tormentaLabs.riobus.favorite.model.FavoriteModel;
 import com.tormentaLabs.riobus.favorite.view.FavoriteView;
@@ -16,6 +17,7 @@ import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author limazix
@@ -65,5 +67,10 @@ public class FavoriteAdapter extends BaseAdapter {
         favoriteView.bind(getItem(i));
 
         return favoriteView;
+    }
+
+    public void updateFavorites(ArrayList<FavoriteModel> favorites) {
+        this.favorites = favorites;
+        notifyDataSetChanged();
     }
 }

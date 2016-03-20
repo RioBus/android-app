@@ -5,9 +5,7 @@
 
     <com.tormentaLabs.riobus.favorite.view.FavoriteStarView_
         android:id="@+id/itemFavoriteStar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"/>
+        style="@style/RioBus.Favorite.List.Star"/>
 
     <TextView
         android:id="@+id/favoriteLine"

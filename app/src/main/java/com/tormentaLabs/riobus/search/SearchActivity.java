@@ -12,14 +12,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tormentaLabs.riobus.R;
+import com.tormentaLabs.riobus.favorite.model.FavoriteModel;
 import com.tormentaLabs.riobus.search.utils.SearchUtils;
+import com.tormentaLabs.riobus.favorite.adapter.FavoriteAdapter;
+import com.tormentaLabs.riobus.favorite.controller.FavoriteController;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.OptionsMenuItem;
 import org.androidannotations.annotations.ViewById;
+
+import java.util.ArrayList;
 
 /**
  * TODO Add discription here
@@ -34,6 +41,12 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
     private static final String TAG = SearchActivity.class.getName();
     private SearchView searchView;
+
+    @Bean
+    FavoriteController favoriteController;
+
+    @Bean
+    FavoriteAdapter favoriteAdapter;
 
     @ViewById(R.id.riobusSearchToolbar)
     Toolbar rioBusToolBar;
@@ -57,17 +70,16 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     void afterViews() {
         setSupportActionBar(rioBusToolBar);
 
-        if(searchView != null) {
-            searchView.setFocusable(true);
-            searchView.setIconified(false);
-            searchView.requestFocusFromTouch();
-        }
+        favoriteListHeader.setText(R.string.favorite_page_title);
+        favoriteList.setAdapter(favoriteAdapter);
     }
 
     @OptionsItem(R.id.search)
     boolean menuSearch() {
         searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
         searchView.setOnQueryTextListener(this);
+        searchView.setIconifiedByDefault(false);
+        searchView.requestFocus();
 
         return false;
     }
@@ -83,7 +95,10 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        Log.e(TAG, newText);
+        if(!newText.isEmpty()) {
+            ArrayList<FavoriteModel> favorites = (ArrayList < FavoriteModel >) favoriteController.searchFavorites(newText);
+            favoriteAdapter.updateFavorites(favorites);
+        }
         return false;
     }
 

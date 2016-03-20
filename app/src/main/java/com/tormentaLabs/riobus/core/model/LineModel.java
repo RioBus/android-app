@@ -19,7 +19,7 @@ public class LineModel extends Model {
     public String number;
 
     @Column(name = CoreUtils.TABLE_LINES_COL_DESCRIPTION)
-    public String description;;
+    public String description;
 
     public LineModel() {
         super();
