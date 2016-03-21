@@ -101,11 +101,11 @@ public class BusMarkerConponent extends MapComponent {
             if(!buses.isEmpty()) {
                 removeMarkers();
                 addMarkers(buses);
+                autoUpdateBusesPosition();
             } else showNoBusFound();
         }
 
         if(!isAutoUpdate) getListener().onComponentMapReady();
-        autoUpdateBusesPosition();
     }
 
     /**
