@@ -145,7 +145,7 @@ public class MapFragment extends Fragment implements MapComponentListener {
     @Override
     public void onComponentMapReady(String componentId) {
         //TODO workaround
-        if(line.description != null) {
+        if(line != null && line.description != null) {
             lineMapControllerView.setVisibility(View.VISIBLE);
             lineMapControllerView.build(line);
         }
