@@ -160,9 +160,9 @@ public class MapFragment extends Fragment implements MapComponentListener {
                     .setMap(map)
                     .buildComponent();
 
-            setProgressVisibility(View.VISIBLE);
             lineMapControllerView.setVisibility(View.VISIBLE);
             lineMapControllerView.build(line);
+            setProgressVisibility(View.VISIBLE);
         }
     }
 

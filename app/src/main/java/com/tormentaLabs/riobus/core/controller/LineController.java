@@ -13,7 +13,7 @@ import org.androidannotations.annotations.EBean;
 /**
  * Used to control number data
  * @author limazix
- * @since 3.0
+ * @since 3.0.0
  * Created at 24/10/15
  */
 @EBean
@@ -30,9 +30,13 @@ public class LineController {
         if (lineModel == null) {
             lineModel = new LineModel();
             lineModel.number = line;
-            lineModel.save();
+            lineModel.numberOfAccess = 1;
+        } else {
+            int counter = lineModel.numberOfAccess;
+            lineModel.numberOfAccess = counter + 1;
         }
 
+        lineModel.save();
         return lineModel;
     }
 
@@ -44,7 +48,9 @@ public class LineController {
 
     public Cursor fetchCursor() {
         String resultRecords = new Select()
-                .from(LineModel.class).toSql();
+                .from(LineModel.class)
+                .orderBy(CoreUtils.TABLE_LINES_COL_NUMBER_OF_ACCESS + " DESC")
+                .toSql();
 
         return Cache.openDatabase().rawQuery(resultRecords, null);
     }
@@ -54,6 +60,7 @@ public class LineController {
                 .from(LineModel.class)
                 .where(CoreUtils.TABLE_LINES_COL_NUMBER + " LIKE '%" + searchTerm + "%'")
                 .or(CoreUtils.TABLE_LINES_COL_DESCRIPTION + " LIKE '%" + searchTerm + "%'")
+                .orderBy(CoreUtils.TABLE_LINES_COL_NUMBER_OF_ACCESS + " DESC")
                 .toSql();
 
         return Cache.openDatabase().rawQuery(resultRecords, null);
