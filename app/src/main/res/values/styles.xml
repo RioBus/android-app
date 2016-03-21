@@ -98,14 +98,21 @@
     </style>
 
     <style name="RioBus.History.Group.Item">
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="RioBus.History.Group.Item.Icon">
+        <item name="android:tint">@color/riobus_text</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_width">@dimen/riobus_icon_medium_size</item>
+        <item name="android:layout_height">@dimen/riobus_icon_medium_size</item>
+        <item name="android:padding">0dp</item>
     </style>
 
     <style name="RioBus.History.Group.Item.Title">
-        <item name="android:layout_centerVertical">true</item>
     </style>
 
     <style name="RioBus.History.Group.Item.Date">
-        <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_alignParentRight">true</item>
     </style>
 
