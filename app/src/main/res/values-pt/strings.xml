@@ -32,4 +32,7 @@
     <string name="searching_data">Pesquisando…</string>
     <string name="text_sense">Sentido</string>
     <string name="text_unknown">Desconhecido</string>
+
+    <!-- SEARCH -->
+    <string name="search_page_title">Busca</string>
 </resources>

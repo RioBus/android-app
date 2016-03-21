@@ -1,26 +1,18 @@
 package com.tormentaLabs.riobus.map;
 
-import android.database.Cursor;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.activeandroid.content.ContentProvider;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.core.controller.LineController;
 import com.tormentaLabs.riobus.core.model.LineModel;
-import com.tormentaLabs.riobus.core.utils.CoreUtils;
 import com.tormentaLabs.riobus.history.controller.HistoryController;
 import com.tormentaLabs.riobus.itinerary.ItineraryComponent;
 import com.tormentaLabs.riobus.map.listener.MapComponentListener;
@@ -29,7 +21,8 @@ import com.tormentaLabs.riobus.map.utils.MapUtils;
 import com.tormentaLabs.riobus.map.view.LineMapControllerView;
 import com.tormentaLabs.riobus.marker.BusMarkerConponent;
 import com.tormentaLabs.riobus.marker.UserMarkerComponent;
-import com.tormentaLabs.riobus.search.adapter.SearchSuggestionsCursorAdapter;
+import com.tormentaLabs.riobus.search.SearchActivity_;
+import com.tormentaLabs.riobus.search.utils.SearchUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -49,14 +42,11 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
  */
 @OptionsMenu(R.menu.map_fragment)
 @EFragment(R.layout.fragment_map)
-public class MapFragment extends Fragment implements MapComponentListener,
-        SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
+public class MapFragment extends Fragment implements MapComponentListener {
 
     private static final String TAG = MapFragment_.class.getName();
     private GoogleMap map;
     private SupportMapFragment mapFragment;
-    private SearchView searchView;
-    private SearchSuggestionsCursorAdapter searchSuggestionCursorAdapter;
 
     @Pref
     MapPrefs_ mapPrefs;
@@ -129,44 +119,21 @@ public class MapFragment extends Fragment implements MapComponentListener,
 
     @OptionsItem(R.id.search)
     boolean menuSearch() {
-        searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
-        searchView.setOnQueryTextListener(this);
-        searchView.setOnSuggestionListener(this);
-        //searchView.setQueryRefinementEnabled(true);
-
-        setupSearchSuggestions();
-
+        Intent i = new Intent(getActivity(), SearchActivity_.class);
+        startActivityForResult(i, Activity.DEFAULT_KEYS_SEARCH_GLOBAL);
         return false;
     }
 
-    private void setupSearchSuggestions() {
-
-        searchSuggestionCursorAdapter = new SearchSuggestionsCursorAdapter(
-                getActivity(), lineCtrl.fetchCursor());
-
-        searchView.setSuggestionsAdapter(searchSuggestionCursorAdapter);
-
-        getActivity().getSupportLoaderManager()
-                .initLoader(0, null, new LoaderManager.LoaderCallbacks<Cursor>() {
-                    @Override
-                    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-                        return new CursorLoader(
-                                getActivity(),
-                                ContentProvider.createUri(LineModel.class, null),
-                                null, null, null, null
-                        );
-                    }
-
-                    @Override
-                    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-                        searchView.getSuggestionsAdapter().swapCursor(data);
-                    }
-
-                    @Override
-                    public void onLoaderReset(Loader<Cursor> loader) {
-                        searchView.getSuggestionsAdapter().swapCursor(null);
-                    }
-                });
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == Activity.DEFAULT_KEYS_SEARCH_GLOBAL) {
+            if(resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra(SearchUtils.EXTRA_SEARCH_RESULT);
+                buildBusLineMap(result);
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                Log.e(TAG, "search canceled");
+            }
+        }
     }
 
     @Override
@@ -179,14 +146,7 @@ public class MapFragment extends Fragment implements MapComponentListener,
         Log.e(TAG, error.getMessage());
     }
 
-    @Override
-    public boolean onQueryTextSubmit(String keyword) {
-
-        buildBusLineMap(keyword);
-
-        return false;
-    }
-
+    // TODO do something when it is not valid
     private void buildBusLineMap(String keyword) {
         if (MapUtils.isValidString(keyword)) {
             LineModel line = historyController.addLine(keyword);
@@ -200,29 +160,10 @@ public class MapFragment extends Fragment implements MapComponentListener,
                     .setMap(map)
                     .buildComponent();
 
-            setProgressVisibility(View.VISIBLE);
             lineMapControllerView.setVisibility(View.VISIBLE);
             lineMapControllerView.build(line);
+            setProgressVisibility(View.VISIBLE);
         }
     }
 
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        searchSuggestionCursorAdapter.changeCursor(lineCtrl.fetchCursor(newText));
-        return false;
-    }
-
-    @Override
-    public boolean onSuggestionSelect(int position) {
-        return false;
-    }
-
-    @Override
-    public boolean onSuggestionClick(int position) {
-        Cursor cursor = (Cursor) searchSuggestionCursorAdapter.getItem(position);
-        String suggestionLine = cursor.getString(cursor.getColumnIndex(CoreUtils.TABLE_LINES_COL_NUMBER));
-
-        searchView.setQuery(suggestionLine, true);
-        return false;
-    }
 }

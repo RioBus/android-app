@@ -1,6 +1,7 @@
 package com.tormentaLabs.riobus.marker.service;
 
 import com.tormentaLabs.riobus.marker.model.BusModel;
+import com.tormentaLabs.riobus.utils.RioBusUtils;
 
 import org.androidannotations.annotations.rest.Accept;
 import org.androidannotations.annotations.rest.Get;
@@ -15,7 +16,7 @@ import java.util.List;
  * Created by limazix on 02/09/15.
  */
 @Accept(MediaType.APPLICATION_JSON)
-@Rest(rootUrl = "http://rest.riob.us/v3", converters = {MappingJackson2HttpMessageConverter.class})
+@Rest(rootUrl = RioBusUtils.SERVER_ADDR, converters = {MappingJackson2HttpMessageConverter.class})
 public interface BusService extends RestClientErrorHandling {
 
     @Get("/search/{line}")

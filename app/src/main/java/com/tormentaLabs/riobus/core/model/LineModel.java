@@ -9,7 +9,7 @@ import com.tormentaLabs.riobus.core.utils.CoreUtils;
 
 /**
  * @author limazix
- * @since 3.0
+ * @since 3.0.0
  * Created on 24/10/15
  */
 @Table(name = CoreUtils.TABLE_LINES_NAME, id = BaseColumns._ID)
@@ -19,7 +19,10 @@ public class LineModel extends Model {
     public String number;
 
     @Column(name = CoreUtils.TABLE_LINES_COL_DESCRIPTION)
-    public String description;;
+    public String description;
+
+    @Column(name = CoreUtils.TABLE_LINES_COL_NUMBER_OF_ACCESS)
+    public int numberOfAccess;
 
     public LineModel() {
         super();

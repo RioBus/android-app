@@ -15,4 +15,9 @@
 
     <dimen name="riobus_elevation">6dp</dimen>
     <dimen name="riobus_nav_header_height">192dp</dimen>
+
+    <dimen name="riobus_icon_small_size">24dp</dimen>
+    <dimen name="riobus_icon_medium_size">36dp</dimen>
+    <dimen name="riobus_icon_large_size">48dp</dimen>
+
 </resources>

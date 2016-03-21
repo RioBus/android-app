@@ -1,6 +1,7 @@
 package com.tormentaLabs.riobus.itinerary.service;
 
 import com.tormentaLabs.riobus.itinerary.model.ItineraryModel;
+import com.tormentaLabs.riobus.utils.RioBusUtils;
 
 import org.androidannotations.annotations.rest.Accept;
 import org.androidannotations.annotations.rest.Get;
@@ -13,7 +14,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
  * Created by limazix on 05/10/15.
  */
 @Accept(MediaType.APPLICATION_JSON)
-@Rest(rootUrl = "http://rest.riob.us/v3",converters = {MappingJackson2HttpMessageConverter.class})
+@Rest(rootUrl = RioBusUtils.SERVER_ADDR,converters = {MappingJackson2HttpMessageConverter.class})
 public interface ItineraryService extends RestClientErrorHandling {
 
     @Get("/itinerary/{line}")

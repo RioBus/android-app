@@ -2,6 +2,7 @@ package com.tormentaLabs.riobus.map.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -20,6 +21,7 @@ import org.androidannotations.annotations.ViewById;
 @EViewGroup(R.layout.view_line_map_controller)
 public class LineMapControllerView extends RelativeLayout implements View.OnClickListener {
 
+    private static final String TAG = LineMapControllerView.class.getName();
     private LineModel line;
 
     @ViewById(R.id.changeSenseButton)

@@ -9,6 +9,7 @@
         android:elevation="@dimen/riobus_elevation"/>
 
     <ExpandableListView
+        android:layout_below="@id/riobusHistoryToolbar"
         android:id="@+id/historyListView"
         style="@style/RioBus.History.List" />
 
