@@ -59,7 +59,7 @@ public class UserMarkerComponent extends MapComponent implements
         if(userMarker != null) userMarker.remove();
         userMarker = getMap().addMarker(MarkerUtils.createMarker(position));
 
-        getListener().onComponentMapReady();
+        getListener().onComponentMapReady(TAG);
     }
 
     @Override

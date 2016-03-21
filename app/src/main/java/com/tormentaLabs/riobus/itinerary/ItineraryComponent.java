@@ -60,7 +60,7 @@ public class ItineraryComponent extends MapComponent {
             spots.add(position);
         }
         drawItinerary(spots);
-        getListener().onComponentMapReady();
+        getListener().onComponentMapReady(TAG);
     }
 
     @UiThread

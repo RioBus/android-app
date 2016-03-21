@@ -102,10 +102,16 @@ public class BusMarkerConponent extends MapComponent {
                 removeMarkers();
                 addMarkers(buses);
                 autoUpdateBusesPosition();
-            } else showNoBusFound();
+                if(!isAutoUpdate) getListener().onComponentMapReady(TAG);
+            } else {
+                String message = getContext().getResources().getString(R.string.no_bus_found);
+                getListener().onComponentMapError(message, TAG);
+            }
+        } else {
+            String message = getContext().getResources().getString(R.string.error_connection_server);
+            getListener().onComponentMapError(message, TAG);
         }
 
-        if(!isAutoUpdate) getListener().onComponentMapReady();
     }
 
     /**
@@ -129,12 +135,6 @@ public class BusMarkerConponent extends MapComponent {
         for(Marker m : markers)
             m.remove();
         markers.clear();
-    }
-
-    @UiThread
-    void showNoBusFound() {
-        String message = getContext().getResources().getString(R.string.no_bus_found);
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
     /**

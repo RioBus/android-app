@@ -2,6 +2,7 @@ package com.tormentaLabs.riobus.map;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.MenuItem;
@@ -74,6 +75,7 @@ public class MapFragment extends Fragment implements MapComponentListener {
 
     @OptionsMenuItem(R.id.search)
     MenuItem menuSearch;
+    private LineModel line;
 
     @AfterViews
     public void afterViews() {
@@ -136,20 +138,31 @@ public class MapFragment extends Fragment implements MapComponentListener {
         }
     }
 
+    private void buildLineMapControllerView() {
+    }
+
+    @UiThread
     @Override
-    public void onComponentMapReady() {
+    public void onComponentMapReady(String componentId) {
+        //TODO workaround
+        if(line.description != null) {
+            lineMapControllerView.setVisibility(View.VISIBLE);
+            lineMapControllerView.build(line);
+        }
         setProgressVisibility(View.GONE);
     }
 
+    @UiThread
     @Override
-    public void onComponentMapError(Exception error) {
-        Log.e(TAG, error.getMessage());
+    public void onComponentMapError(String errorMsg, String componentId) {
+        setProgressVisibility(View.GONE);
+        Snackbar.make(getView(), errorMsg, Snackbar.LENGTH_LONG).show();
     }
 
     // TODO do something when it is not valid
     private void buildBusLineMap(String keyword) {
         if (MapUtils.isValidString(keyword)) {
-            LineModel line = historyController.addLine(keyword);
+            line = historyController.addLine(keyword);
             busMapComponent.setLine(line)
                     .setListener(this)
                     .setMap(map)
@@ -159,10 +172,6 @@ public class MapFragment extends Fragment implements MapComponentListener {
                     .setListener(this)
                     .setMap(map)
                     .buildComponent();
-
-            lineMapControllerView.setVisibility(View.VISIBLE);
-            lineMapControllerView.build(line);
-            setProgressVisibility(View.VISIBLE);
         }
     }
 
