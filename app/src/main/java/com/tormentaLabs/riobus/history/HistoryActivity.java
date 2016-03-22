@@ -4,8 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.widget.ExpandableListView;
 
 import com.tormentaLabs.riobus.R;
@@ -15,6 +14,7 @@ import com.tormentaLabs.riobus.history.controller.HistoryController;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
@@ -27,7 +27,9 @@ import org.androidannotations.annotations.ViewById;
  */
 @OptionsMenu(R.menu.activity_history)
 @EActivity(R.layout.activity_history)
-public class HistoryActivity extends AppCompatActivity {
+public class HistoryActivity extends AppCompatActivity implements DialogInterface.OnClickListener{
+
+    private static final String TAG = HistoryActivity.class.getName();
 
     @ViewById(R.id.riobusHistoryToolbar)
     Toolbar rioBusToolBar;
@@ -38,10 +40,31 @@ public class HistoryActivity extends AppCompatActivity {
     @Bean
     HistoryListAdapter historyListAdapter;
 
+    @Bean
+    HistoryController historyController;
+
     @AfterViews
     void afterViews() {
         setSupportActionBar(rioBusToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         historyListView.setAdapter(historyListAdapter);
+    }
+
+    @OptionsItem(R.id.history_clear)
+    void clearHistory(){
+        showClearDialog();
+    }
+
+    public void showClearDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.history_clear_dialog);
+        builder.setPositiveButton(R.string.ok, this);
+        builder.setNegativeButton(R.string.cancel, null);
+        builder.create().show();
+    }
+
+    @Override
+    public void onClick(DialogInterface dialogInterface, int id) {
+        Log.e(TAG, "onClick clear dialog");
     }
 }
