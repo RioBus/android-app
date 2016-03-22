@@ -15,6 +15,7 @@ import com.tormentaLabs.riobus.history.controller.HistoryController;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
 /**
@@ -24,6 +25,7 @@ import org.androidannotations.annotations.ViewById;
  * Created at 24/10/15
  * @// TODO: 19/11/15 ADD Search and endless scroll list
  */
+@OptionsMenu(R.menu.activity_history)
 @EActivity(R.layout.activity_history)
 public class HistoryActivity extends AppCompatActivity {
 
@@ -41,37 +43,5 @@ public class HistoryActivity extends AppCompatActivity {
         setSupportActionBar(rioBusToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         historyListView.setAdapter(historyListAdapter);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_history, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.history_clear:
-                clearHistory();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void clearHistory(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.history_clear_dialog);
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                new HistoryController().deleteHistory();
-                historyListAdapter.populateList();
-            }
-        });
-        builder.setNegativeButton(R.string.cancel, null);
-        builder.create().show();
     }
 }
