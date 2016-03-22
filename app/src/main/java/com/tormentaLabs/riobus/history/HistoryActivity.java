@@ -65,6 +65,7 @@ public class HistoryActivity extends AppCompatActivity implements DialogInterfac
 
     @Override
     public void onClick(DialogInterface dialogInterface, int id) {
-        Log.e(TAG, "onClick clear dialog");
+        historyController.clearHistory();
+        historyListAdapter.populateLists();
     }
 }

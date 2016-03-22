@@ -1,5 +1,6 @@
 package com.tormentaLabs.riobus.history.controller;
 
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.activeandroid.query.Delete;
 import com.tormentaLabs.riobus.core.controller.LineController;
@@ -73,7 +74,7 @@ public class HistoryController {
         return history;
     }
 
-    public void deleteHistory(){
+    public void clearHistory(){
         new Delete().from(HistoryModel.class).execute();
     }
 }
