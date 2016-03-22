@@ -41,9 +41,14 @@ public class HistoryListAdapter extends BaseExpandableListAdapter {
 
     @AfterInject
     void afterInject() {
+        populateLists();
+    }
+
+    public void populateLists() {
         history = historyController.getHistoryGroupedByDate();
         dates = new ArrayList<>();
         dates.addAll(history.keySet());
+        notifyDataSetChanged();
     }
 
     @Override
@@ -117,4 +122,5 @@ public class HistoryListAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int headerPosition, int childPosition) {
         return true;
     }
+
 }
