@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="riobus_window_background">#ffffff</color>
-    <color name="riobus_primary">#2ba9d8</color>
+    <color name="riobus_primary">#4ea7f5</color>
     <color name="riobus_primary_dark">#2b7ed8</color>
     <color name="riobus_primary_light">#2bd4d8</color>
     <color name="riobus_accent">#2bd85a</color>
