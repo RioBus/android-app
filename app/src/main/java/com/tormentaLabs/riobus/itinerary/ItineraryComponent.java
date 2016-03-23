@@ -31,7 +31,7 @@ import java.util.ArrayList;
 public class ItineraryComponent extends MapComponent {
 
     private static final String TAG = ItineraryComponent.class.getName();
-    private static final float LINE_WIDTH = 4;
+    private static final float LINE_WIDTH = 12;
     private Polyline polyline = null;
 
     @RestService
