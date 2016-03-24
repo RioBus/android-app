@@ -141,7 +141,9 @@ public class RioBusActivity extends AppCompatActivity implements NavigationView.
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mapFragmet.onActivityResult(requestCode, resultCode, data);
-        String query = data.getCharSequenceExtra(SearchUtils.EXTRA_SEARCH_RESULT).toString();
-        if(!query.isEmpty()) setTitle(query);
+        if(data!=null) {
+            String query = data.getCharSequenceExtra(SearchUtils.EXTRA_SEARCH_RESULT).toString();
+            if(!query.isEmpty()) setTitle(query);
+        }
     }
 }
