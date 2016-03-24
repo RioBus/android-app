@@ -10,4 +10,5 @@
     <color name="riobus_text">#868686</color>
     <color name="riobus_icons">#ffffff</color>
     <color name="riobus_divider">#b6b6b6</color>
+    <color name="riobus_star_golden">#f2af29</color>
 </resources>
