@@ -81,6 +81,7 @@
     </style>
 
     <style name="RioBus.History.List">
+        <item name="android:theme">@style/Base.Theme.AppCompat.Light</item>
         <item name="android:layout_height">fill_parent</item>
         <item name="android:layout_margin">@dimen/riobus_spacing_short</item>
     </style>
