@@ -16,18 +16,32 @@
 
     <TextView
         android:id="@+id/firstLineEndPoint"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit ="marquee_forever"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scrollHorizontally="true"
         android:layout_toRightOf="@id/changeSenseButton"
         android:layout_alignParentTop="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:layout_toLeftOf="@+id/favoriteStarView"
+        android:layout_toStartOf="@+id/favoriteStarView" />
 
     <TextView
         android:id="@+id/secondLineEndPoint"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@id/changeSenseButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit ="marquee_forever"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:scrollHorizontally="true"
+        android:layout_toRightOf="@id/changeSenseButton"
+        android:layout_toLeftOf="@+id/favoriteStarView"
+        android:layout_toStartOf="@+id/favoriteStarView"
         android:singleLine="true"/>
 
     <com.tormentaLabs.riobus.favorite.view.FavoriteStarView_
