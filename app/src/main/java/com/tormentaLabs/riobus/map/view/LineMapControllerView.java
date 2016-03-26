@@ -65,6 +65,9 @@ public class LineMapControllerView extends RelativeLayout implements View.OnClic
             String[] endPoints = line.description.split("X");
             firstLineEndPoint.setText(endPoints[0].trim());
             secondLineEndPoint.setText(endPoints[1].trim());
+            // Makes the TextView scroll horizontally automatically
+            firstLineEndPoint.setSelected(true);
+            secondLineEndPoint.setSelected(true);
         }
     }
 
