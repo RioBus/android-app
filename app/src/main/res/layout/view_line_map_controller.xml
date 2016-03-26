@@ -1,48 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:padding="@dimen/riobus_spacing_middle">
+    style="@style/RioBus.LineView">
 
     <ImageButton
         android:layout_alignParentLeft="true"
         android:layout_centerInParent="true"
         android:id="@+id/changeSenseButton"
-        android:background="@android:color/white"
-        android:tint="@color/riobus_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_swap_calls_black"/>
+        android:src="@drawable/ic_swap_calls_black"
+        style="@style/RioBus.LineView.ChangeSense"/>
 
     <TextView
         android:id="@+id/firstLineEndPoint"
-        android:ellipsize="marquee"
-        android:marqueeRepeatLimit ="marquee_forever"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:scrollHorizontally="true"
         android:layout_toRightOf="@id/changeSenseButton"
         android:layout_alignParentTop="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
         android:layout_toLeftOf="@+id/favoriteStarView"
-        android:layout_toStartOf="@+id/favoriteStarView" />
+        android:layout_toStartOf="@+id/favoriteStarView"
+        style="@style/RioBus.LineView.HorizontalScrollable" />
 
     <TextView
         android:id="@+id/secondLineEndPoint"
         android:layout_alignParentBottom="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="marquee"
-        android:marqueeRepeatLimit ="marquee_forever"
-        android:focusableInTouchMode="true"
-        android:focusable="true"
-        android:scrollHorizontally="true"
         android:layout_toRightOf="@id/changeSenseButton"
         android:layout_toLeftOf="@+id/favoriteStarView"
         android:layout_toStartOf="@+id/favoriteStarView"
-        android:singleLine="true"/>
+        style="@style/RioBus.LineView.HorizontalScrollable"/>
 
     <com.tormentaLabs.riobus.favorite.view.FavoriteStarView_
         android:id="@+id/favoriteStarView"

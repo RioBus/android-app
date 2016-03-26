@@ -75,6 +75,32 @@
         <item name="android:layout_alignParentRight">true</item>
     </style>
 
+    <style name="RioBus.LineView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:padding">@dimen/riobus_spacing_middle</item>
+    </style>
+
+    <style name="RioBus.LineView.ChangeSense">
+        <item name="android:tint">@color/riobus_text</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:padding">0dp</item>
+    </style>
+
+    <style name="RioBus.LineView.HorizontalScrollable">
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:padding">0dp</item>
+    </style>
+
     <style name="RioBus.History">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -177,6 +203,7 @@
     <style name="RioBus.Search.Suggestions.List.Item.SubTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentLeft">true</item>
         <item name="android:textSize">12sp</item>
         <item name="android:layout_margin">0dp</item>
     </style>
