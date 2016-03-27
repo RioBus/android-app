@@ -30,10 +30,11 @@
         <item name="android:padding">@dimen/riobus_spacing_middle</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/riobus_primary_dark</item>
+        <item name="android:background">@drawable/drawer_header_bg</item>
     </style>
 
     <style name="RioBus.Navigation.Header.Icon">
+        <item name="android:background">@null</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:src">@drawable/logo_transparent</item>
@@ -42,6 +43,7 @@
     </style>
 
     <style name="RioBus.Navigation.Header.Title">
+        <item name="android:background">@null</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:text">@string/app_name</item>
