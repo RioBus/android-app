@@ -2,6 +2,7 @@ package com.tormentaLabs.riobus.marker;
 
 import android.util.Log;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -165,8 +166,10 @@ public class BusMarkerConponent extends MapComponent {
                 markers.add(marker);
             }
         }
-        if (!isAutoUpdate)
-            getMap().moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), BOUNDS_PADDING));
+        if (!isAutoUpdate && !markers.isEmpty()) {
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), BOUNDS_PADDING);
+            getMap().moveCamera(cameraUpdate);
+        }
     }
 
     /**
