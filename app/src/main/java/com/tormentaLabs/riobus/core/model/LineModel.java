@@ -6,6 +6,9 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.tormentaLabs.riobus.core.utils.CoreUtils;
+import com.tormentaLabs.riobus.history.model.HistoryModel;
+
+import java.util.List;
 
 /**
  * @author limazix
@@ -31,5 +34,15 @@ public class LineModel extends Model {
     public LineModel(String number) {
         super();
         this.number = number;
+    }
+
+    /**
+     * Exposing getMany method of one-to-many relationship
+     * @param T Class/Table extending Model to be retrived
+     * @param tableName Line Column name from the Class/Table to be retrived
+     * @return A list of Class/Table elements
+     */
+    public List<? extends Model> getEntries(Class<? extends Model> T, String tableName) {
+        return getMany(T, tableName);
     }
 }

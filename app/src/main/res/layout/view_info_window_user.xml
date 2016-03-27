@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/riobus_spacing_short"
+    android:background="@color/riobus_window_background"
+    android:elevation="@dimen/riobus_elevation">
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_margin="@dimen/riobus_spacing_short"
+        android:textSize="@dimen/riobus_content_title_size"
+        android:textStyle="bold"
+        android:textColor="@color/riobus_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

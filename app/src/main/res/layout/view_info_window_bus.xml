@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/riobus_spacing_middle"
+    android:background="@color/riobus_window_background"
+    android:elevation="@dimen/riobus_elevation">
+
+    <TextView
+        android:id="@+id/titulo"
+        android:textSize="@dimen/riobus_content_title_size"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/riobus_text"
+        android:layout_marginBottom="@dimen/riobus_spacing_short"/>
+
+    <TextView
+        android:layout_below="@id/titulo"
+        android:id="@+id/hora"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/riobus_text"
+        android:layout_marginBottom="@dimen/riobus_spacing_short"/>
+
+    <TextView
+        android:layout_below="@id/hora"
+        android:id="@+id/velocity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/riobus_text"
+        android:layout_marginBottom="@dimen/riobus_spacing_short" />
+
+    <TextView
+        android:layout_below="@id/velocity"
+        android:id="@+id/sense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/riobus_text"
+        android:layout_marginBottom="@dimen/riobus_spacing_short" />
+
+</RelativeLayout>
