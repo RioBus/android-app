@@ -8,6 +8,8 @@ import com.activeandroid.annotation.Table;
 import com.tormentaLabs.riobus.core.model.LineModel;
 import com.tormentaLabs.riobus.history.utils.HistoryUtils;
 
+import java.util.List;
+
 /**
  * @author limazix
  * @since 2.1
@@ -26,9 +28,4 @@ public class HistoryModel extends Model {
         super();
     }
 
-    public HistoryModel(LineModel line, String createdAt) {
-        super();
-        this.line = line;
-        this.createdAt = createdAt;
-    }
 }

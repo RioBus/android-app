@@ -4,9 +4,9 @@ import android.util.Log;
 
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
-import com.activeandroid.query.Delete;
 import com.tormentaLabs.riobus.core.controller.LineController;
 import com.tormentaLabs.riobus.core.model.LineModel;
+import com.tormentaLabs.riobus.core.utils.CoreUtils;
 import com.tormentaLabs.riobus.history.model.HistoryModel;
 import com.tormentaLabs.riobus.history.utils.HistoryUtils;
 import com.tormentaLabs.riobus.utils.RioBusUtils;
@@ -35,24 +35,23 @@ public class HistoryController {
     @Bean
     LineController lineController;
 
-    public List<LineModel> addLines(String[] lines) {
-        ArrayList<LineModel> lineList = new ArrayList<>();
-        for(String line : lines)
-            lineList.add(addLine(line));
-
-        return lineList;
-    }
-
     public LineModel addLine(String line) {
 
         LineModel lineModel = lineController.createIfNotExists(line);
 
-        HistoryModel historyItem = new HistoryModel();
-        historyItem.line = lineModel;
+        ArrayList<HistoryModel> historyEntries = (ArrayList<HistoryModel>) lineModel.getEntries(HistoryModel.class, HistoryUtils.TABLE_HISTORY_COL_LINE);
+
+        HistoryModel historyItem;
+
+        if(historyEntries.isEmpty()) {
+            historyItem = new HistoryModel();
+            historyItem.line = lineModel;
+        } else historyItem = historyEntries.get(0);
+
         historyItem.createdAt = new DateTime().toString();
         historyItem.save();
 
-        return lineModel;
+        return historyItem.line;
     }
 
     public List<HistoryModel> getHistory() {
