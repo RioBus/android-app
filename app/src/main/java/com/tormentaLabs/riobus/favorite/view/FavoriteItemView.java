@@ -31,6 +31,9 @@ public class FavoriteItemView extends RelativeLayout implements View.OnClickList
     @ViewById(R.id.favoriteLine)
     TextView favoriteLine;
 
+    @ViewById(R.id.favoriteLineDescription)
+    TextView favoriteLineDescription;
+
     public FavoriteItemView(Context context) {
         super(context);
     }
@@ -46,6 +49,7 @@ public class FavoriteItemView extends RelativeLayout implements View.OnClickList
     public void bind(FavoriteModel favorite, OnFavoriteStatusChangedListener listener) {
         this.favorite = favorite;
         favoriteLine.setText(favorite.line.number);
+        favoriteLineDescription.setText(favorite.line.description);
         favoriteStar.build(favorite.line, listener);
         setOnClickListener(this);
     }
