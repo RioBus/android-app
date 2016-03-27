@@ -89,9 +89,10 @@ public class MapBuilder implements MapComponentListener {
 
     @Override
     public void onComponentMapReady(String componentId) {
+        Log.e(TAG, "1");
         if(componentId.equals(busMapComponent.getClass().getName())) {
+            Log.e(TAG, "2");
             if(busMapComponent.getLines().size() > 1) {
-                line = null;
                 buildNextComponent(busMapComponent);
             } else {
                 line = busMapComponent.getLines().get(FIRST_ITEM_INDEX);
@@ -99,6 +100,7 @@ public class MapBuilder implements MapComponentListener {
                 prepareNextComponent(itineraryComponent);
             }
         } else if(componentId.equals(itineraryComponent.getClass().getName())) {
+            Log.e(TAG, "3");
             sense = itineraryComponent.getSense();
             busMapComponent.setSense(sense);
             buildNextComponent(busMapComponent);
@@ -109,6 +111,7 @@ public class MapBuilder implements MapComponentListener {
 
     @Override
     public void onComponentBuildComplete(String componentId) {
+        Log.e(TAG, "4");
         if(componentId.equals(busMapComponent.getClass().getName())) {
             if(busMapComponent.getLines().size() > 1) listener.onMapBuilderComplete();
             else buildNextComponent(itineraryComponent);

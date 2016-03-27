@@ -1,7 +1,5 @@
 package com.tormentaLabs.riobus.itinerary;
 
-import android.util.Log;
-
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -74,6 +72,8 @@ public class ItineraryComponent extends MapComponent {
 
     @Override
     public void prepareComponent() {
+        setIsBuildcomplete(false);
+        setReverseSense(false);
         removeComponent();
         getItineraries();
     }

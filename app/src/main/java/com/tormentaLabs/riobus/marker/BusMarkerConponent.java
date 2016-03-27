@@ -81,6 +81,8 @@ public class BusMarkerConponent extends MapComponent {
     @Override
     public void prepareComponent() {
         isAutoUpdate = false;
+        setIsBuildcomplete(false);
+        setReverseSense(false);
         shutdownAutoUpdate();
         boundsBuilder = new LatLngBounds.Builder();
         getBusesByLine();
