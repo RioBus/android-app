@@ -1,11 +1,14 @@
 package com.tormentaLabs.riobus.history.controller;
 
+import android.util.Log;
+
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.activeandroid.query.Delete;
 import com.tormentaLabs.riobus.core.controller.LineController;
 import com.tormentaLabs.riobus.core.model.LineModel;
 import com.tormentaLabs.riobus.history.model.HistoryModel;
+import com.tormentaLabs.riobus.history.utils.HistoryUtils;
 import com.tormentaLabs.riobus.utils.RioBusUtils;
 
 import org.androidannotations.annotations.Bean;
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Used to control history data access
@@ -52,7 +56,9 @@ public class HistoryController {
     }
 
     public List<HistoryModel> getHistory() {
-        return new Select().from(HistoryModel.class).execute();
+        return new Select().from(HistoryModel.class)
+                .orderBy("datetime(" + HistoryUtils.TABLE_HISTORY_COL_CREATED_AT + ")" + " DESC")
+                .execute();
     }
 
     public Map<String, List<HistoryModel>> getHistoryGroupedByDate() {
@@ -71,7 +77,7 @@ public class HistoryController {
             }
         }
 
-        return history;
+        return new TreeMap<>(history).descendingMap();
     }
 
     public void clearHistory(){
