@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 
+import com.tormentaLabs.riobus.history.listener.OnHistoryItemClickListener;
 import com.tormentaLabs.riobus.history.controller.HistoryController;
 import com.tormentaLabs.riobus.history.model.HistoryModel;
 import com.tormentaLabs.riobus.history.view.HistoryGroupHeaderView;
@@ -32,6 +33,7 @@ public class HistoryListAdapter extends BaseExpandableListAdapter {
 
     private Map<String, List<HistoryModel>> history;
     private List<String> dates;
+    private OnHistoryItemClickListener listener;
 
     @RootContext
     Context context;
@@ -112,6 +114,9 @@ public class HistoryListAdapter extends BaseExpandableListAdapter {
         } else {
             groupItemView = (HistoryGroupItemView) view;
         }
+
+        if(listener != null)
+            groupItemView.setOnHistoryItemClickListener(listener);
         
         groupItemView.bind((HistoryModel) getChild(headerPosition, childPosition));
         
@@ -121,6 +126,10 @@ public class HistoryListAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int headerPosition, int childPosition) {
         return true;
+    }
+
+    public void registerItemClickListener(OnHistoryItemClickListener listener) {
+        this.listener = listener;
     }
 
 }
