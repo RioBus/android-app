@@ -1,15 +1,19 @@
 package com.tormentaLabs.riobus.history;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.ExpandableListView;
 
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.history.adapter.HistoryListAdapter;
 import com.tormentaLabs.riobus.history.controller.HistoryController;
+import com.tormentaLabs.riobus.history.listener.OnHistoryItemClickListener;
+import com.tormentaLabs.riobus.history.model.HistoryModel;
+import com.tormentaLabs.riobus.search.utils.SearchUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -27,7 +31,7 @@ import org.androidannotations.annotations.ViewById;
  */
 @OptionsMenu(R.menu.activity_history)
 @EActivity(R.layout.activity_history)
-public class HistoryActivity extends AppCompatActivity implements DialogInterface.OnClickListener{
+public class HistoryActivity extends AppCompatActivity implements DialogInterface.OnClickListener, OnHistoryItemClickListener {
 
     private static final String TAG = HistoryActivity.class.getName();
 
@@ -48,6 +52,7 @@ public class HistoryActivity extends AppCompatActivity implements DialogInterfac
         setSupportActionBar(rioBusToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         historyListView.setAdapter(historyListAdapter);
+        historyListAdapter.registerItemClickListener(this);
     }
 
     @OptionsItem(R.id.history_clear)
@@ -67,5 +72,13 @@ public class HistoryActivity extends AppCompatActivity implements DialogInterfac
     public void onClick(DialogInterface dialogInterface, int id) {
         historyController.clearHistory();
         historyListAdapter.populateLists();
+    }
+
+    @Override
+    public void onHistoryItemClicked(HistoryModel history) {
+        Intent i = new Intent();
+        i.putExtra(SearchUtils.EXTRA_SEARCH_RESULT, history.line.number);
+        setResult(Activity.RESULT_OK, i);
+        finish();
     }
 }
