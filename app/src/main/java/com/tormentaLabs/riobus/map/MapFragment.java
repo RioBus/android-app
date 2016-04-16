@@ -1,13 +1,19 @@
 package com.tormentaLabs.riobus.map;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -43,29 +49,23 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 public class MapFragment extends Fragment implements MapBuilderListener {
 
     private static final String TAG = MapFragment_.class.getName();
-    private GoogleMap map;
-    private SupportMapFragment mapFragment;
-
+    private static final int PERMISSION_FINE_LOCATION_CODE = 192;
     @Pref
     MapPrefs_ mapPrefs;
-
     @Bean
     MapBuilder mapBuilder;
-
     @Bean
     HistoryController historyController;
-
     @Bean
     LineController lineCtrl;
-
     @ViewById(R.id.rioBusProgressBar)
     ProgressBar progressBar;
-
     @ViewById(R.id.lineMapControllerView)
     LineMapControllerView lineMapControllerView;
-
     @OptionsMenuItem(R.id.search)
     MenuItem menuSearch;
+    private GoogleMap map;
+    private SupportMapFragment mapFragment;
 
     @AfterViews
     public void afterViews() {
@@ -79,20 +79,73 @@ public class MapFragment extends Fragment implements MapBuilderListener {
      * Used to setup global map preferences
      */
     private void setupMap() {
-        if(map.getUiSettings() != null) {
+        if (map.getUiSettings() != null) {
             map.getUiSettings().setMapToolbarEnabled(mapPrefs.isMapToolbarEnable().get());
             map.getUiSettings().setCompassEnabled(mapPrefs.isMapCompasEnable().get());
             map.setTrafficEnabled(mapPrefs.isMapTrafficEnable().get());
         }
-        map.setMyLocationEnabled(mapPrefs.isMapMyLocationEnable().get());
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkLocationPermission()) {
+                map.setMyLocationEnabled(mapPrefs.isMapMyLocationEnable().get());
+            }
+        } else {
+            map.setMyLocationEnabled(mapPrefs.isMapMyLocationEnable().get());
+        }
 
         mapBuilder.setMap(map)
                 .setListener(this)
                 .centerOnUser();
     }
 
+    boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                // Called the second time the user opens the app and
+                // the permission was previously rejected by the user.
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // Called when the user first is asked for the permission
+                ActivityCompat.requestPermissions(this.getActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        PERMISSION_FINE_LOCATION_CODE);
+            }
+            return false;
+        } else {
+            //The user has already granted the location permission
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_FINE_LOCATION_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    setupMap();
+                    Log.e(TAG, "Permission granted");
+                } else {
+                    Log.e(TAG, "Permission denied");
+                    Toast.makeText(getContext(), "Permissão de localização recusada", Toast.LENGTH_LONG).show();
+                }
+                break;
+            }
+        }
+    }
+
     /**
      * Used to access the map fragment which is a child fragment called map_fragment
+     *
      * @return SupportMapFragment
      */
     private SupportMapFragment getMapFragment() {
@@ -124,8 +177,8 @@ public class MapFragment extends Fragment implements MapBuilderListener {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == Activity.DEFAULT_KEYS_SEARCH_GLOBAL) {
-            if(resultCode == Activity.RESULT_OK) {
+        if (requestCode == Activity.DEFAULT_KEYS_SEARCH_GLOBAL) {
+            if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra(SearchUtils.EXTRA_SEARCH_RESULT);
                 getActivity().setTitle(result);
                 buildBusLineMap(result);
@@ -154,7 +207,7 @@ public class MapFragment extends Fragment implements MapBuilderListener {
     @Override
     public void onMapBuilderComplete() {
         setProgressVisibility(View.GONE);
-        if(mapBuilder.getLine() == null) return;
+        if (mapBuilder.getLine() == null) return;
         historyController.addLine(mapBuilder.getLine().number);
         lineMapControllerView.setVisibility(View.VISIBLE);
         lineMapControllerView.build(mapBuilder.getLine());
