@@ -1,6 +1,7 @@
 package com.tormentaLabs.riobus.service;
 
 import com.tormentaLabs.riobus.model.Bus;
+import com.tormentaLabs.riobus.model.Itinerary;
 
 import java.util.List;
 
@@ -31,17 +32,20 @@ public interface HttpService {
     @GET("/v3/search/{lines}")
     List<Bus> getPage(@Path("lines")String lines);
 
-    @Headers({
-            "Accept:application/json",
-            "Cache-Control: max-age=640000"
-    })
-    @GET("/search/2/{lines}")
-    void getOldPage(@Path("lines")String lines, Callback< List<Bus> > buses);
 
     @Headers({
             "Accept:application/json",
-            "Cache-Control: max-age=640000"
+            "Cache-Control: max-age=640000",
+            "userAgent: riobus-android-2.0"
     })
-    @GET("/search/2/{lines}")
-    List<Bus> getOldPage(@Path("lines")String lines);
+    @GET("/v3/itinerary/{lines}")
+    void getItineraryPage(@Path("lines")String line, Callback< Itinerary > itinerary);
+
+    @Headers({
+            "Accept:application/json",
+            "Cache-Control: max-age=640000",
+            "userAgent: riobus-android-2.0"
+    })
+    @GET("/v3/itinerary/{lines}")
+    Itinerary getItineraryPage(@Path("lines")String line);
 }
