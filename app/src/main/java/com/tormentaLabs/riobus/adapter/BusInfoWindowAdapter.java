@@ -9,6 +9,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.gson.Gson;
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.model.Bus;
+import com.tormentaLabs.riobus.model.Itinerary;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -40,31 +41,66 @@ public class BusInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         View view;
 
         if(marker.getTitle()==null){
-            Bus bus = new Gson().fromJson(marker.getSnippet(), Bus.class);
-            view = context.getLayoutInflater().inflate(R.layout.info_window_layout, null);
-
-            TextView lineView = (TextView) view.findViewById(R.id.titulo);
-
-            String line = bus.getLine();
             try {
-                int lineInteger = (int) Double.parseDouble(line);
-                line = Integer.toString(lineInteger);
-            } catch (Exception e) {}
+                Bus bus = new Gson().fromJson(marker.getSnippet(), Bus.class);
+                view = context.getLayoutInflater().inflate(R.layout.info_window_layout, null);
 
-            lineView.setText(context.getString(R.string.marker_title, bus.getOrder(), line));
+                TextView lineView = (TextView) view.findViewById(R.id.titulo);
 
-            TextView dateTime = (TextView) view.findViewById(R.id.hora);
-            dateTime.setText(prepareDate(bus.getTimestamp()));
+                String line = bus.getLine();
+                try {
+                    int lineInteger = (int) Double.parseDouble(line);
+                    line = Integer.toString(lineInteger);
+                } catch (Exception e) {
+                }
 
-            TextView velocity = (TextView) view.findViewById(R.id.velocity);
-            velocity.setText(context.getString(R.string.marker_velocity, String.valueOf(bus.getVelocity())));
+                lineView.setText(context.getString(R.string.marker_title, bus.getOrder(), line));
 
-            TextView sense = (TextView) view.findViewById(R.id.sense);
-            if(bus.getSense() == null || bus.getSense().trim().equals("")) {
-                sense.setText(context.getString(R.string.marker_sense, context.getString(R.string.marker_sense_null)));
-            } else {
+                TextView dateTime = (TextView) view.findViewById(R.id.hora);
+                dateTime.setText(prepareDate(bus.getTimestamp()));
 
-                sense.setText(context.getString(R.string.marker_sense, String.valueOf(bus.getSense())));
+                TextView velocity = (TextView) view.findViewById(R.id.velocity);
+                velocity.setText(context.getString(R.string.marker_velocity, String.valueOf(bus.getVelocity())));
+
+                TextView sense = (TextView) view.findViewById(R.id.sense);
+                if (bus.getSense() == null || bus.getSense().trim().equals("")) {
+                    sense.setText(context.getString(R.string.marker_sense, context.getString(R.string.marker_sense_null)));
+                } else {
+
+                    sense.setText(context.getString(R.string.marker_sense, String.valueOf(bus.getSense())));
+                }
+            }catch (Exception exp){
+                String[] snippet = marker.getSnippet().split(">");
+                Itinerary it = new Gson().fromJson(snippet[0], Itinerary.class);
+                view = context.getLayoutInflater().inflate(R.layout.info_window_layout_itinerary, null);
+
+                TextView lineView = (TextView) view.findViewById(R.id.titulo);
+
+                String line = it.getLine();
+                try {
+                    int lineInteger = (int) Double.parseDouble(line);
+                    line = Integer.toString(lineInteger);
+                } catch (Exception e) {
+                }
+
+                lineView.setText(context.getString(R.string.marker_title_itinerary, line));
+
+                TextView descricao = (TextView) view.findViewById(R.id.descricao);
+                if (it.getDescription() == null || it.getDescription().trim().equals("")) {
+                    descricao.setText(context.getString(R.string.marker_description, context.getString(R.string.marker_description_null)));
+                } else {
+
+                    descricao.setText(context.getString(R.string.marker_description, String.valueOf(it.getDescription())));
+                }
+
+                TextView retornando = (TextView) view.findViewById(R.id.retornando);
+                if (snippet[1].equalsIgnoreCase("true")){
+                    retornando.setText(context.getString(R.string.marker_returning_true));
+                }
+                else{
+                    retornando.setText(context.getString(R.string.marker_returning_false));
+                }
+
             }
         }
         else{

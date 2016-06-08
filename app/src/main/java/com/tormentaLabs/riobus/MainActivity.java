@@ -3,6 +3,7 @@ package com.tormentaLabs.riobus;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.internal.bind.DateTypeAdapter;
@@ -39,11 +42,16 @@ import com.tormentaLabs.riobus.common.BusDataReceptor;
 import com.tormentaLabs.riobus.common.NetworkUtil;
 import com.tormentaLabs.riobus.common.Util;
 import com.tormentaLabs.riobus.model.Bus;
+import com.tormentaLabs.riobus.model.BusData;
+import com.tormentaLabs.riobus.model.Itinerary;
 import com.tormentaLabs.riobus.model.MapMarker;
+import com.tormentaLabs.riobus.model.Spot;
 import com.tormentaLabs.riobus.service.HttpService;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -176,9 +184,60 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    protected void drawItineraryPolyline(Itinerary itinerary) {
+        List<Spot> spots = itinerary.getSpots();
+        if (spots != null && !spots.isEmpty()) {
+
+            List<Spot> spotsGoing = new ArrayList<Spot>();
+            List<Spot> spotsReturning = new ArrayList<Spot>();
+            PolylineOptions line = new PolylineOptions();
+            PolylineOptions lineReturning = new PolylineOptions();
+            for(int i=0; i<spots.size(); i++) {
+                Spot spot = spots.get(i);
+                if(spot.getReturning().equalsIgnoreCase("true")){
+                    spotsReturning.add(spot);
+                    lineReturning.add(new LatLng(spot.getLatitude(),spot.getLongitude()));
+                }
+                else{
+                    spotsGoing.add(spot);
+                    line.add(new LatLng(spot.getLatitude(),spot.getLongitude()));
+                }
+            }
+
+            Random rnd = new Random();
+            float[] hsv = new float[3];
+            map.setInfoWindowAdapter(new BusInfoWindowAdapter(this));
+            MapMarker marker = new MapMarker(map);
+
+            int r = rnd.nextInt(256); int g = rnd.nextInt(256); int b = rnd.nextInt(256);
+            int color = Color.argb(255, r, g, b);
+            lineReturning.color(color);
+            lineReturning.width(6);
+            lineReturning.geodesic(true);
+            map.addPolyline(lineReturning);
+
+            if(!spotsReturning.isEmpty()){
+                Color.RGBToHSV(r, g, b, hsv);
+                marker.addMarkers(spotsReturning.get(0), hsv[0], itinerary);
+                marker.addMarkers(spotsReturning.get(spotsReturning.size() - 1), hsv[0], itinerary);
+            }
+
+            r *= 0.75; g *= 0.75; b *= 0.75;
+            color = Color.argb(255, r, g, b);
+            line.color(color);
+            line.width(6);
+            line.geodesic(true);
+            map.addPolyline(line);
+
+            Color.RGBToHSV(r, g, b, hsv);
+            marker.addMarkers(spotsGoing.get(0), hsv[0], itinerary);
+            marker.addMarkers(spotsGoing.get(spotsGoing.size() - 1), hsv[0], itinerary);
+        }
+    }
 
     @Override
-    public void retrieveBusData(List<Bus> buses) {
+    public void retrieveBusData(BusData busData) {
+        List<Bus> buses = busData.getBuses();
         if (buses == null) {
             Toast.makeText(this, getString(R.string.error_connection_server), Toast.LENGTH_SHORT).show();
             return;
@@ -189,6 +248,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         map.clear();
+
+        List<Itinerary> itineraries = busData.getItineraries();
+        if(itineraries != null && !itineraries.isEmpty()) {
+            for(Itinerary itinerary: itineraries)
+                drawItineraryPolyline(itinerary);
+        }
 
         map.setInfoWindowAdapter(new BusInfoWindowAdapter(this));
         MapMarker marker = new MapMarker(map);

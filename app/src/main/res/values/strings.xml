@@ -22,6 +22,12 @@
     <string name="marker_sense">Sentido: %1$s</string>
     <string name="marker_sense_null">desconhecido</string>
 
+    <string name="marker_title_itinerary">Ponto final da linha: %1$s</string>
+    <string name="marker_description">Sentido: %1$s</string>
+    <string name="marker_returning_true">Itinerário de retorno</string>
+    <string name="marker_returning_false">Itinerário de ida</string>
+    <string name="marker_description_null">desconhecido</string>
+
     <string name="about_text">
         <![CDATA[
 

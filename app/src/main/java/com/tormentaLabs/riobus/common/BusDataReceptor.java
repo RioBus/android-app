@@ -1,10 +1,8 @@
 package com.tormentaLabs.riobus.common;
 
-import com.tormentaLabs.riobus.model.Bus;
-
-import java.util.List;
+import com.tormentaLabs.riobus.model.BusData;
 
 public interface BusDataReceptor {
 
-    void retrieveBusData(List<Bus> buses);
+    void retrieveBusData(BusData busData);
 }

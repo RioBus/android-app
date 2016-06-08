@@ -18,6 +18,7 @@ import org.joda.time.Minutes;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class MapMarker {
 
@@ -36,9 +37,6 @@ public class MapMarker {
             builder.include(new LatLng(bus.getLatitude(), bus.getLongitude()));
         }
     }
-
-
-
     private MarkerOptions getMarker(Bus bus) {
         MarkerOptions options = new MarkerOptions();
         LatLng position = new LatLng(bus.getLatitude(), bus.getLongitude());
@@ -48,6 +46,22 @@ public class MapMarker {
         options.snippet(new Gson().toJson(bus));
         return options;
     }
+
+
+    public void addMarkers(Spot spot, float hueColor, Itinerary itinerary) {
+        map.addMarker(getMarker(spot, hueColor, itinerary));
+        builder.include(new LatLng(spot.getLatitude(), spot.getLongitude()));
+    }
+    private MarkerOptions getMarker(Spot spot, float hueColor, Itinerary itinerary) {
+        MarkerOptions options = new MarkerOptions();
+        LatLng position = new LatLng(spot.getLatitude(), spot.getLongitude());
+        options.position(position);
+        options.anchor(0.0f, 1.0f);
+        options.icon(BitmapDescriptorFactory.defaultMarker(hueColor));
+        options.snippet(new Gson().toJson(itinerary)+">"+spot.getReturning());
+        return options;
+    }
+
 
     public void markUserPosition(Context context, LatLng posicao) {
 
@@ -61,7 +75,6 @@ public class MapMarker {
                 .icon(BitmapDescriptorFactory
                         .fromResource(R.drawable.man_maps)));
     }
-
 
     private BitmapDescriptor getIcon(Date data) {
         DateTime current = new DateTime(Calendar.getInstance());
