@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             int r = rnd.nextInt(256); int g = rnd.nextInt(256); int b = rnd.nextInt(256);
             int color = Color.argb(255, r, g, b);
             lineReturning.color(color);
-            lineReturning.width(4);
+            lineReturning.width(6);
             lineReturning.geodesic(true);
             map.addPolyline(lineReturning);
 
@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             r *= 0.75; g *= 0.75; b *= 0.75;
             color = Color.argb(255, r, g, b);
             line.color(color);
-            line.width(4);
+            line.width(6);
             line.geodesic(true);
             map.addPolyline(line);
 
