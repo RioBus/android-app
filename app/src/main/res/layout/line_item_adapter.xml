@@ -49,7 +49,9 @@
             app:srcCompat="@drawable/ic_not_favorite"
             android:id="@+id/btnStar"
             android:layout_weight="1"
-            android:layout_gravity="center_vertical|center_horizontal|center" />
+            android:layout_gravity="center_vertical|center_horizontal|center"
+            android:backgroundTintMode="src_over"
+            android:tint="@color/golden" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
