@@ -139,7 +139,16 @@ public class SearchActivity extends AppCompatActivity
 
     private void openHistory() {}
 
-    private void openEmailForFeedback() {}
+    private void openEmailForFeedback() {
+        String feedbackEmail = "fred+androidfeedback@riob.us";
+        String subject = "Vamos falar sobre o app";
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("message/rfc822");
+        intent.putExtra(Intent.EXTRA_EMAIL, feedbackEmail);
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        Intent mailer = Intent.createChooser(intent, null);
+        startActivity(mailer);
+    }
 
     private void openAbout() {
         startActivity(new Intent(this, AboutActivity.class));
