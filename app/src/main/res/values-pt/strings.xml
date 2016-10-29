@@ -12,4 +12,5 @@
     <string name="navigation_action_send_feedback">Enviar comentário</string>
     <string name="navigation_drawer_close">Fechar menu de navegação</string>
     <string name="navigation_drawer_open">Abrir menu de navegação</string>
+    <string name="activity_search_available_lines">Linhas disponíveis</string>
 </resources>

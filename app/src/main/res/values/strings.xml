@@ -14,4 +14,5 @@
 
     <string name="action_search">Search</string>
     <string name="activity_search_recents">Recent searches</string>
+    <string name="activity_search_available_lines">Available lines</string>
 </resources>
