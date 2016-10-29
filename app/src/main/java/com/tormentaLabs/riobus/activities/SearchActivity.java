@@ -17,19 +17,19 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.tormentaLabs.riobus.R;
-import com.tormentaLabs.riobus.fragments.RecentSearchFragment;
+import com.tormentaLabs.riobus.fragments.RecentSearchesFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SearchActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, RecentSearchFragment.OnRecentSearchFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, RecentSearchesFragment.OnRecentSearchesFragmentInteractionListener {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
-    @BindView(R.id.availableLinesList) FrameLayout availableLinesList;
-    @BindView(R.id.recentsList) FrameLayout recentsList;
+    @BindView(R.id.recents_fragment) FrameLayout recentsList;
+//    @BindView(R.id.available_fragment) FrameLayout availableLinesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +46,11 @@ public class SearchActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentById(R.id.recentsList);
+        Fragment fragment = fragmentManager.findFragmentById(R.id.recents_fragment);
         if (fragment == null) {
-            fragment = new RecentSearchFragment();
+            fragment = new RecentSearchesFragment();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.recentsList, fragment).commit();
+            fragmentTransaction.replace(R.id.recents_fragment, fragment).commit();
         }
 
     }

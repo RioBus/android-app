@@ -7,31 +7,28 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.tormentaLabs.riobus.R;
-import com.tormentaLabs.riobus.models.Bus;
+import com.tormentaLabs.riobus.adapters.RecentsAdapter;
+import com.tormentaLabs.riobus.models.Line;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link RecentSearchFragment.OnRecentSearchFragmentInteractionListener} interface
+ * {@link RecentSearchesFragment.OnRecentSearchesFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link RecentSearchFragment#newInstance} factory method to
+ * Use the {@link RecentSearchesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RecentSearchFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_LINE = "line";
-    private static final String ARG_DIRECTION = "direction";
+public class RecentSearchesFragment extends Fragment {
 
-    private String mLine;
-    private String mDirection;
-    private Bus bus;
+    private OnRecentSearchesFragmentInteractionListener mListener;
 
-    private OnRecentSearchFragmentInteractionListener mListener;
-
-    public RecentSearchFragment() {
+    public RecentSearchesFragment() {
         // Required empty public constructor
     }
 
@@ -39,34 +36,39 @@ public class RecentSearchFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param line Recently searched line.
-     * @param direction Search direction description.
-     * @return A new instance of fragment RecentSearchFragment.
+     * @return A new instance of fragment RecentSearchesFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static RecentSearchFragment newInstance(String line, String direction) {
-        RecentSearchFragment fragment = new RecentSearchFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_LINE, line);
-        args.putString(ARG_DIRECTION, direction);
-        fragment.setArguments(args);
+    public static RecentSearchesFragment newInstance() {
+        RecentSearchesFragment fragment = new RecentSearchesFragment();
+//        Bundle args = new Bundle();
+//        args.putString(ARG_LINE, line);
+//        args.putString(ARG_DIRECTION, direction);
+//        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mLine = getArguments().getString(ARG_LINE);
-            mDirection = getArguments().getString(ARG_DIRECTION);
-        }
+//        if (getArguments() != null) {
+//        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recent_search, container, false);
+        View v = inflater.inflate(R.layout.fragment_recent_search, container, false);
+        ListView listView = (ListView) v.findViewById(R.id.recents_list);
+
+        List<Line> mockedLines = new ArrayList<Line>();
+        mockedLines.add(new Line("485", "FUNDAO X GENERAL OSORIO"));
+        mockedLines.add(new Line("345", "BARRA DA TIJUCA X CANDELARIA"));
+
+        RecentsAdapter adapter = new RecentsAdapter(getContext(), mockedLines);
+        listView.setAdapter(adapter);
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -79,11 +81,11 @@ public class RecentSearchFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnRecentSearchFragmentInteractionListener) {
-            mListener = (OnRecentSearchFragmentInteractionListener) context;
+        if (context instanceof OnRecentSearchesFragmentInteractionListener) {
+            mListener = (OnRecentSearchesFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnRecentSearchFragmentInteractionListener");
+                    + " must implement OnRecentSearchesFragmentInteractionListener");
         }
     }
 
@@ -103,7 +105,7 @@ public class RecentSearchFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnRecentSearchFragmentInteractionListener {
+    public interface OnRecentSearchesFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }

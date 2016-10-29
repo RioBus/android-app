@@ -9,76 +9,21 @@
     tools:context="com.tormentaLabs.riobus.activities.SearchActivity"
     tools:showIn="@layout/app_bar_search">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:background="#F4F4F4"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
+    <FrameLayout
+        android:id="@+id/recents_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
-        android:id="@+id/recentSearchesHeader">
-
-        <TextView
-            android:text="@string/activity_search_recents"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/recentSearchesText"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical|center_horizontal|center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textColor="@android:color/black" />
-
-    </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:id="@+id/recentsList"
-        app:layout_constraintTop_toBottomOf="@+id/recentSearchesHeader"
-        tools:layout_editor_absoluteX="-291dp">
+        tools:layout_editor_absoluteX="0dp">
     </FrameLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:background="#F4F4F4"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
-        android:id="@+id/availableLinesHeader"
-        app:layout_constraintTop_toBottomOf="@+id/recentsList">
-
-        <TextView
-            android:text="@string/activity_search_available_lines"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/availableLinesText"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical|center_horizontal|center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textColor="@android:color/black" />
-
-    </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        tools:layout_editor_absoluteX="0dp"
-        android:id="@+id/availableLinesList"
-        app:layout_constraintTop_toBottomOf="@+id/availableLinesHeader">
-    </FrameLayout>
+    <!--<FrameLayout-->
+        <!--android:id="@+id/available_fragment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:layout_constraintLeft_toRightOf="parent"-->
+        <!--app:layout_constraintRight_toLeftOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/recents_fragment">-->
+    <!--</FrameLayout>-->
 
 </android.support.constraint.ConstraintLayout>
