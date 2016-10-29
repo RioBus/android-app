@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rio Bus</string>
+    <string name="action_search">Pesquisar</string>
+    <string name="activity_search_recents">Pesquisas recentes</string>
+    <string name="navigation_action_about">Sobre</string>
+    <string name="navigation_action_favorites">Favoritos</string>
+    <string name="navigation_action_history">Histórico</string>
+    <string name="navigation_action_like_facebook">Curtir no Facebook</string>
+    <string name="navigation_action_rate_app">Avaliar o app</string>
+    <string name="navigation_action_search">Pesquisar</string>
+    <string name="navigation_action_send_feedback">Enviar comentário</string>
+    <string name="navigation_drawer_close">Fechar menu de navegação</string>
+    <string name="navigation_drawer_open">Abrir menu de navegação</string>
+</resources>

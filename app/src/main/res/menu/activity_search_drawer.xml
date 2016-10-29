@@ -4,31 +4,31 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_search"
-            android:icon="@mipmap/ic_search"
+            android:icon="@drawable/ic_search"
             android:title="@string/navigation_action_search" />
         <item
             android:id="@+id/nav_favorites"
-            android:icon="@mipmap/ic_favorite"
+            android:icon="@drawable/ic_favorite"
             android:title="@string/navigation_action_favorites" />
         <item
             android:id="@+id/nav_history"
-            android:icon="@mipmap/ic_history"
+            android:icon="@drawable/ic_history"
             android:title="@string/navigation_action_history" />
         <item
             android:id="@+id/nav_send_feedback"
-            android:icon="@mipmap/ic_help"
+            android:icon="@drawable/ic_help"
             android:title="@string/navigation_action_send_feedback" />
         <item
             android:id="@+id/nav_about"
-            android:icon="@mipmap/ic_help"
+            android:icon="@drawable/ic_help"
             android:title="@string/navigation_action_about" />
         <item
             android:id="@+id/nav_rate_app"
-            android:icon="@mipmap/ic_help"
+            android:icon="@drawable/ic_help"
             android:title="@string/navigation_action_rate_app" />
         <item
             android:id="@+id/nav_like_facebook"
-            android:icon="@mipmap/ic_thumb_up"
+            android:icon="@drawable/ic_thumb_up"
             android:title="@string/navigation_action_like_facebook" />
     </group>
 
