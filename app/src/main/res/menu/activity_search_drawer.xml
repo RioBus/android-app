@@ -12,7 +12,7 @@
             android:title="@string/navigation_action_history" />
         <item
             android:id="@+id/nav_send_feedback"
-            android:icon="@drawable/ic_help"
+            android:icon="@drawable/ic_feedback"
             android:title="@string/navigation_action_send_feedback" />
         <item
             android:id="@+id/nav_about"
@@ -20,7 +20,7 @@
             android:title="@string/navigation_action_about" />
         <item
             android:id="@+id/nav_rate_app"
-            android:icon="@drawable/ic_help"
+            android:icon="@drawable/ic_google_play"
             android:title="@string/navigation_action_rate_app" />
         <item
             android:id="@+id/nav_like_facebook"
