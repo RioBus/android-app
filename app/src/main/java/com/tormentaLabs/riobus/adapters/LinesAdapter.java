@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tormentaLabs.riobus.R;
@@ -44,10 +45,18 @@ public class LinesAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.line_item_adapter, null);
 
-        TextView txtLine = (TextView) v.findViewById(R.id.txtLine);
+        final TextView txtLine = (TextView) v.findViewById(R.id.txtLine);
         txtLine.setText(line.getLine());
-        TextView txtDescription = (TextView) v.findViewById(R.id.txtDescription);
+        final TextView txtDescription = (TextView) v.findViewById(R.id.txtDescription);
         txtDescription.setText(line.getDescription());
+
+        final ImageView btnStar = (ImageView) v.findViewById(R.id.btnStar);
+        btnStar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnStar.setImageResource(R.drawable.ic_favorite);
+            }
+        });
 
         return v;
     }
