@@ -1,6 +1,7 @@
 package com.tormentaLabs.riobus.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -101,12 +102,24 @@ public class SearchActivity extends AppCompatActivity
         switch (item.getItemId()) {
 
             case R.id.nav_search: break;
-            case R.id.nav_favorites: break;
-            case R.id.nav_history: break;
-            case R.id.nav_send_feedback: break;
-            case R.id.nav_about: break;
-            case R.id.nav_rate_app: break;
-            case R.id.nav_like_facebook: break;
+            case R.id.nav_favorites:
+                openFavorites();
+                break;
+            case R.id.nav_history:
+                openHistory();
+                break;
+            case R.id.nav_send_feedback:
+                openEmailForFeedback();
+                break;
+            case R.id.nav_about:
+                openAbout();
+                break;
+            case R.id.nav_rate_app:
+                openPlayStore();
+                break;
+            case R.id.nav_like_facebook:
+                openFacebook();
+                break;
             default: break;
         }
 
@@ -122,4 +135,34 @@ public class SearchActivity extends AppCompatActivity
             startActivity(intent);
         }
     }
+
+    private void openFavorites() {}
+
+    private void openHistory() {}
+
+    private void openEmailForFeedback() {}
+
+    private void openAbout() {}
+
+    private void openPlayStore() {
+        final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        }
+    }
+
+    private void openFacebook() {
+        Intent intent;
+        try {
+            getPackageManager().getPackageInfo("com.facebook.katana", 0);
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/1408367169433222"));
+        } catch (Exception e) {
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/1408367169433222"));
+        }
+        startActivity(intent);
+    }
+
+
 }
