@@ -139,7 +139,9 @@ public class SearchActivity extends AppCompatActivity
         startActivity(new Intent(this, FavoritesActivity.class));
     }
 
-    private void openHistory() {}
+    private void openHistory() {
+        startActivity(new Intent(this, HistoryActivity.class));
+    }
 
     private void openEmailForFeedback() {
         String feedbackEmail = "fred+androidfeedback@riob.us";
