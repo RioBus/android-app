@@ -19,8 +19,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.MapActivity" />
-        <activity android:name=".activities.AboutActivity"
-            android:label="@string/activity_about_title"></activity>
+        <activity
+            android:name=".activities.AboutActivity"
+            android:label="@string/activity_about_title" />
+        <activity android:name=".activities.FavoritesActivity"
+            android:label="@string/activity_favorites_title" />
     </application>
 
 </manifest>

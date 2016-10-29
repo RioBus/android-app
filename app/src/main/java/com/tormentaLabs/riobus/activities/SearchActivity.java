@@ -135,7 +135,9 @@ public class SearchActivity extends AppCompatActivity
         }
     }
 
-    private void openFavorites() {}
+    private void openFavorites() {
+        startActivity(new Intent(this, FavoritesActivity.class));
+    }
 
     private void openHistory() {}
 

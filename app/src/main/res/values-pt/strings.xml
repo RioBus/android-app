@@ -14,4 +14,6 @@
     <string name="fragment_available_lines_header">Linhas disponíveis</string>
     <string name="fragment_recent_searches_header">Pesquisas recentes</string>
     <string name="activity_about_title">Sobre</string>
+    <string name="activity_favorites_title">Favoritos</string>
+    <string name="activity_history_title">Histórico</string>
 </resources>
