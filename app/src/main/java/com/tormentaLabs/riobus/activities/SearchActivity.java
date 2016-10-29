@@ -1,12 +1,11 @@
 package com.tormentaLabs.riobus.activities;
 
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,13 +17,15 @@ import android.widget.FrameLayout;
 
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.fragments.AvailableLinesFragment;
+import com.tormentaLabs.riobus.fragments.OnLineInteractionListener;
 import com.tormentaLabs.riobus.fragments.RecentSearchesFragment;
+import com.tormentaLabs.riobus.models.Line;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SearchActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, RecentSearchesFragment.OnRecentSearchesFragmentInteractionListener, AvailableLinesFragment.OnAvailableLinesFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnLineInteractionListener {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
@@ -114,12 +115,11 @@ public class SearchActivity extends AppCompatActivity
     }
 
     @Override
-    public void onAvailableLinesFragmentInteraction(Uri uri) {
-
-    }
-
-    @Override
-    public void onRecentSearchesFragmentInteraction(Uri uri) {
-
+    public void onLineInteraction(Line line) {
+        if (line != null) {
+            Intent intent = new Intent(this, MapActivity.class);
+            intent.putExtra(MapActivity.LINE_TITLE, line.getLine());
+            startActivity(intent);
+        }
     }
 }

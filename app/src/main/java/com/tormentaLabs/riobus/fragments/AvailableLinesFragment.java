@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.tormentaLabs.riobus.R;
@@ -19,14 +20,14 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link AvailableLinesFragment.OnAvailableLinesFragmentInteractionListener} interface
+ * {@link OnLineInteractionListener} interface
  * to handle interaction events.
  * Use the {@link AvailableLinesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AvailableLinesFragment extends Fragment {
+public class AvailableLinesFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    private OnAvailableLinesFragmentInteractionListener mListener;
+    private OnLineInteractionListener mListener;
 
     public AvailableLinesFragment() {
         // Required empty public constructor
@@ -75,6 +76,7 @@ public class AvailableLinesFragment extends Fragment {
 
         LinesAdapter adapter = new LinesAdapter(getContext(), mockedLines);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
 
         return v;
     }
@@ -82,15 +84,15 @@ public class AvailableLinesFragment extends Fragment {
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onAvailableLinesFragmentInteraction(uri);
+            mListener.onLineInteraction(null);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnAvailableLinesFragmentInteractionListener) {
-            mListener = (OnAvailableLinesFragmentInteractionListener) context;
+        if (context instanceof OnLineInteractionListener) {
+            mListener = (OnLineInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnAvailableLinesFragmentInteractionListener");
@@ -103,18 +105,9 @@ public class AvailableLinesFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnAvailableLinesFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onAvailableLinesFragmentInteraction(Uri uri);
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Line line = (Line) adapterView.getItemAtPosition(i);
+        mListener.onLineInteraction(line);
     }
 }
