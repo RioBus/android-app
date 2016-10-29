@@ -17,13 +17,12 @@
         tools:layout_editor_absoluteX="0dp">
     </FrameLayout>
 
-    <!--<FrameLayout-->
-        <!--android:id="@+id/available_fragment"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:layout_constraintLeft_toRightOf="parent"-->
-        <!--app:layout_constraintRight_toLeftOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/recents_fragment">-->
-    <!--</FrameLayout>-->
+    <FrameLayout
+        android:id="@+id/available_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/recents_fragment"
+        tools:layout_editor_absoluteX="0dp">
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

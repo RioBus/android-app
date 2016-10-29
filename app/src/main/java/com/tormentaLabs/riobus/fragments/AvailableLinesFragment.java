@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.tormentaLabs.riobus.R;
-import com.tormentaLabs.riobus.adapters.RecentsAdapter;
+import com.tormentaLabs.riobus.adapters.LinesAdapter;
 import com.tormentaLabs.riobus.models.Line;
 
 import java.util.ArrayList;
@@ -19,16 +19,16 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link RecentSearchesFragment.OnRecentSearchesFragmentInteractionListener} interface
+ * {@link AvailableLinesFragment.OnAvailableLinesFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link RecentSearchesFragment#newInstance} factory method to
+ * Use the {@link AvailableLinesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RecentSearchesFragment extends Fragment {
+public class AvailableLinesFragment extends Fragment {
 
-    private OnRecentSearchesFragmentInteractionListener mListener;
+    private OnAvailableLinesFragmentInteractionListener mListener;
 
-    public RecentSearchesFragment() {
+    public AvailableLinesFragment() {
         // Required empty public constructor
     }
 
@@ -38,8 +38,8 @@ public class RecentSearchesFragment extends Fragment {
      *
      * @return A new instance of fragment RecentSearchesFragment.
      */
-    public static RecentSearchesFragment newInstance() {
-        RecentSearchesFragment fragment = new RecentSearchesFragment();
+    public static AvailableLinesFragment newInstance() {
+        AvailableLinesFragment fragment = new AvailableLinesFragment();
 //        Bundle args = new Bundle();
 //        args.putString(ARG_LINE, line);
 //        args.putString(ARG_DIRECTION, direction);
@@ -58,14 +58,22 @@ public class RecentSearchesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_recent_search, container, false);
-        ListView listView = (ListView) v.findViewById(R.id.recents_list);
+        View v = inflater.inflate(R.layout.fragment_available_lines, container, false);
+        ListView listView = (ListView) v.findViewById(R.id.lines_list);
 
         List<Line> mockedLines = new ArrayList<Line>();
         mockedLines.add(new Line("485", "FUNDAO X GENERAL OSORIO"));
         mockedLines.add(new Line("345", "BARRA DA TIJUCA X CANDELARIA"));
+        mockedLines.add(new Line("485", "FUNDAO X GENERAL OSORIO"));
+        mockedLines.add(new Line("345", "BARRA DA TIJUCA X CANDELARIA"));
+        mockedLines.add(new Line("485", "FUNDAO X GENERAL OSORIO"));
+        mockedLines.add(new Line("345", "BARRA DA TIJUCA X CANDELARIA"));
+        mockedLines.add(new Line("485", "FUNDAO X GENERAL OSORIO"));
+        mockedLines.add(new Line("345", "BARRA DA TIJUCA X CANDELARIA"));
+        mockedLines.add(new Line("485", "FUNDAO X GENERAL OSORIO"));
+        mockedLines.add(new Line("345", "BARRA DA TIJUCA X CANDELARIA"));
 
-        RecentsAdapter adapter = new RecentsAdapter(getContext(), mockedLines);
+        LinesAdapter adapter = new LinesAdapter(getContext(), mockedLines);
         listView.setAdapter(adapter);
 
         return v;
@@ -74,18 +82,18 @@ public class RecentSearchesFragment extends Fragment {
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onRecentSearchesFragmentInteraction(uri);
+            mListener.onAvailableLinesFragmentInteraction(uri);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnRecentSearchesFragmentInteractionListener) {
-            mListener = (OnRecentSearchesFragmentInteractionListener) context;
+        if (context instanceof OnAvailableLinesFragmentInteractionListener) {
+            mListener = (OnAvailableLinesFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnRecentSearchesFragmentInteractionListener");
+                    + " must implement OnAvailableLinesFragmentInteractionListener");
         }
     }
 
@@ -105,8 +113,8 @@ public class RecentSearchesFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnRecentSearchesFragmentInteractionListener {
+    public interface OnAvailableLinesFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onRecentSearchesFragmentInteraction(Uri uri);
+        void onAvailableLinesFragmentInteraction(Uri uri);
     }
 }

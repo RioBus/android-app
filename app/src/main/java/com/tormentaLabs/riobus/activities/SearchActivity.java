@@ -17,19 +17,20 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.tormentaLabs.riobus.R;
+import com.tormentaLabs.riobus.fragments.AvailableLinesFragment;
 import com.tormentaLabs.riobus.fragments.RecentSearchesFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SearchActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, RecentSearchesFragment.OnRecentSearchesFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, RecentSearchesFragment.OnRecentSearchesFragmentInteractionListener, AvailableLinesFragment.OnAvailableLinesFragmentInteractionListener {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.recents_fragment) FrameLayout recentsList;
-//    @BindView(R.id.available_fragment) FrameLayout availableLinesList;
+    @BindView(R.id.available_fragment) FrameLayout availableLinesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +45,18 @@ public class SearchActivity extends AppCompatActivity
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentById(R.id.recents_fragment);
-        if (fragment == null) {
-            fragment = new RecentSearchesFragment();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.recents_fragment, fragment).commit();
+
+        Fragment recentsFragment = fragmentManager.findFragmentById(R.id.recents_fragment);
+        if (recentsFragment == null) {
+            recentsFragment = new RecentSearchesFragment();
+            fragmentManager.beginTransaction().replace(R.id.recents_fragment, recentsFragment).commit();
+        }
+
+        Fragment availableLinesFragment = fragmentManager.findFragmentById(R.id.available_fragment);
+        if (availableLinesFragment == null) {
+            availableLinesFragment = new AvailableLinesFragment();
+            fragmentManager.beginTransaction().replace(R.id.available_fragment, availableLinesFragment).commit();
         }
 
     }
@@ -108,7 +114,12 @@ public class SearchActivity extends AppCompatActivity
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onAvailableLinesFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onRecentSearchesFragmentInteraction(Uri uri) {
 
     }
 }

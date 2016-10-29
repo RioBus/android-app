@@ -13,9 +13,6 @@
     <string name="navigation_action_like_facebook">Like in Facebook</string>
 
     <string name="action_search">Search</string>
-    <string name="activity_search_recents">Recent searches</string>
-    <string name="activity_search_available_lines">Available lines</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_recent_searches_header">Recent searches</string>
+    <string name="fragment_available_lines_header">Available lines</string>
 </resources>

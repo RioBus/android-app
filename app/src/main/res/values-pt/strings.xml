@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">Rio Bus</string>
     <string name="action_search">Pesquisar</string>
-    <string name="activity_search_recents">Pesquisas recentes</string>
     <string name="navigation_action_about">Sobre</string>
     <string name="navigation_action_favorites">Favoritos</string>
     <string name="navigation_action_history">Histórico</string>
@@ -12,5 +11,6 @@
     <string name="navigation_action_send_feedback">Enviar comentário</string>
     <string name="navigation_drawer_close">Fechar menu de navegação</string>
     <string name="navigation_drawer_open">Abrir menu de navegação</string>
-    <string name="activity_search_available_lines">Linhas disponíveis</string>
+    <string name="fragment_available_lines_header">Linhas disponíveis</string>
+    <string name="fragment_recent_searches_header">Pesquisas recentes</string>
 </resources>

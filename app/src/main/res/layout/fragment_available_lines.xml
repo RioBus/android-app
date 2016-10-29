@@ -9,7 +9,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:background="#F4F4F4"
-        android:id="@+id/recent_header"
+        android:id="@+id/available_header"
         android:layout_width="fill_parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -17,7 +17,7 @@
         android:layout_height="50dp">
 
         <TextView
-            android:text="@string/fragment_recent_searches_header"
+            android:text="@string/fragment_available_lines_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/recent_text"
@@ -32,10 +32,10 @@
 
     <ListView
         android:layout_height="wrap_content"
-        android:id="@+id/recents_list"
+        android:id="@+id/lines_list"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recent_header"
+        app:layout_constraintTop_toBottomOf="@+id/available_header"
         android:layout_width="fill_parent" />
 
 </android.support.constraint.ConstraintLayout>
