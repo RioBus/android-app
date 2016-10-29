@@ -61,12 +61,17 @@ public class RecentSearchesFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_recent_search, container, false);
         ListView listView = (ListView) v.findViewById(R.id.recents_list);
 
-        List<Line> mockedLines = new ArrayList<Line>();
-        mockedLines.add(new Line("485", "FUNDAO X GENERAL OSORIO"));
-        mockedLines.add(new Line("345", "BARRA DA TIJUCA X CANDELARIA"));
+        List<Line> lines = new ArrayList<Line>();
+        lines.add(new Line("485", "FUNDAO X GENERAL OSORIO"));
+        lines.add(new Line("345", "BARRA DA TIJUCA X CANDELARIA"));
 
-        RecentsAdapter adapter = new RecentsAdapter(getContext(), mockedLines);
-        listView.setAdapter(adapter);
+        if (lines.size()>0) {
+            RecentsAdapter adapter = new RecentsAdapter(getContext(), lines);
+            listView.setAdapter(adapter);
+        }
+        else {
+            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        }
 
         return v;
     }
