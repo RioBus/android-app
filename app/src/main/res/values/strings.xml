@@ -15,4 +15,5 @@
     <string name="action_search">Search</string>
     <string name="fragment_recent_searches_header">Recent searches</string>
     <string name="fragment_available_lines_header">Available lines</string>
+    <string name="activity_about_title">About</string>
 </resources>

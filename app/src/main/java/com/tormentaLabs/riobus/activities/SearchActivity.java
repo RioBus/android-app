@@ -101,7 +101,6 @@ public class SearchActivity extends AppCompatActivity
 
         switch (item.getItemId()) {
 
-            case R.id.nav_search: break;
             case R.id.nav_favorites:
                 openFavorites();
                 break;
@@ -124,7 +123,7 @@ public class SearchActivity extends AppCompatActivity
         }
 
         drawer.closeDrawer(GravityCompat.START);
-        return true;
+        return false;
     }
 
     @Override
@@ -142,7 +141,9 @@ public class SearchActivity extends AppCompatActivity
 
     private void openEmailForFeedback() {}
 
-    private void openAbout() {}
+    private void openAbout() {
+        startActivity(new Intent(this, AboutActivity.class));
+    }
 
     private void openPlayStore() {
         final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
