@@ -13,6 +13,7 @@ import android.widget.ListView;
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.adapters.LinesAdapter;
 import com.tormentaLabs.riobus.models.Line;
+import com.tormentaLabs.riobus.services.LineService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,19 +63,8 @@ public class AvailableLinesFragment extends Fragment implements AdapterView.OnIt
         View v = inflater.inflate(R.layout.fragment_available_lines, container, false);
         ListView listView = (ListView) v.findViewById(R.id.lines_list);
 
-        List<Line> mockedLines = new ArrayList<Line>();
-        mockedLines.add(new Line("485", "FUNDAO X GENERAL OSORIO"));
-        mockedLines.add(new Line("345", "BARRA DA TIJUCA X CANDELARIA"));
-        mockedLines.add(new Line("485", "FUNDAO X GENERAL OSORIO"));
-        mockedLines.add(new Line("345", "BARRA DA TIJUCA X CANDELARIA"));
-        mockedLines.add(new Line("485", "FUNDAO X GENERAL OSORIO"));
-        mockedLines.add(new Line("345", "BARRA DA TIJUCA X CANDELARIA"));
-        mockedLines.add(new Line("485", "FUNDAO X GENERAL OSORIO"));
-        mockedLines.add(new Line("345", "BARRA DA TIJUCA X CANDELARIA"));
-        mockedLines.add(new Line("485", "FUNDAO X GENERAL OSORIO"));
-        mockedLines.add(new Line("345", "BARRA DA TIJUCA X CANDELARIA"));
-
-        LinesAdapter adapter = new LinesAdapter(getContext(), mockedLines);
+        List<Line> lines = LineService.getInstance().getLines();
+        LinesAdapter adapter = new LinesAdapter(getContext(), lines);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
 
