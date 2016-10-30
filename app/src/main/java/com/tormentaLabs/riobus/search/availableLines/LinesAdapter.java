@@ -1,24 +1,25 @@
-package com.tormentaLabs.riobus.adapters;
+package com.tormentaLabs.riobus.search.availableLines;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tormentaLabs.riobus.R;
-import com.tormentaLabs.riobus.models.Line;
+import com.tormentaLabs.riobus.common.models.Line;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecentsAdapter extends BaseAdapter {
+public class LinesAdapter extends BaseAdapter {
 
     private List<Line> items = new ArrayList<Line>();
     private Context context;
 
-    public RecentsAdapter(Context context, List<Line> items) {
+    public LinesAdapter(Context context, List<Line> items) {
         this.context = context;
         if (items.size()>0) this.items = items;
     }
@@ -42,12 +43,20 @@ public class RecentsAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         Line line = items.get(i);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.fragment_recent_search_item_adapter, null);
+        View v = inflater.inflate(R.layout.line_item_adapter, null);
 
-        TextView txtLine = (TextView) v.findViewById(R.id.txtLine);
+        final TextView txtLine = (TextView) v.findViewById(R.id.txtLine);
         txtLine.setText(line.getLine());
-        TextView txtDescription = (TextView) v.findViewById(R.id.txtDescription);
+        final TextView txtDescription = (TextView) v.findViewById(R.id.txtDescription);
         txtDescription.setText(line.getDescription());
+
+        final ImageView btnStar = (ImageView) v.findViewById(R.id.btnStar);
+        btnStar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnStar.setImageResource(R.drawable.ic_favorite);
+            }
+        });
 
         return v;
     }

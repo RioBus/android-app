@@ -1,4 +1,4 @@
-package com.tormentaLabs.riobus.activities;
+package com.tormentaLabs.riobus.map;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

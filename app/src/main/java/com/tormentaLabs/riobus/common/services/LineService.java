@@ -1,6 +1,6 @@
-package com.tormentaLabs.riobus.services;
+package com.tormentaLabs.riobus.common.services;
 
-import com.tormentaLabs.riobus.models.Line;
+import com.tormentaLabs.riobus.common.models.Line;
 
 import java.util.ArrayList;
 import java.util.List;

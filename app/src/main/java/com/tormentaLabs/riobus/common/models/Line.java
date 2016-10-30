@@ -1,4 +1,4 @@
-package com.tormentaLabs.riobus.models;
+package com.tormentaLabs.riobus.common.models;
 
 public class Line {
 

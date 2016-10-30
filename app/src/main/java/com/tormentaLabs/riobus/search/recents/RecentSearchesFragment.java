@@ -1,4 +1,4 @@
-package com.tormentaLabs.riobus.fragments;
+package com.tormentaLabs.riobus.search.recents;
 
 import android.content.Context;
 import android.net.Uri;
@@ -11,11 +11,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.tormentaLabs.riobus.R;
-import com.tormentaLabs.riobus.adapters.LinesAdapter;
-import com.tormentaLabs.riobus.models.Line;
-import com.tormentaLabs.riobus.services.LineService;
+import com.tormentaLabs.riobus.common.interfaces.OnLineInteractionListener;
+import com.tormentaLabs.riobus.common.models.Line;
+import com.tormentaLabs.riobus.common.services.LineService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,14 +22,14 @@ import java.util.List;
  * Activities that contain this fragment must implement the
  * {@link OnLineInteractionListener} interface
  * to handle interaction events.
- * Use the {@link AvailableLinesFragment#newInstance} factory method to
+ * Use the {@link RecentSearchesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AvailableLinesFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class RecentSearchesFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     private OnLineInteractionListener mListener;
 
-    public AvailableLinesFragment() {
+    public RecentSearchesFragment() {
         // Required empty public constructor
     }
 
@@ -40,8 +39,8 @@ public class AvailableLinesFragment extends Fragment implements AdapterView.OnIt
      *
      * @return A new instance of fragment RecentSearchesFragment.
      */
-    public static AvailableLinesFragment newInstance() {
-        AvailableLinesFragment fragment = new AvailableLinesFragment();
+    public static RecentSearchesFragment newInstance() {
+        RecentSearchesFragment fragment = new RecentSearchesFragment();
 //        Bundle args = new Bundle();
 //        args.putString(ARG_LINE, line);
 //        args.putString(ARG_DIRECTION, direction);
@@ -60,18 +59,23 @@ public class AvailableLinesFragment extends Fragment implements AdapterView.OnIt
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_available_lines, container, false);
-        ListView listView = (ListView) v.findViewById(R.id.lines_list);
+        View v = inflater.inflate(R.layout.fragment_recent_search, container, false);
+        ListView listView = (ListView) v.findViewById(R.id.recents_list);
 
-        List<Line> lines = LineService.getInstance().getLines();
-        LinesAdapter adapter = new LinesAdapter(getContext(), lines);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
+        List<Line> lines = LineService.getInstance().getLines().subList(0, 2);
+
+        if (lines.size()>0) {
+            RecentsAdapter adapter = new RecentsAdapter(getContext(), lines);
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(this);
+        }
+        else {
+            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        }
 
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onLineInteraction(null);
@@ -85,7 +89,7 @@ public class AvailableLinesFragment extends Fragment implements AdapterView.OnIt
             mListener = (OnLineInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnAvailableLinesFragmentInteractionListener");
+                    + " must implement OnRecentSearchesFragmentInteractionListener");
         }
     }
 

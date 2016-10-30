@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_search"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.tormentaLabs.riobus.activities.SearchActivity"
+    tools:context="com.tormentaLabs.riobus.search.SearchActivity"
     tools:showIn="@layout/app_bar_search">
 
     <FrameLayout

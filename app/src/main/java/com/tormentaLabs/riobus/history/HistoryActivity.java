@@ -1,28 +1,18 @@
-package com.tormentaLabs.riobus.activities;
+package com.tormentaLabs.riobus.history;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.tormentaLabs.riobus.R;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-public class AboutActivity extends AppCompatActivity {
-
-    @BindView(R.id.txtContent) TextView txtContent;
+public class HistoryActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
-        ButterKnife.bind(this);
+        setContentView(R.layout.activity_history);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        txtContent.setText(Html.fromHtml(getString(R.string.activity_about_content)));
     }
 
     @Override

@@ -4,6 +4,6 @@
     android:id="@+id/activity_map"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tormentaLabs.riobus.activities.MapActivity">
+    tools:context="com.tormentaLabs.riobus.map.MapActivity">
 
 </RelativeLayout>

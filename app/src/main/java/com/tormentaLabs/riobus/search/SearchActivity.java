@@ -1,4 +1,4 @@
-package com.tormentaLabs.riobus.activities;
+package com.tormentaLabs.riobus.search;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -17,10 +17,14 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.tormentaLabs.riobus.R;
-import com.tormentaLabs.riobus.fragments.AvailableLinesFragment;
-import com.tormentaLabs.riobus.fragments.OnLineInteractionListener;
-import com.tormentaLabs.riobus.fragments.RecentSearchesFragment;
-import com.tormentaLabs.riobus.models.Line;
+import com.tormentaLabs.riobus.about.AboutActivity;
+import com.tormentaLabs.riobus.favorites.FavoritesActivity;
+import com.tormentaLabs.riobus.history.HistoryActivity;
+import com.tormentaLabs.riobus.map.MapActivity;
+import com.tormentaLabs.riobus.search.availableLines.AvailableLinesFragment;
+import com.tormentaLabs.riobus.common.interfaces.OnLineInteractionListener;
+import com.tormentaLabs.riobus.search.recents.RecentSearchesFragment;
+import com.tormentaLabs.riobus.common.models.Line;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
