@@ -17,6 +17,10 @@ import com.tormentaLabs.riobus.common.services.LineService;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnItemClick;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -25,13 +29,12 @@ import java.util.List;
  * Use the {@link RecentSearchesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RecentSearchesFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class RecentSearchesFragment extends Fragment {
 
     private OnLineInteractionListener mListener;
+    @BindView(R.id.recents_list) ListView recentsList;
 
-    public RecentSearchesFragment() {
-        // Required empty public constructor
-    }
+    public RecentSearchesFragment() {}
 
     /**
      * Use this factory method to create a new instance of
@@ -40,19 +43,7 @@ public class RecentSearchesFragment extends Fragment implements AdapterView.OnIt
      * @return A new instance of fragment RecentSearchesFragment.
      */
     public static RecentSearchesFragment newInstance() {
-        RecentSearchesFragment fragment = new RecentSearchesFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_LINE, line);
-//        args.putString(ARG_DIRECTION, direction);
-//        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//        }
+        return new RecentSearchesFragment();
     }
 
     @Override
@@ -60,20 +51,25 @@ public class RecentSearchesFragment extends Fragment implements AdapterView.OnIt
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_recent_search, container, false);
-        ListView listView = (ListView) v.findViewById(R.id.recents_list);
+        ButterKnife.bind(this, v);
 
         List<Line> lines = LineService.getInstance().getLines().subList(0, 2);
 
         if (lines.size()>0) {
             RecentsAdapter adapter = new RecentsAdapter(getContext(), lines);
-            listView.setAdapter(adapter);
-            listView.setOnItemClickListener(this);
+            recentsList.setAdapter(adapter);
         }
         else {
             getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
         }
 
         return v;
+    }
+
+    @OnItemClick(R.id.recents_list)
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Line line = (Line) adapterView.getItemAtPosition(i);
+        mListener.onLineInteraction(line);
     }
 
     public void onButtonPressed(Uri uri) {
@@ -97,11 +93,5 @@ public class RecentSearchesFragment extends Fragment implements AdapterView.OnIt
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Line line = (Line) adapterView.getItemAtPosition(i);
-        mListener.onLineInteraction(line);
     }
 }

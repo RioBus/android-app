@@ -10,13 +10,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.common.interfaces.OnLineInteractionListener;
 import com.tormentaLabs.riobus.common.models.Line;
 import com.tormentaLabs.riobus.common.services.LineService;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnItemClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,13 +29,12 @@ import java.util.List;
  * Use the {@link AvailableLinesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AvailableLinesFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class AvailableLinesFragment extends Fragment {
 
     private OnLineInteractionListener mListener;
+    @BindView(R.id.lines_list) ListView linesList;
 
-    public AvailableLinesFragment() {
-        // Required empty public constructor
-    }
+    public AvailableLinesFragment() {}
 
     /**
      * Use this factory method to create a new instance of
@@ -41,19 +43,7 @@ public class AvailableLinesFragment extends Fragment implements AdapterView.OnIt
      * @return A new instance of fragment RecentSearchesFragment.
      */
     public static AvailableLinesFragment newInstance() {
-        AvailableLinesFragment fragment = new AvailableLinesFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_LINE, line);
-//        args.putString(ARG_DIRECTION, direction);
-//        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//        }
+        return new AvailableLinesFragment();
     }
 
     @Override
@@ -61,14 +51,17 @@ public class AvailableLinesFragment extends Fragment implements AdapterView.OnIt
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_available_lines, container, false);
-        ListView listView = (ListView) v.findViewById(R.id.lines_list);
-
+        ButterKnife.bind(this, v);
         List<Line> lines = LineService.getInstance().getLines();
         LinesAdapter adapter = new LinesAdapter(getContext(), lines);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
-
+        linesList.setAdapter(adapter);
         return v;
+    }
+
+    @OnItemClick(R.id.lines_list)
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Line line = (Line) adapterView.getItemAtPosition(i);
+        mListener.onLineInteraction(line);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -93,11 +86,5 @@ public class AvailableLinesFragment extends Fragment implements AdapterView.OnIt
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Line line = (Line) adapterView.getItemAtPosition(i);
-        mListener.onLineInteraction(line);
     }
 }

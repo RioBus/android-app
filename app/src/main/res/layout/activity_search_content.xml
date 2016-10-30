@@ -1,28 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_search"
-    android:layout_width="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_container"
     android:layout_height="wrap_content"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.tormentaLabs.riobus.search.SearchActivity"
-    tools:showIn="@layout/app_bar_search">
-
-    <FrameLayout
-        android:id="@+id/recents_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp">
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/available_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/recents_fragment"
-        tools:layout_editor_absoluteX="0dp">
-    </FrameLayout>
-
-</android.support.constraint.ConstraintLayout>
+    android:layout_width="match_parent">
+</FrameLayout>

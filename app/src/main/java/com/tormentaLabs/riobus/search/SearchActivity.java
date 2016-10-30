@@ -14,17 +14,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.about.AboutActivity;
+import com.tormentaLabs.riobus.common.interfaces.OnLineInteractionListener;
+import com.tormentaLabs.riobus.common.models.Line;
 import com.tormentaLabs.riobus.favorites.FavoritesActivity;
 import com.tormentaLabs.riobus.history.HistoryActivity;
 import com.tormentaLabs.riobus.map.MapActivity;
-import com.tormentaLabs.riobus.search.availableLines.AvailableLinesFragment;
-import com.tormentaLabs.riobus.common.interfaces.OnLineInteractionListener;
-import com.tormentaLabs.riobus.search.recents.RecentSearchesFragment;
-import com.tormentaLabs.riobus.common.models.Line;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,8 +32,6 @@ public class SearchActivity extends AppCompatActivity
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
-    @BindView(R.id.recents_fragment) FrameLayout recentsList;
-    @BindView(R.id.available_fragment) FrameLayout availableLinesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,16 +48,10 @@ public class SearchActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        Fragment recentsFragment = fragmentManager.findFragmentById(R.id.recents_fragment);
-        if (recentsFragment == null) {
-            recentsFragment = new RecentSearchesFragment();
-            fragmentManager.beginTransaction().replace(R.id.recents_fragment, recentsFragment).commit();
-        }
-
-        Fragment availableLinesFragment = fragmentManager.findFragmentById(R.id.available_fragment);
-        if (availableLinesFragment == null) {
-            availableLinesFragment = new AvailableLinesFragment();
-            fragmentManager.beginTransaction().replace(R.id.available_fragment, availableLinesFragment).commit();
+        Fragment mainFragment = fragmentManager.findFragmentById(R.id.main_container);
+        if (mainFragment == null) {
+            mainFragment = MainFragment.newInstance();
+            fragmentManager.beginTransaction().replace(R.id.main_container, mainFragment).commit();
         }
 
     }
