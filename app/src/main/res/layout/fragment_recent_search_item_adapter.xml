@@ -5,12 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".search.recents.RecentSearchesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:paddingLeft="10dp"
         android:paddingRight="20dp"
         app:layout_constraintRight_toRightOf="parent"
