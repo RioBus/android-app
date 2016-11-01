@@ -16,15 +16,33 @@ import java.util.List;
 
 class LinesAdapter extends BaseAdapter {
 
-    private List<Line> items = new ArrayList<Line>();
+    private List<Line> defaultList = new ArrayList<>();
+    private List<Line> recents = new ArrayList<>();
+    private List<Line> items = new ArrayList<>();
     private Context context;
     private LayoutInflater inflater;
-    private boolean firstHeaderSet = false;
+    private boolean hasRecents = false;
 
     LinesAdapter(Context context, List<Line> items) {
         this.context = context;
-        this.items = items;
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.defaultList = items;
+
+        this.items.add(new Line(context.getString(R.string.fragment_available_lines_header), ""));
+        this.items.addAll(this.defaultList);
+    }
+
+    LinesAdapter(Context context, List<Line> items, List<Line> recents) {
+        this.context = context;
+        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.defaultList = items;
+        this.recents = recents;
+
+        this.items.add(new Line(context.getString(R.string.fragment_recent_searches_header), ""));
+        this.items.addAll(recents);
+        this.items.add(new Line(context.getString(R.string.fragment_available_lines_header), ""));
+        this.items.addAll(items);
+        hasRecents = true;
     }
 
     @Override
@@ -45,16 +63,15 @@ class LinesAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         Line line = items.get(i);
-        if (line.getDescription().equals(""))  return getHeader(line);
-        else if (firstHeaderSet) return getRecentsView(line);
+        if (line.getDescription().equals("")) return getHeader(line, i);
+        else if (hasRecents && i < recents.size()+1) return getRecentsView(line);
         else return getAvailableView(line);
     }
 
-    private View getHeader(Line line) {
+    private View getHeader(Line line, int i) {
         View v = inflater.inflate(R.layout.search_adapter_list_header, null);
         TextView textView = (TextView) v.findViewById(R.id.header_text);
         textView.setText(line.getLine());
-        firstHeaderSet = !firstHeaderSet;
         return v;
     }
 

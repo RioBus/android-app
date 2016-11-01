@@ -54,13 +54,8 @@ public class MainFragment extends Fragment {
 
         List<Line> recents = LineService.getInstance().getLines().subList(0, 2);
         List<Line> lines = LineService.getInstance().getLines();
-
-        List<Line> items = new ArrayList<>();
-        items.add(new Line(getString(R.string.fragment_recent_searches_header), ""));
-        items.addAll(recents);
-        items.add(new Line(getString(R.string.fragment_available_lines_header), ""));
-        items.addAll(lines);
-        LinesAdapter adapter = new LinesAdapter(getContext(), items);
+        LinesAdapter adapter;
+        adapter = (recents.size()>0) ? new LinesAdapter(getContext(), lines, recents) : new LinesAdapter(getContext(), lines);
         searchList.setAdapter(adapter);
         return v;
     }
