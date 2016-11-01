@@ -3,15 +3,17 @@ package com.tormentaLabs.riobus.search;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.ListView;
 
 import com.tormentaLabs.riobus.R;
-import com.tormentaLabs.riobus.search.availableLines.AvailableLinesFragment;
-import com.tormentaLabs.riobus.search.recents.RecentSearchesFragment;
+import com.tormentaLabs.riobus.common.models.Line;
+import com.tormentaLabs.riobus.common.services.LineService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,8 +25,7 @@ import butterknife.ButterKnife;
  */
 public class MainFragment extends Fragment {
 
-    @BindView(R.id.recents_fragment) FrameLayout recentsList;
-    @BindView(R.id.available_fragment) FrameLayout availableLinesList;
+    @BindView(R.id.search_list) ListView searchList;
 
     public MainFragment() {
         // Required empty public constructor
@@ -50,19 +51,17 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_search_main, container, false);
         ButterKnife.bind(this, v);
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
-        Fragment recentsFragment = fragmentManager.findFragmentById(R.id.recents_fragment);
-        if (recentsFragment == null) {
-            recentsFragment = RecentSearchesFragment.newInstance();
-            fragmentManager.beginTransaction().replace(R.id.recents_fragment, recentsFragment).commit();
-        }
+        List<Line> recents = LineService.getInstance().getLines().subList(0, 2);
+        List<Line> lines = LineService.getInstance().getLines();
 
-        Fragment availableLinesFragment = fragmentManager.findFragmentById(R.id.available_fragment);
-        if (availableLinesFragment == null) {
-            availableLinesFragment = AvailableLinesFragment.newInstance();
-            fragmentManager.beginTransaction().replace(R.id.available_fragment, availableLinesFragment).commit();
-        }
+        List<Line> items = new ArrayList<>();
+        items.add(new Line(getString(R.string.fragment_recent_searches_header), ""));
+        items.addAll(recents);
+        items.add(new Line(getString(R.string.fragment_available_lines_header), ""));
+        items.addAll(lines);
+        LinesAdapter adapter = new LinesAdapter(getContext(), items);
+        searchList.setAdapter(adapter);
         return v;
     }
 
