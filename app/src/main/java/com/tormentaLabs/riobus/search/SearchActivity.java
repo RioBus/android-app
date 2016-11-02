@@ -21,7 +21,7 @@ import com.tormentaLabs.riobus.common.interfaces.OnLineInteractionListener;
 import com.tormentaLabs.riobus.common.models.Line;
 import com.tormentaLabs.riobus.favorites.FavoritesActivity;
 import com.tormentaLabs.riobus.history.HistoryActivity;
-import com.tormentaLabs.riobus.map.MapActivity;
+import com.tormentaLabs.riobus.map.MapsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -122,8 +122,8 @@ public class SearchActivity extends AppCompatActivity
     @Override
     public void onLineInteraction(Line line) {
         if (line != null) {
-            Intent intent = new Intent(this, MapActivity.class);
-            intent.putExtra(MapActivity.LINE_TITLE, line.getLine());
+            Intent intent = new Intent(this, MapsActivity.class);
+            intent.putExtra(MapsActivity.LINE_TITLE, line.getLine());
             startActivity(intent);
         }
     }
