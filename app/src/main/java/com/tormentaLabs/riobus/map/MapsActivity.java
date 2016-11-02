@@ -15,7 +15,7 @@ import com.tormentaLabs.riobus.R;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    private MapsController controller;
 
     public static final String LINE_TITLE = "lineTitle";
     private String queryString;
@@ -58,11 +58,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        controller = new MapsController(googleMap);
 
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        controller.getMap().addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        controller.getMap().moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }

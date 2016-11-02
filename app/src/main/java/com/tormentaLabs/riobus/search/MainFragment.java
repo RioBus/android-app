@@ -16,7 +16,6 @@ import com.tormentaLabs.riobus.common.interfaces.OnLineInteractionListener;
 import com.tormentaLabs.riobus.common.models.Line;
 import com.tormentaLabs.riobus.common.services.LineService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -50,7 +49,7 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_search_main, container, false);
+        View v = inflater.inflate(R.layout.search_fragment_main, container, false);
         ButterKnife.bind(this, v);
 
         List<Line> recents = LineService.getInstance().getLines().subList(0, 2);
