@@ -16,4 +16,6 @@
     <string name="activity_about_title">Sobre</string>
     <string name="activity_favorites_title">Favoritos</string>
     <string name="activity_history_title">Histórico</string>
+    <string name="map_snackbar_sense">SENTIDO</string>
+    <string name="maps_snackbar_unknown">DESCONHECIDO</string>
 </resources>

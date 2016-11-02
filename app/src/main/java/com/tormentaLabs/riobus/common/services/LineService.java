@@ -28,6 +28,7 @@ public class LineService {
         items.add(new Line("281", "CORACAO X PARTIDO"));
         items.add(new Line("447", "LOREM X IPSUM"));
         items.add(new Line("696", "SIT X DOLOR"));
+        items.add(new Line("677", "DESCONHECIDO"));
         items.add(new Line("669", "MUSSUM X IPSUM"));
         items.add(new Line("666", "SEM X ENDERECO"));
         items.add(new Line("420", "NILOPOLIS X BARRA"));

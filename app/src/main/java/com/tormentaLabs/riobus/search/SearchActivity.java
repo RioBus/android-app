@@ -124,6 +124,7 @@ public class SearchActivity extends AppCompatActivity
         if (line != null) {
             Intent intent = new Intent(this, MapsActivity.class);
             intent.putExtra(MapsActivity.LINE_TITLE, line.getLine());
+            intent.putExtra(MapsActivity.LINE_DESCRIPTION, line.getDescription());
             startActivity(intent);
         }
     }
