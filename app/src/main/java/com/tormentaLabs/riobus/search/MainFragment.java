@@ -56,19 +56,14 @@ public class MainFragment extends Fragment {
         List<Line> recents = LineService.getInstance().getLines().subList(0, 2);
         List<Line> lines = LineService.getInstance().getLines();
         LinesAdapter adapter;
-        adapter = (recents.size()>0) ? new LinesAdapter(getContext(), lines, recents) : new LinesAdapter(getContext(), lines);
+        adapter = (recents.size()>0) ?
+                new LinesAdapter(getContext(), mListener, lines, recents) : new LinesAdapter(getContext(), mListener, lines);
 
         searchList.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         searchList.setLayoutManager(layoutManager);
         return v;
     }
-
-//    @OnItemClick(R.id.search_list)
-//    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//        Line line = (Line) adapterView.getItemAtPosition(i);
-//        if (!line.getDescription().equals("")) mListener.onLineInteraction(line);
-//    }
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

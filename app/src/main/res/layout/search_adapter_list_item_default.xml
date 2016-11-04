@@ -5,6 +5,7 @@
     android:paddingLeft="10dp"
     android:paddingRight="20dp"
     android:layout_height="wrap_content"
+    android:id="@+id/item_container"
     tools:context=".search.recents.RecentSearchesFragment">
 
     <LinearLayout
