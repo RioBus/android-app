@@ -5,11 +5,12 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.common.interfaces.OnLineInteractionListener;
@@ -29,7 +30,7 @@ import butterknife.OnItemClick;
  */
 public class MainFragment extends Fragment {
 
-    @BindView(R.id.search_list) ListView searchList;
+    @BindView(R.id.search_list) RecyclerView searchList;
     private OnLineInteractionListener mListener;
 
     public MainFragment() {
@@ -56,15 +57,18 @@ public class MainFragment extends Fragment {
         List<Line> lines = LineService.getInstance().getLines();
         LinesAdapter adapter;
         adapter = (recents.size()>0) ? new LinesAdapter(getContext(), lines, recents) : new LinesAdapter(getContext(), lines);
+
         searchList.setAdapter(adapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        searchList.setLayoutManager(layoutManager);
         return v;
     }
 
-    @OnItemClick(R.id.search_list)
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Line line = (Line) adapterView.getItemAtPosition(i);
-        if (!line.getDescription().equals("")) mListener.onLineInteraction(line);
-    }
+//    @OnItemClick(R.id.search_list)
+//    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//        Line line = (Line) adapterView.getItemAtPosition(i);
+//        if (!line.getDescription().equals("")) mListener.onLineInteraction(line);
+//    }
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

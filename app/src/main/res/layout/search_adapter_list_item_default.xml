@@ -18,7 +18,7 @@
             android:text="345"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtLine"
+            android:id="@+id/txtTitle"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textSize="20sp" />
 

@@ -13,7 +13,7 @@
                     android:text="This is my header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/header_text"
+                    android:id="@+id/txtTitle"
                     android:layout_gravity="center_vertical|center_horizontal|center"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
