@@ -15,9 +15,9 @@ import java.util.List;
 
 class LinesAdapter extends RecyclerView.Adapter {
 
-    static final int DEFAULT_ITEM = 999;
-    static final int HEADER_ITEM = 998;
-    static final int RECENT_ITEM = 997;
+    private static final int DEFAULT_ITEM = 999;
+    private static final int HEADER_ITEM = 998;
+    private static final int RECENT_ITEM = 997;
 
     private List<Line> defaultList = new ArrayList<>();
     private List<Line> recents = new ArrayList<>();

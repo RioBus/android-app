@@ -11,7 +11,7 @@ public class FavoritesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorites);
+        setContentView(R.layout.favorites_activity);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

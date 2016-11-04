@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="?attr/actionBarSize">
 
-        <include layout="@layout/activity_search_content" />
+        <include layout="@layout/search_activity_content" />
 
     </RelativeLayout>
 
