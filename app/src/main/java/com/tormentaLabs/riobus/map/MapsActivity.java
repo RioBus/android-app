@@ -1,8 +1,14 @@
 package com.tormentaLabs.riobus.map;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -17,6 +23,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    private static final String TAG = MapsActivity.class.getName();
+    private static final int PERMISSION_LOCATION_CODE = 99;
 
     private MapsController controller;
 
@@ -47,6 +56,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             txtTo.setText(getString(R.string.maps_snackbar_unknown));
         }
 
+        checkForPermissions();
+    }
+
+    private void checkForPermissions() {
+        String[] permission = {"android.permission.ACCESS_FINE_LOCATION"};
+        if (checkCallingOrSelfPermission(permission[0]) == PackageManager.PERMISSION_GRANTED) setupView();
+        else ActivityCompat.requestPermissions(this, permission, PERMISSION_LOCATION_CODE);
+    }
+
+    private void setupView() {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -64,6 +83,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+
+            case PERMISSION_LOCATION_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    setupView();
+                else {
+                    RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
+                    Snackbar.make(container, "The location permission was not granted ;(", Snackbar.LENGTH_LONG).show();
+                    Log.v(TAG, "The location permission was not granted ;(");
+                }
+                break;
+        }
+    }
 
     /**
      * Manipulates the map once available.

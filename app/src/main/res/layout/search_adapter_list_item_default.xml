@@ -6,7 +6,8 @@
     android:paddingRight="20dp"
     android:layout_height="wrap_content"
     android:id="@+id/item_container"
-    tools:context=".search.recents.RecentSearchesFragment">
+    android:background="@color/white"
+    tools:context=".search.MainFragment">
 
     <LinearLayout
         android:orientation="vertical"
