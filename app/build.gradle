@@ -49,8 +49,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-
-
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support:design:25.0.0'
     compile 'com.android.support:support-v4:25.0.0'
@@ -59,6 +57,8 @@ dependencies {
     compile 'com.google.android.gms:play-services:9.8.0'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'joda-time:joda-time:2.3'
+    compile 'com.squareup.okhttp3:okhttp:3.4.2'
+    compile 'com.google.code.gson:gson:2.4'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
 }

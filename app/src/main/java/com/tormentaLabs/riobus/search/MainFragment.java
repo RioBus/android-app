@@ -10,25 +10,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.common.interfaces.OnLineInteractionListener;
 import com.tormentaLabs.riobus.common.models.Line;
-import com.tormentaLabs.riobus.common.services.LineService;
+import com.tormentaLabs.riobus.common.interfaces.LineDataReceiver;
+import com.tormentaLabs.riobus.common.tasks.LineDownloadTask;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnItemClick;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MainFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements LineDataReceiver {
+
+    private static final String TAG = MainFragment.class.getName();
 
     @BindView(R.id.search_list) RecyclerView searchList;
     private OnLineInteractionListener mListener;
@@ -52,17 +54,14 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.search_fragment_main, container, false);
         ButterKnife.bind(this, v);
-
-        List<Line> recents = LineService.getInstance().getLines().subList(0, 2);
-        List<Line> lines = LineService.getInstance().getLines();
-        LinesAdapter adapter;
-        adapter = (recents.size()>0) ?
-                new LinesAdapter(getContext(), mListener, lines, recents) : new LinesAdapter(getContext(), mListener, lines);
-
-        searchList.setAdapter(adapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        searchList.setLayoutManager(layoutManager);
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LineDownloadTask task = new LineDownloadTask(this);
+        task.execute();
     }
 
     public void onButtonPressed(Uri uri) {
@@ -88,5 +87,15 @@ public class MainFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onLineListReceived(List<Line> items) {
+        List<Line> recents = new ArrayList<>();
+        LinesAdapter adapter;
+        adapter = (recents.size()>0) ?
+                new LinesAdapter(getContext(), mListener, items, recents) : new LinesAdapter(getContext(), mListener, items);
 
+        searchList.setAdapter(adapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        searchList.setLayoutManager(layoutManager);
+    }
 }
