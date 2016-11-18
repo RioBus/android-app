@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:paddingLeft="10dp"
     android:paddingRight="20dp"
+    android:background="@drawable/border_bottom"
     android:layout_height="wrap_content"
     android:id="@+id/item_container"
-    android:background="@color/white"
     tools:context=".search.MainFragment">
 
     <LinearLayout

@@ -9,6 +9,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
+        android:background="@drawable/border_bottom"
         android:layout_width="match_parent"
         android:paddingLeft="10dp"
         android:paddingRight="20dp"
