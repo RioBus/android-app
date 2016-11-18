@@ -1,5 +1,7 @@
 package com.tormentaLabs.riobus.common.models;
 
+import org.joda.time.DateTime;
+
 import java.util.Date;
 
 public class Bus {
@@ -11,11 +13,11 @@ public class Bus {
     private double latitude;
     private double longitude;
     private String sense;
-    private Date timeStamp;
+    private String timeStamp;
 
     public Bus() {}
 
-    public Bus(String line, String order, double speed, int direction, double latitude, double longitude, Date timestamp, String sense) {
+    public Bus(String line, String order, double speed, int direction, double latitude, double longitude, String timestamp, String sense) {
         this.line = line;
         this.order = order;
         this.speed = speed;
@@ -31,7 +33,7 @@ public class Bus {
     }
 
     public Date getTimestamp() {
-        return timeStamp;
+        return new DateTime(timeStamp).toDate();
     }
 
     public String getOrder() {

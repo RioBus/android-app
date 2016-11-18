@@ -18,11 +18,16 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tormentaLabs.riobus.R;
+import com.tormentaLabs.riobus.common.interfaces.BusDataReceiver;
+import com.tormentaLabs.riobus.common.models.Bus;
+import com.tormentaLabs.riobus.common.tasks.BusDownloadTask;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, BusDataReceiver {
 
     private static final String TAG = MapsActivity.class.getName();
     private static final int PERMISSION_LOCATION_CODE = 99;
@@ -115,8 +120,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         controller = new MapsController(googleMap);
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        controller.getMap().addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        controller.getMap().moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//        LatLng sydney = new LatLng(-34, 151);
+////        controller.getMap().addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+////        controller.getMap().moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        new BusDownloadTask(this).execute(queryString);
+    }
+
+    @Override
+    public void onBusListReceived(List<Bus> items) {
+        controller.addBuses(items);
     }
 }
