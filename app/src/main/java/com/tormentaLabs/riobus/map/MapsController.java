@@ -1,9 +1,12 @@
 package com.tormentaLabs.riobus.map;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tormentaLabs.riobus.R;
@@ -21,9 +24,12 @@ class MapsController {
 
     private GoogleMap mMap;
     private List<Marker> markers = new ArrayList<>();
+    private LatLngBounds.Builder boundsBuilder;
+    private static final int BOUNDS_PADDING = 200;
 
     MapsController(GoogleMap mMap) {
         this.mMap = mMap;
+        boundsBuilder = new LatLngBounds.Builder();
     }
 
     void addBuses(List<Bus> items) {
@@ -31,8 +37,10 @@ class MapsController {
         for (Bus bus: items) {
             MarkerOptions markerOptions = createBusMarker(bus);
             Marker m = mMap.addMarker(markerOptions);
+            boundsBuilder.include(markerOptions.getPosition());
             markers.add(m);
         }
+        centerCamera();
     }
 
     private MarkerOptions createBusMarker(Bus bus) {
@@ -40,6 +48,12 @@ class MapsController {
                 .position(new LatLng(bus.getLatitude(), bus.getLongitude()))
                 .icon(getIcon(bus.getTimestamp()))
                 .title(bus.getOrder());
+    }
+
+    private void centerCamera() {
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), BOUNDS_PADDING);
+        mMap.moveCamera(cameraUpdate);
+
     }
 
     private void removeBusMarkers() {
