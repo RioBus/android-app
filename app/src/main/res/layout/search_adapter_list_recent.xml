@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/txtTitle"
                 android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:text="BARRA DA TIJUCA X CANDELARIA"
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/txtDescription"
                 android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="@android:color/darker_gray" />
         </LinearLayout>
 
