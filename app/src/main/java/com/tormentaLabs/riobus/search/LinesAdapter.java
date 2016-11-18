@@ -74,7 +74,7 @@ class LinesAdapter extends RecyclerView.Adapter {
                 view = inflater.inflate(R.layout.search_adapter_list_item_default, parent, false);
                 break;
         }
-        return new LineViewHolder(mListener, view);
+        return new LineViewHolder(context, mListener, view);
     }
 
     @Override
