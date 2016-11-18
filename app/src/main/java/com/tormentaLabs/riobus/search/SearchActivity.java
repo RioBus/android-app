@@ -12,11 +12,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.snappydb.SnappydbException;
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.about.AboutActivity;
+import com.tormentaLabs.riobus.common.dao.HistoryDAO;
 import com.tormentaLabs.riobus.common.interfaces.OnLineInteractionListener;
 import com.tormentaLabs.riobus.common.models.Line;
 import com.tormentaLabs.riobus.favorites.FavoritesActivity;
@@ -28,6 +31,8 @@ import butterknife.ButterKnife;
 
 public class SearchActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnLineInteractionListener {
+
+    private static final String TAG = SearchActivity.class.getName();
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
@@ -122,10 +127,21 @@ public class SearchActivity extends AppCompatActivity
     @Override
     public void onLineInteraction(Line line) {
         if (line != null) {
+            addToHistory(line);
             Intent intent = new Intent(this, MapsActivity.class);
             intent.putExtra(MapsActivity.LINE_TITLE, line.getLine());
             intent.putExtra(MapsActivity.LINE_DESCRIPTION, line.getDescription());
             startActivity(intent);
+        }
+    }
+
+    private void addToHistory(Line line) {
+        try {
+            HistoryDAO dao = new HistoryDAO(getBaseContext());
+            dao.addSearch(line);
+            dao.close();
+        } catch (SnappydbException e) {
+            Log.e(TAG, e.getLocalizedMessage());
         }
     }
 

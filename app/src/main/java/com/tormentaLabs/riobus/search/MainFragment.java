@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.snappydb.SnappydbException;
 import com.tormentaLabs.riobus.R;
+import com.tormentaLabs.riobus.common.dao.HistoryDAO;
 import com.tormentaLabs.riobus.common.dao.LineDAO;
 import com.tormentaLabs.riobus.common.interfaces.LineDataReceiver;
 import com.tormentaLabs.riobus.common.interfaces.OnLineInteractionListener;
@@ -34,6 +35,7 @@ import butterknife.ButterKnife;
 public class MainFragment extends Fragment implements LineDataReceiver {
 
     private static final String TAG = MainFragment.class.getName();
+    private static final int RECENTS_LIMIT = 2;
 
     @BindView(R.id.search_list) RecyclerView searchList;
     private OnLineInteractionListener mListener;
@@ -61,8 +63,9 @@ public class MainFragment extends Fragment implements LineDataReceiver {
     public void onResume() {
         super.onResume();
         List<Line> lines = loadLines();
+        List<Line> recents = loadRecents();
         if (lines.size() > 0)
-            updateView(lines);
+            updateView(lines, recents);
         else
             downloadLines();
     }
@@ -79,13 +82,24 @@ public class MainFragment extends Fragment implements LineDataReceiver {
         return lines;
     }
 
+    private List<Line> loadRecents() {
+        List<Line> lines = new ArrayList<>();
+        try {
+            HistoryDAO dao = new HistoryDAO(getContext());
+            lines = dao.getRecentLines(RECENTS_LIMIT);
+            dao.close();
+        } catch (SnappydbException e) {
+            Log.e(TAG, e.getLocalizedMessage());
+        }
+        return lines;
+    }
+
     private void downloadLines() {
         LineDownloadTask task = new LineDownloadTask(this);
         task.execute();
     }
 
-    private void updateView(List<Line> items) {
-        List<Line> recents = new ArrayList<>();
+    private void updateView(List<Line> items, List<Line> recents) {
         LinesAdapter adapter;
         adapter = (recents.size()>0) ?
                 new LinesAdapter(getContext(), mListener, items, recents) : new LinesAdapter(getContext(), mListener, items);
@@ -98,7 +112,7 @@ public class MainFragment extends Fragment implements LineDataReceiver {
     @Override
     public void onLineListReceived(List<Line> items) {
         new LineStoreTask(items, getContext()).execute();
-        updateView(items);
+        updateView(items, new ArrayList<Line>());
     }
 
     public void onButtonPressed(Uri uri) {
