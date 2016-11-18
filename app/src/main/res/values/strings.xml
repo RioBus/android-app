@@ -43,4 +43,11 @@
     <string name="activity_history_title">History</string>
     <string name="map_snackbar_sense">SENSE</string>
     <string name="maps_snackbar_unknown">UNKNOWN</string>
+    <string name="maps_infowindow_sense">Sense: %1$s</string>
+    <string name="maps_infowindow_speed">Speed: %1$s Km/h</string>
+    <string name="common_time_minutes">minute(s)</string>
+    <string name="common_time_hours">hour(s)</string>
+    <string name="common_time_days">day(s)</string>
+    <string name="maps_infowindow_timestamp">Updated %1$s ago.</string>
+    <string name="common_time_seconds">less than a minute</string>
 </resources>

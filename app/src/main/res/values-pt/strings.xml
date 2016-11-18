@@ -18,4 +18,11 @@
     <string name="activity_history_title">Histórico</string>
     <string name="map_snackbar_sense">SENTIDO</string>
     <string name="maps_snackbar_unknown">DESCONHECIDO</string>
+    <string name="maps_infowindow_sense">Sentido: %1$s</string>
+    <string name="maps_infowindow_speed">Velocidade: %1$s Km/h</string>
+    <string name="common_time_minutes">minuto(s)</string>
+    <string name="common_time_hours">hora(s)</string>
+    <string name="common_time_days">dia(s)</string>
+    <string name="maps_infowindow_timestamp">Atualizado há %1$s.</string>
+    <string name="common_time_seconds">menos que um minuto</string>
 </resources>

@@ -1,5 +1,8 @@
 package com.tormentaLabs.riobus.map;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -9,6 +12,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.common.models.Bus;
 
@@ -19,16 +23,19 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 class MapsController {
 
     private GoogleMap mMap;
+    private Context context;
     private List<Marker> markers = new ArrayList<>();
     private LatLngBounds.Builder boundsBuilder;
     private static final int BOUNDS_PADDING = 200;
 
-    MapsController(GoogleMap mMap) {
+    MapsController(GoogleMap mMap, Context context) {
         this.mMap = mMap;
+        this.context = context;
         boundsBuilder = new LatLngBounds.Builder();
     }
 
@@ -43,11 +50,12 @@ class MapsController {
         centerCamera();
     }
 
+    @NonNull
     private MarkerOptions createBusMarker(Bus bus) {
         return new MarkerOptions()
                 .position(new LatLng(bus.getLatitude(), bus.getLongitude()))
                 .icon(getIcon(bus.getTimestamp()))
-                .title(bus.getOrder());
+                .snippet(new Gson().toJson(bus));
     }
 
     private void centerCamera() {
