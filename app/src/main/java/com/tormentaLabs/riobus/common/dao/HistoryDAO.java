@@ -32,9 +32,8 @@ public class HistoryDAO {
         List<Line> items = new ArrayList<>();
         if (db.exists(key)) {
             List<Line> tmp = Arrays.asList(db.getObjectArray(key, Line.class));
-            if (tmp.contains(line)) tmp.remove(line);
             items.add(line);
-            items.addAll(tmp);
+            for (Line l : tmp) if (!l.getLine().equals(line.getLine())) items.add(l);
         } else {
             items.add(line);
         }
