@@ -3,6 +3,7 @@ package com.tormentaLabs.riobus.common.dao;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.snappydb.DB;
 import com.snappydb.DBFactory;
 import com.snappydb.KeyIterator;
@@ -31,13 +32,13 @@ public class HistoryDAO {
     private void addToHistory(String key, Line line) throws SnappydbException {
         List<Line> items = new ArrayList<>();
         if (db.exists(key)) {
-            List<Line> tmp = Arrays.asList(db.getObjectArray(key, Line.class));
+            List<Line> tmp = Arrays.asList(new Gson().fromJson(db.get(key), Line[].class));
             items.add(line);
             for (Line l : tmp) if (!l.getLine().equals(line.getLine())) items.add(l);
         } else {
             items.add(line);
         }
-        db.put(key, items.toArray());
+        db.put(key, new Gson().toJson(items.toArray()));
     }
 
     public void addSearch(Line line) throws SnappydbException {
@@ -50,13 +51,14 @@ public class HistoryDAO {
     }
 
     public List<String> getHistoryKeys() throws SnappydbException {
-        List<String> tmp = new ArrayList<>();
-        for (String[] batch : db.findKeysReverseIterator(KEYBASE).byBatch(2)) {
-            for (String key : batch) {
-                Log.v(TAG, "Current key: "+key);
-            }
-        }
-        return tmp;
+        List<String> histories = Arrays.asList(db.findKeys(KEYBASE));
+        Collections.reverse(histories);
+        return histories;
+    }
+
+    public List<Line> getHistory(String date) throws SnappydbException {
+        Line[] lines = new Gson().fromJson(db.get(date), Line[].class);
+        return new ArrayList<>(Arrays.asList(lines));
     }
 
     public List<Line> getRecentLines(int limit) throws SnappydbException {
