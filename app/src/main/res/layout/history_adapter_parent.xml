@@ -6,20 +6,35 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="64dp"
             android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/quantum_ic_keyboard_arrow_down_white_36"
+                    android:tint="@android:color/black"
+                    android:id="@+id/collapseArrow"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"/>
 
                 <TextView
                     android:text="00/00/0000"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtTitle"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:layout_gravity="center_vertical|center_horizontal|center"
+                    android:layout_gravity="center_vertical"
+                    android:textAlignment="textEnd"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="11"
                     android:textColor="@android:color/black" />
+
 
         </LinearLayout>
 
