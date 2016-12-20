@@ -8,21 +8,26 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.snappydb.SnappydbException;
 import com.tormentaLabs.riobus.R;
+import com.tormentaLabs.riobus.common.dao.FavoritesDAO;
 import com.tormentaLabs.riobus.common.interfaces.BusDataReceiver;
 import com.tormentaLabs.riobus.common.models.Bus;
+import com.tormentaLabs.riobus.common.models.Line;
 import com.tormentaLabs.riobus.common.tasks.BusDownloadTask;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, BusDataReceiver {
 
@@ -33,10 +38,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @BindView(R.id.txt_from) TextView txtFrom;
     @BindView(R.id.txt_to) TextView txtTo;
+    @BindView(R.id.btnStar) ImageView btnStar;
 
     public static final String LINE_TITLE = "lineTitle";
     public static final String LINE_DESCRIPTION = "lineDescription";
     private String queryString;
+    private String description;
+    private boolean isFavorite = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +56,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         queryString = getIntent().getStringExtra(LINE_TITLE);
         setTitle(queryString);
 
-        String description = getIntent().getStringExtra(LINE_DESCRIPTION);
-        if (description.contains(" X ")) {
-            String[] tmp = getIntent().getStringExtra(LINE_DESCRIPTION).split(" X ");
-            txtFrom.setText(tmp[0]);
-            txtTo.setText(tmp[1]);
-        } else {
-            txtFrom.setText(getString(R.string.map_snackbar_sense));
-            txtTo.setText(getString(R.string.maps_snackbar_unknown));
-        }
-
+        setupSnackbar();
         checkForPermissions();
     }
 
@@ -72,6 +71,62 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    private void setupSnackbar() {
+        description = getIntent().getStringExtra(LINE_DESCRIPTION);
+        if (description.contains(" X ")) {
+            String[] tmp = getIntent().getStringExtra(LINE_DESCRIPTION).split(" X ");
+            txtFrom.setText(tmp[0]);
+            txtTo.setText(tmp[1]);
+        } else {
+            txtFrom.setText(getString(R.string.map_snackbar_sense));
+            txtTo.setText(getString(R.string.maps_snackbar_unknown));
+        }
+
+        try {
+            FavoritesDAO dao = new FavoritesDAO(getBaseContext());
+            isFavorite = dao.isFavorite(queryString);
+            dao.close();
+            updateStar();
+        } catch (SnappydbException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateStar() {
+        if (isFavorite) btnStar.setImageResource(R.drawable.ic_favorite);
+        else btnStar.setImageResource(R.drawable.ic_not_favorite);
+    }
+
+    @OnClick(R.id.btnStar)
+    public void onClickStar() {
+        if (isFavorite) removeFromFavorites();
+        else addToFavorites();
+    }
+
+    private void addToFavorites() {
+        try {
+            FavoritesDAO dao = new FavoritesDAO(getBaseContext());
+            dao.addFavorite(queryString, new Line(queryString, description));
+            isFavorite = true;
+            dao.close();
+            updateStar();
+        } catch (SnappydbException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void removeFromFavorites() {
+        try {
+            FavoritesDAO dao = new FavoritesDAO(getBaseContext());
+            dao.removeFavorite(queryString);
+            isFavorite = false;
+            dao.close();
+            updateStar();
+        } catch (SnappydbException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
