@@ -151,12 +151,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     setupView();
                 else {
-                    RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
-                    Snackbar.make(container, "The location permission was not granted ;(", Snackbar.LENGTH_LONG).show();
+                    hideSnackbar();
+                    Snackbar.make(viewContainer, "The location permission was not granted ;(", Snackbar.LENGTH_LONG).show();
                     Log.v(TAG, "The location permission was not granted ;(");
                 }
                 break;
         }
+    }
+
+    private void hideSnackbar() {
+        viewContainer.removeView(findViewById(R.id.snackbar_container));
     }
 
     /**
@@ -181,7 +185,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (items.size() > 0)
             controller.addBuses(items);
         else{
-            viewContainer.removeView(findViewById(R.id.snackbar_container));
+            hideSnackbar();
             Snackbar.make(viewContainer, getString(R.string.map_no_buses), Snackbar.LENGTH_LONG).show();
         }
     }
