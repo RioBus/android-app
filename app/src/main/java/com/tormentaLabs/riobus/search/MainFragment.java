@@ -66,11 +66,11 @@ public class MainFragment extends Fragment implements LineDataReceiver, OnSearch
     public void onResume() {
         super.onResume();
         List<Line> lines = loadLines();
-        List<Line> recents = loadRecents();
-        if (lines.size() > 0)
+        if (lines.size() > 0){
+            List<Line> recents = loadRecents();
             updateView(lines, recents);
-        else
-            downloadLines();
+        }
+        else downloadLines();
     }
 
     private List<Line> loadLines() {
