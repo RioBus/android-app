@@ -25,4 +25,5 @@
     <string name="common_time_days">dia(s)</string>
     <string name="maps_infowindow_timestamp">Atualizado há %1$s.</string>
     <string name="common_time_seconds">menos que um minuto</string>
+    <string name="search_for_query">Pesquisar livremente pelos termos</string>
 </resources>

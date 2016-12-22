@@ -23,6 +23,7 @@ import com.tormentaLabs.riobus.common.tasks.LineStoreTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -146,7 +147,6 @@ public class MainFragment extends Fragment implements LineDataReceiver, OnSearch
 
     @Override
     public boolean onSubmitSearch(String query) {
-        Log.d(TAG, "Just received the following query: "+query);
         if (query.equals("")) resetViewAdapter();
 
         List<Line> lines = new ArrayList<>();
@@ -156,6 +156,9 @@ public class MainFragment extends Fragment implements LineDataReceiver, OnSearch
             dao.close();
         } catch (SnappydbException e) {
             e.printStackTrace();
+        }
+        if (lines.size() == 0) {
+            lines.add(new Line(query, getContext().getString(R.string.search_for_query)));
         }
 
         SearchAdapter tmp = new SearchAdapter(getContext(), mListener, lines);

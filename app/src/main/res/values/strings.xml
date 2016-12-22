@@ -50,4 +50,5 @@
     <string name="common_time_days">day(s)</string>
     <string name="maps_infowindow_timestamp">Updated %1$s ago.</string>
     <string name="common_time_seconds">less than a minute</string>
+    <string name="search_for_query">Search freely for the terms</string>
 </resources>
