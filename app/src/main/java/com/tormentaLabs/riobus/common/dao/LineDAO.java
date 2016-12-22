@@ -40,6 +40,18 @@ public class LineDAO {
         return lines;
     }
 
+    public List<Line> getLines(String query) throws SnappydbException {
+        String[] keys = db.findKeys(KEYBASE);
+        List<Line> lines = new ArrayList<>();
+        for (String key: keys) {
+            Line tmp = db.getObject(key, Line.class);
+            if (tmp.getLine().toLowerCase().contains(query.toLowerCase()) ||
+                    tmp.getDescription().toLowerCase().contains(query.toLowerCase()))
+                lines.add(tmp);
+        }
+        return lines;
+    }
+
     private String getPath(String key) {
         return KEYBASE+":"+key;
     }

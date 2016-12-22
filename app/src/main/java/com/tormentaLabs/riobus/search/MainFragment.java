@@ -32,12 +32,14 @@ import butterknife.ButterKnife;
  * Use the {@link MainFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainFragment extends Fragment implements LineDataReceiver {
+public class MainFragment extends Fragment implements LineDataReceiver, OnSearchLines {
 
     private static final String TAG = MainFragment.class.getName();
     private static final int RECENTS_LIMIT = 2;
 
     @BindView(R.id.search_list) RecyclerView searchList;
+
+    private RecyclerView.Adapter defaultAdapter;
     private OnLineInteractionListener mListener;
 
     public MainFragment() {}
@@ -100,11 +102,10 @@ public class MainFragment extends Fragment implements LineDataReceiver {
     }
 
     private void updateView(List<Line> items, List<Line> recents) {
-        LinesAdapter adapter;
-        adapter = (recents.size()>0) ?
+        defaultAdapter = (recents.size()>0) ?
                 new LinesAdapter(getContext(), mListener, items, recents) : new LinesAdapter(getContext(), mListener, items);
 
-        searchList.setAdapter(adapter);
+        searchList.setAdapter(defaultAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         searchList.setLayoutManager(layoutManager);
     }
@@ -136,5 +137,29 @@ public class MainFragment extends Fragment implements LineDataReceiver {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    private void resetViewAdapter() {
+        if (searchList.getAdapter() instanceof SearchAdapter)
+            searchList.setAdapter(defaultAdapter);
+    }
+
+    @Override
+    public boolean onSubmitSearch(String query) {
+        Log.d(TAG, "Just received the following query: "+query);
+        if (query.equals("")) resetViewAdapter();
+
+        List<Line> lines = new ArrayList<>();
+        try {
+            LineDAO dao = new LineDAO(getContext());
+            lines.addAll(dao.getLines(query));
+            dao.close();
+        } catch (SnappydbException e) {
+            e.printStackTrace();
+        }
+
+        SearchAdapter tmp = new SearchAdapter(getContext(), mListener, lines);
+        searchList.setAdapter(tmp);
+        return true;
     }
 }

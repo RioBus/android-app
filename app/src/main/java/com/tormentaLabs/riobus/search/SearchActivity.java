@@ -18,7 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SearchEvent;
 
 import com.snappydb.SnappydbException;
 import com.tormentaLabs.riobus.R;
@@ -38,9 +37,13 @@ public class SearchActivity extends AppCompatActivity
 
     private static final String TAG = SearchActivity.class.getName();
 
+    SearchView searchView;
+    private OnSearchLines lineSearcher;
+
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,7 @@ public class SearchActivity extends AppCompatActivity
         if (mainFragment == null) {
             mainFragment = MainFragment.newInstance();
             fragmentManager.beginTransaction().replace(R.id.main_container, mainFragment).commit();
+            lineSearcher = (OnSearchLines) mainFragment;
         }
 
     }
@@ -69,6 +73,9 @@ public class SearchActivity extends AppCompatActivity
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (!searchView.isIconified()) {
+            searchView.setIconified(true);
+            onQueryTextSubmit("");
         } else {
             super.onBackPressed();
         }
@@ -80,7 +87,7 @@ public class SearchActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.search, menu);
         // Retrieve the SearchView and plug it into SearchManager
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setOnQueryTextListener(this);
         return true;
@@ -197,8 +204,7 @@ public class SearchActivity extends AppCompatActivity
     @Override
     public boolean onQueryTextSubmit(String query) {
         // Will do the search and present it on the screen
-        Log.d(TAG, "Text submitted: " + query);
-        return false;
+        return lineSearcher.onSubmitSearch(query);
     }
 
     /**
