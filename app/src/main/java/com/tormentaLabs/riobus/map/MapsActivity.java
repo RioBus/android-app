@@ -39,6 +39,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @BindView(R.id.txt_from) TextView txtFrom;
     @BindView(R.id.txt_to) TextView txtTo;
     @BindView(R.id.btnStar) ImageView btnStar;
+    @BindView(R.id.container) RelativeLayout viewContainer;
 
     public static final String LINE_TITLE = "lineTitle";
     public static final String LINE_DESCRIPTION = "lineDescription";
@@ -177,6 +178,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onBusListReceived(List<Bus> items) {
-        controller.addBuses(items);
+        if (items.size() > 0)
+            controller.addBuses(items);
+        else{
+            viewContainer.removeView(findViewById(R.id.snackbar_container));
+            Snackbar.make(viewContainer, getString(R.string.map_no_buses), Snackbar.LENGTH_LONG).show();
+        }
     }
 }
