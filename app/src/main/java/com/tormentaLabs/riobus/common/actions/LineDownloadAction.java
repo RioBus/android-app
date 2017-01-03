@@ -1,36 +1,33 @@
-package com.tormentaLabs.riobus.common.tasks;
+package com.tormentaLabs.riobus.common.actions;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.tormentaLabs.riobus.common.models.Line;
 import com.tormentaLabs.riobus.common.APIAddess;
-import com.tormentaLabs.riobus.common.interfaces.BusDataReceiver;
-import com.tormentaLabs.riobus.common.models.Bus;
+import com.tormentaLabs.riobus.common.interfaces.LineDataReceiver;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Locale;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-public class BusDownloadTask extends AsyncTask<String, Integer, String> {
+public class LineDownloadAction extends AsyncTask<Void, Integer, String> {
 
-    private static final String TAG = BusDownloadTask.class.getName();
+    private static final String TAG = LineDownloadAction.class.getName();
     private OkHttpClient client = new OkHttpClient();
-    private BusDataReceiver receiver;
+    private LineDataReceiver receiver;
 
-    public BusDownloadTask(BusDataReceiver receiver) {
+    public LineDownloadAction(LineDataReceiver receiver) {
         this.receiver = receiver;
     }
 
     @Override
-    protected String doInBackground(String ...args) {
-        Request request = new Request.Builder()
-            .url(String.format(Locale.getDefault(), APIAddess.BUS_SEARCH, args[0]))
-            .build();
-
+    protected String doInBackground(Void... args) {
+        Request request = new Request.Builder().url(APIAddess.LINE_SEARCH).build();
         try {
             return client.newCall(request).execute().body().string();
         } catch (IOException e) {
@@ -47,7 +44,7 @@ public class BusDownloadTask extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPostExecute(String response) {
         super.onPostExecute(response);
-        Bus[] tmp = new Gson().fromJson(response, Bus[].class);
-        receiver.onBusListReceived(Arrays.asList(tmp));
+        Line[] tmp = new Gson().fromJson(response, Line[].class);
+        receiver.onLineListReceived(new ArrayList<>(Arrays.asList(tmp)));
     }
 }

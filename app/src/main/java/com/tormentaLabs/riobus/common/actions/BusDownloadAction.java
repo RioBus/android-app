@@ -1,33 +1,36 @@
-package com.tormentaLabs.riobus.common.tasks;
+package com.tormentaLabs.riobus.common.actions;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.tormentaLabs.riobus.common.models.Line;
 import com.tormentaLabs.riobus.common.APIAddess;
-import com.tormentaLabs.riobus.common.interfaces.LineDataReceiver;
+import com.tormentaLabs.riobus.common.interfaces.BusDataReceiver;
+import com.tormentaLabs.riobus.common.models.Bus;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-public class LineDownloadTask extends AsyncTask<Void, Integer, String> {
+public class BusDownloadAction extends AsyncTask<String, Integer, String> {
 
-    private static final String TAG = LineDownloadTask.class.getName();
+    private static final String TAG = BusDownloadAction.class.getName();
     private OkHttpClient client = new OkHttpClient();
-    private LineDataReceiver receiver;
+    private BusDataReceiver receiver;
 
-    public LineDownloadTask(LineDataReceiver receiver) {
+    public BusDownloadAction(BusDataReceiver receiver) {
         this.receiver = receiver;
     }
 
     @Override
-    protected String doInBackground(Void... args) {
-        Request request = new Request.Builder().url(APIAddess.LINE_SEARCH).build();
+    protected String doInBackground(String ...args) {
+        Request request = new Request.Builder()
+            .url(String.format(Locale.getDefault(), APIAddess.BUS_SEARCH, args[0]))
+            .build();
+
         try {
             return client.newCall(request).execute().body().string();
         } catch (IOException e) {
@@ -44,7 +47,7 @@ public class LineDownloadTask extends AsyncTask<Void, Integer, String> {
     @Override
     protected void onPostExecute(String response) {
         super.onPostExecute(response);
-        Line[] tmp = new Gson().fromJson(response, Line[].class);
-        receiver.onLineListReceived(new ArrayList<>(Arrays.asList(tmp)));
+        Bus[] tmp = new Gson().fromJson(response, Bus[].class);
+        receiver.onBusListReceived(Arrays.asList(tmp));
     }
 }

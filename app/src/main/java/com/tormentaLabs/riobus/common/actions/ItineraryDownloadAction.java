@@ -1,4 +1,4 @@
-package com.tormentaLabs.riobus.common.tasks;
+package com.tormentaLabs.riobus.common.actions;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -14,13 +14,13 @@ import java.util.Locale;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-public class ItineraryDownloadTask extends AsyncTask<String, Integer, String> {
+public class ItineraryDownloadAction extends AsyncTask<String, Integer, String> {
 
-    private static final String TAG = ItineraryDownloadTask.class.getName();
+    private static final String TAG = ItineraryDownloadAction.class.getName();
     private OkHttpClient client = new OkHttpClient();
     private ItineraryDataReceiver receiver;
 
-    public ItineraryDownloadTask(ItineraryDataReceiver receiver) {
+    public ItineraryDownloadAction(ItineraryDataReceiver receiver) {
         this.receiver = receiver;
     }
 

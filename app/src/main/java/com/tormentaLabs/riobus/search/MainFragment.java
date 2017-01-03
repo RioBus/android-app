@@ -19,8 +19,8 @@ import com.tormentaLabs.riobus.common.interfaces.LineDataReceiver;
 import com.tormentaLabs.riobus.common.interfaces.OnLineInteractionListener;
 import com.tormentaLabs.riobus.common.interfaces.OnSearchLines;
 import com.tormentaLabs.riobus.common.models.Line;
-import com.tormentaLabs.riobus.common.tasks.LineDownloadTask;
-import com.tormentaLabs.riobus.common.tasks.LineStoreTask;
+import com.tormentaLabs.riobus.common.actions.LineDownloadAction;
+import com.tormentaLabs.riobus.common.actions.LineStoreAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +98,7 @@ public class MainFragment extends Fragment implements LineDataReceiver, OnSearch
     }
 
     private void downloadLines() {
-        LineDownloadTask task = new LineDownloadTask(this);
+        LineDownloadAction task = new LineDownloadAction(this);
         task.execute();
     }
 
@@ -113,7 +113,7 @@ public class MainFragment extends Fragment implements LineDataReceiver, OnSearch
 
     @Override
     public void onLineListReceived(List<Line> items) {
-        new LineStoreTask(items, getContext()).execute();
+        new LineStoreAction(items, getContext()).execute();
         updateView(items, new ArrayList<Line>());
     }
 

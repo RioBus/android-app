@@ -1,4 +1,4 @@
-package com.tormentaLabs.riobus.common.tasks;
+package com.tormentaLabs.riobus.common.actions;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -10,13 +10,13 @@ import com.tormentaLabs.riobus.common.models.Line;
 
 import java.util.List;
 
-public class LineStoreTask extends AsyncTask<Void, Integer, Boolean> {
+public class LineStoreAction extends AsyncTask<Void, Integer, Boolean> {
 
-    private static final String TAG = LineStoreTask.class.getName();
+    private static final String TAG = LineStoreAction.class.getName();
     private List<Line> items;
     private Context context;
 
-    public LineStoreTask(List<Line> lines, Context context) {
+    public LineStoreAction(List<Line> lines, Context context) {
         items = lines;
         this.context = context;
     }

@@ -23,8 +23,8 @@ import com.tormentaLabs.riobus.common.interfaces.ItineraryDataReceiver;
 import com.tormentaLabs.riobus.common.models.Bus;
 import com.tormentaLabs.riobus.common.models.Itinerary;
 import com.tormentaLabs.riobus.common.models.Line;
-import com.tormentaLabs.riobus.common.tasks.BusDownloadTask;
-import com.tormentaLabs.riobus.common.tasks.ItineraryDownloadTask;
+import com.tormentaLabs.riobus.common.actions.BusDownloadAction;
+import com.tormentaLabs.riobus.common.actions.ItineraryDownloadAction;
 import com.tormentaLabs.riobus.map.controllers.MapsController;
 
 import java.util.List;
@@ -181,8 +181,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         controller = new MapsController(googleMap);
         googleMap.setTrafficEnabled(true);
         googleMap.setInfoWindowAdapter(new BusInfowindowAdapter(getBaseContext()));
-        new BusDownloadTask(this).execute(queryString);
-        new ItineraryDownloadTask(this).execute(queryString);
+        new BusDownloadAction(this).execute(queryString);
+        new ItineraryDownloadAction(this).execute(queryString);
     }
 
     @Override
