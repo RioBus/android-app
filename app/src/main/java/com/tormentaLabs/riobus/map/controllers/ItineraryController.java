@@ -18,12 +18,10 @@ class ItineraryController {
 
     private GoogleMap mMap;
     private List<Marker> markers = new ArrayList<>();
-    private LatLngBounds.Builder boundsBuilder;
     private static final int BOUNDS_PADDING = 200;
 
-    ItineraryController(GoogleMap mMap, LatLngBounds.Builder boundsBuilder) {
+    ItineraryController(GoogleMap mMap) {
         this.mMap = mMap;
-        this.boundsBuilder = boundsBuilder;
     }
 
     void addItinerary(Itinerary itinerary) {

@@ -22,7 +22,7 @@ public class MapsController {
         this.mMap = mMap;
         boundsBuilder = new LatLngBounds.Builder();
         markerController = new MarkerController(mMap, boundsBuilder);
-        itineraryController = new ItineraryController(mMap, boundsBuilder);
+        itineraryController = new ItineraryController(mMap);
     }
 
     public void addBuses(List<Bus> items) {
