@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="20dp"
+    android:background="@drawable/border_bottom"
+    android:layout_height="wrap_content"
+    android:id="@+id/item_container"
+    tools:context=".search.MainFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_weight="9"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:text="345"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtTitle"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="18sp" />
+
+        <TextView
+            android:text="BARRA DA TIJUCA X CANDELARIA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtDescription"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_not_favorite"
+        android:id="@+id/btnStar"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical|center_horizontal|center"
+        android:tint="@color/golden" />
+
+</LinearLayout>

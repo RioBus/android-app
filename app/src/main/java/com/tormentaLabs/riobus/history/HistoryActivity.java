@@ -1,84 +1,65 @@
 package com.tormentaLabs.riobus.history;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.widget.ExpandableListView;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.MenuItem;
 
+import com.snappydb.SnappydbException;
 import com.tormentaLabs.riobus.R;
-import com.tormentaLabs.riobus.history.adapter.HistoryListAdapter;
-import com.tormentaLabs.riobus.history.controller.HistoryController;
-import com.tormentaLabs.riobus.history.listener.OnHistoryItemClickListener;
-import com.tormentaLabs.riobus.history.model.HistoryModel;
-import com.tormentaLabs.riobus.search.utils.SearchUtils;
+import com.tormentaLabs.riobus.common.dao.HistoryDAO;
+import com.tormentaLabs.riobus.common.models.Line;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
-import org.androidannotations.annotations.ViewById;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Used to expose history data
- * @author limazix
- * @since 3.0
- * Created at 24/10/15
- * @// TODO: 19/11/15 ADD Search and endless scroll list
- */
-@OptionsMenu(R.menu.activity_history)
-@EActivity(R.layout.activity_history)
-public class HistoryActivity extends AppCompatActivity implements DialogInterface.OnClickListener, OnHistoryItemClickListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class HistoryActivity extends AppCompatActivity {
 
     private static final String TAG = HistoryActivity.class.getName();
 
-    @ViewById(R.id.riobusHistoryToolbar)
-    Toolbar rioBusToolBar;
+    @BindView(R.id.history_list) RecyclerView historyList;
 
-    @ViewById(R.id.historyListView)
-    ExpandableListView historyListView;
-
-    @Bean
-    HistoryListAdapter historyListAdapter;
-
-    @Bean
-    HistoryController historyController;
-
-    @AfterViews
-    void afterViews() {
-        setSupportActionBar(rioBusToolBar);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.history_activity);
+        ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        historyListView.setAdapter(historyListAdapter);
-        historyListAdapter.registerItemClickListener(this);
+        setupList();
     }
 
-    @OptionsItem(R.id.history_clear)
-    void clearHistory(){
-        showClearDialog();
-    }
-
-    public void showClearDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.history_clear_dialog);
-        builder.setPositiveButton(R.string.ok, this);
-        builder.setNegativeButton(R.string.cancel, null);
-        builder.create().show();
+    private void setupList() {
+        List<DateItem> items = new ArrayList<>();
+        try {
+            HistoryDAO dao = new HistoryDAO(getBaseContext());
+            List<String> dates = dao.getHistoryKeys();
+            for (String dt : dates) {
+                String[] tmp = dt.split(":")[1].split("-");
+                DateItem item = new DateItem(tmp[2]+"/"+tmp[1]+"/"+tmp[0], dao.getHistory(dt));
+                items.add(item);
+            }
+            dao.close();
+        } catch (SnappydbException e) {
+            e.printStackTrace();
+        }
+        HistoryAdapter adapter = new HistoryAdapter(this, items);
+        historyList.setAdapter(adapter);
+        historyList.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
-    public void onClick(DialogInterface dialogInterface, int id) {
-        historyController.clearHistory();
-        historyListAdapter.populateLists();
-    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
 
-    @Override
-    public void onHistoryItemClicked(HistoryModel history) {
-        Intent i = new Intent();
-        i.putExtra(SearchUtils.EXTRA_SEARCH_RESULT, history.line.number);
-        setResult(Activity.RESULT_OK, i);
-        finish();
+        return super.onOptionsItemSelected(item);
     }
 }
