@@ -1,6 +1,5 @@
-package com.tormentaLabs.riobus.map;
+package com.tormentaLabs.riobus.map.controllers;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -23,20 +22,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
-class MapsController {
+class MarkerController {
 
     private GoogleMap mMap;
-    private Context context;
     private List<Marker> markers = new ArrayList<>();
     private LatLngBounds.Builder boundsBuilder;
     private static final int BOUNDS_PADDING = 200;
 
-    MapsController(GoogleMap mMap, Context context) {
+    MarkerController(GoogleMap mMap, LatLngBounds.Builder boundsBuilder) {
         this.mMap = mMap;
-        this.context = context;
-        boundsBuilder = new LatLngBounds.Builder();
+        this.boundsBuilder = boundsBuilder;
+
     }
 
     void addBuses(List<Bus> items) {

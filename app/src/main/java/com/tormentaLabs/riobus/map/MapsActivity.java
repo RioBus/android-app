@@ -19,9 +19,13 @@ import com.snappydb.SnappydbException;
 import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.common.dao.FavoritesDAO;
 import com.tormentaLabs.riobus.common.interfaces.BusDataReceiver;
+import com.tormentaLabs.riobus.common.interfaces.ItineraryDataReceiver;
 import com.tormentaLabs.riobus.common.models.Bus;
+import com.tormentaLabs.riobus.common.models.Itinerary;
 import com.tormentaLabs.riobus.common.models.Line;
 import com.tormentaLabs.riobus.common.tasks.BusDownloadTask;
+import com.tormentaLabs.riobus.common.tasks.ItineraryDownloadTask;
+import com.tormentaLabs.riobus.map.controllers.MapsController;
 
 import java.util.List;
 
@@ -29,7 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, BusDataReceiver {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, BusDataReceiver, ItineraryDataReceiver {
 
     private static final String TAG = MapsActivity.class.getName();
     private static final int PERMISSION_LOCATION_CODE = 99;
@@ -174,10 +178,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        controller = new MapsController(googleMap, getBaseContext());
+        controller = new MapsController(googleMap);
         googleMap.setTrafficEnabled(true);
         googleMap.setInfoWindowAdapter(new BusInfowindowAdapter(getBaseContext()));
         new BusDownloadTask(this).execute(queryString);
+        new ItineraryDownloadTask(this).execute(queryString);
     }
 
     @Override
@@ -188,5 +193,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             hideSnackbar();
             Snackbar.make(viewContainer, getString(R.string.map_no_buses), Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onItineraryReceived(Itinerary itinerary) {
+        if (itinerary != null) controller.addItinerary(itinerary);
     }
 }

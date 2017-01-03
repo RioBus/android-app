@@ -2,6 +2,7 @@ package com.tormentaLabs.riobus.search;
 
 import android.app.SearchManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,6 +25,7 @@ import com.tormentaLabs.riobus.R;
 import com.tormentaLabs.riobus.about.AboutActivity;
 import com.tormentaLabs.riobus.common.dao.HistoryDAO;
 import com.tormentaLabs.riobus.common.interfaces.OnLineInteractionListener;
+import com.tormentaLabs.riobus.common.interfaces.OnSearchLines;
 import com.tormentaLabs.riobus.common.models.Line;
 import com.tormentaLabs.riobus.favorites.FavoritesActivity;
 import com.tormentaLabs.riobus.history.HistoryActivity;
@@ -183,7 +185,7 @@ public class SearchActivity extends AppCompatActivity
         try {
             getPackageManager().getPackageInfo("com.facebook.katana", 0);
             intent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/1408367169433222"));
-        } catch (Exception e) {
+        } catch (PackageManager.NameNotFoundException e) {
             intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/1408367169433222"));
         }
         startActivity(intent);

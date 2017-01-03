@@ -17,13 +17,13 @@ import com.tormentaLabs.riobus.common.dao.HistoryDAO;
 import com.tormentaLabs.riobus.common.dao.LineDAO;
 import com.tormentaLabs.riobus.common.interfaces.LineDataReceiver;
 import com.tormentaLabs.riobus.common.interfaces.OnLineInteractionListener;
+import com.tormentaLabs.riobus.common.interfaces.OnSearchLines;
 import com.tormentaLabs.riobus.common.models.Line;
 import com.tormentaLabs.riobus.common.tasks.LineDownloadTask;
 import com.tormentaLabs.riobus.common.tasks.LineStoreTask;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
